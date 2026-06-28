@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ZyroDevv Cloud - Server hosting cepat, murah, dan andal untuk bot WhatsApp, Telegram bot, Discord bot, website, dan game server." />
+  <meta name="theme-color" content="#6d35ff" />
+  <title>ZyroDevv Cloud — Server Hosting Cepat, Murah & Andal</title>
+  <style>
+:root {
+  --bg: #050817;
+  --card: #0b1022;
+  --card-2: #111832;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f6f7fb;
+  --muted: #9198b3;
+  --purple: #8b5cff;
+  --purple-2: #6426ff;
+  --cyan: #14d3e7;
+  --green: #11c886;
+  --gold: #ffd36b;
+  --pink: #ff4f91;
+  --shadow: 0 24px 80px rgba(86, 42, 255, 0.22);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(122, 75, 255, 0.18), transparent 38rem),
+    linear-gradient(180deg, #070a1a 0%, #050817 45%, #050817 100%);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.bg-orb {
+  position: fixed;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .35;
+  pointer-events: none;
+  z-index: -1;
+}
+.orb-one { background: #7c3cff; top: 6rem; left: -8rem; }
+.orb-two { background: #00d4ff; bottom: 10rem; right: -10rem; opacity: .18; }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 5vw, 4rem);
+  background: rgba(7, 10, 26, 0.78);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+.brand span span { color: var(--purple); }
+.brand-logo {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: .8rem;
+  background: linear-gradient(135deg, #8d5dff, #00c7ff);
+  color: white;
+  box-shadow: 0 8px 28px rgba(100, 38, 255, .45);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  color: #c6cbe0;
+  font-size: .92rem;
+}
+.nav-links a:hover { color: white; }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+.login-link { color: #dfe3ff; font-size: .92rem; }
+.menu-btn {
+  display: none;
+  border: 1px solid var(--border);
+  color: white;
+  background: rgba(255,255,255,.04);
+  border-radius: .7rem;
+  padding: .6rem .8rem;
+}
+
+.section-pad { padding: clamp(3.5rem, 7vw, 6rem) clamp(1rem, 5vw, 4rem); }
+.hero {
+  text-align: center;
+  padding-top: clamp(3rem, 8vw, 7rem);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .45rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(139, 92, 255, .1);
+  color: #dcd6ff;
+  font-weight: 700;
+  font-size: .78rem;
+}
+.dot {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 20px var(--green);
+}
+
+h1, h2, h3, p { margin-top: 0; }
+h1 {
+  max-width: 850px;
+  margin: 1.5rem auto 1rem;
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: .98;
+  letter-spacing: -.07em;
+}
+h1 span, h2 span { color: var(--purple); }
+.hero-subtitle {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.5vw, 1.18rem);
+  line-height: 1.75;
+}
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0 1.4rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  border-radius: 1rem;
+  padding: .95rem 1.35rem;
+  font-weight: 800;
+  border: 1px solid transparent;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-sm { padding: .68rem 1rem; border-radius: .85rem; font-size: .88rem; }
+.btn-primary {
+  background: linear-gradient(135deg, #9b38ff, #4a44ff);
+  color: white;
+  box-shadow: 0 18px 40px rgba(114, 55, 255, .35);
+}
+.btn-outline {
+  border-color: var(--border);
+  background: rgba(255,255,255,.035);
+  color: #e8eaff;
+}
+.btn-green { background: #0c9b69; color: white; }
+.btn-dark { background: #172136; color: white; border-color: rgba(255,255,255,.06); }
+.full { width: 100%; margin-top: auto; }
+
+.mini-features {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  color: #8e95ad;
+  font-size: .85rem;
+}
+.center { margin-top: 1.4rem; }
+
+.terminal-card {
+  max-width: 720px;
+  margin: 3rem auto 0;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 1.3rem;
+  background: linear-gradient(180deg, rgba(17, 24, 50, .95), rgba(10, 14, 33, .95));
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.terminal-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .9rem 1rem;
+  background: rgba(255,255,255,.03);
+  border-bottom: 1px solid var(--border);
+}
+.terminal-top p { margin: 0; color: #8188a1; font-size: .82rem; }
+.traffic { display: flex; gap: .35rem; }
+.traffic span {
+  width: .65rem;
+  height: .65rem;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.traffic span:nth-child(2) { background: #ffbd2e; }
+.traffic span:nth-child(3) { background: #28c840; }
+.terminal-body { padding: 1.2rem 1.4rem; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .9rem; }
+.terminal-body p { margin: .45rem 0; color: #dce1ff; }
+.terminal-body p span { color: var(--purple); }
+.terminal-body .muted { color: #727a96; }
+.terminal-body .success { color: #20d692; }
+.terminal-box {
+  margin: 1rem 0;
+  padding: .8rem 1rem;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.18);
+}
+.terminal-box b { color: #91c8ff; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+  margin: 2.5rem auto 0;
+}
+.stats-grid div {
+  padding: 1.1rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,.025);
+}
+.stats-grid strong { display: block; font-size: clamp(1.6rem, 4vw, 2.3rem); }
+.stats-grid span { color: var(--muted); font-size: .86rem; }
+
+.section-title { text-align: center; max-width: 760px; margin: 0 auto 2.6rem; }
+.section-title h2, .cta h2 {
+  margin: 1rem 0 .8rem;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -.05em;
+}
+.section-title p, .cta p { color: var(--muted); line-height: 1.7; }
+
+.feature-layout, .pricing-grid, .testi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.feature-card, .price-card, .testi-card, .faq-list details {
+  border: 1px solid var(--border);
+  background: rgba(13, 19, 41, .78);
+  border-radius: 1.3rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+}
+.feature-card {
+  min-height: 190px;
+  padding: 2rem;
+}
+.feature-card.wide {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 1fr minmax(260px, .9fr);
+  align-items: center;
+  gap: 1.3rem;
+}
+.feature-card h3 { margin-bottom: .7rem; font-size: 1.18rem; }
+.feature-card p { color: var(--muted); line-height: 1.7; margin-bottom: 0; }
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 3.3rem;
+  height: 3.3rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  background: rgba(139,92,255,.16);
+  color: var(--purple);
+  font-size: 1.35rem;
+}
+.feature-card.wide .feature-icon { margin-bottom: 0; }
+.feature-icon.green { background: rgba(17,200,134,.14); color: var(--green); }
+.feature-icon.purple { color: #b79cff; }
+.feature-icon.blue { background: rgba(20,211,231,.12); color: var(--cyan); }
+.feature-icon.gold { background: rgba(255,211,107,.12); color: var(--gold); }
+.feature-icon.pink { background: rgba(255,79,145,.12); color: var(--pink); }
+
+.deploy-status {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: rgba(0,0,0,.16);
+  color: #9ca4c0;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .78rem;
+}
+.deploy-status div { margin: .5rem 0; }
+.deploy-status span { color: var(--green); margin-right: .4rem; }
+.loader {
+  display: inline-block;
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  border: 2px solid rgba(139,92,255,.28);
+  border-top-color: var(--purple);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.engine-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .65rem; }
+.engine-grid span {
+  padding: .75rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  background: rgba(0,0,0,.14);
+  color: #dfe3ff;
+  font-weight: 700;
+  font-size: .86rem;
+}
+
+.steps-section { border-top: 1px solid rgba(255,255,255,.04); }
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 950px;
+  margin: 0 auto;
+}
+.step-card { text-align: center; padding: 1.5rem; }
+.step-number {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ac28ff, #4a44ff);
+  box-shadow: 0 14px 30px rgba(121, 54, 255, .35);
+}
+.step-number.teal { background: linear-gradient(135deg, #10d4e6, #098f8f); }
+.step-card p { color: var(--muted); line-height: 1.65; }
+
+.pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.price-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 455px;
+  padding: 2rem;
+}
+.price-card.popular {
+  background: linear-gradient(145deg, rgba(110, 48, 255, .24), rgba(13, 19, 41, .92));
+  border-color: rgba(139, 92, 255, .45);
+  box-shadow: 0 25px 60px rgba(95, 48, 255, .22);
+}
+.ribbon {
+  position: absolute;
+  top: -1rem;
+  right: 1.4rem;
+  padding: .38rem .7rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #a934ff, #4a44ff);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.price-head { display: flex; justify-content: space-between; gap: 1rem; }
+.price-head h3 { margin-bottom: .2rem; }
+.price-head span, .duration { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; }
+.price-head b { color: var(--green); font-size: .75rem; background: rgba(17,200,134,.12); padding: .3rem .55rem; border-radius: 999px; height: max-content; }
+.price {
+  margin-top: 1.2rem;
+  font-size: 2.2rem;
+  font-weight: 950;
+  letter-spacing: -.04em;
+}
+.trial .price { color: var(--green); }
+.price-card ul { list-style: none; padding: 0; margin: 1.5rem 0; color: #cbd1e7; line-height: 2; }
+.price-card li::before { content: '✓'; color: var(--green); margin-right: .55rem; }
+.trusted { text-align: center; margin: 2rem auto 0; color: #d5c38b; }
+
+.testi-grid { grid-template-columns: repeat(3, 1fr); }
+.testi-card { padding: 1.8rem; }
+.stars { color: #ffca45; letter-spacing: .12em; margin-bottom: 1rem; }
+.testi-card p { color: #dce1ff; line-height: 1.7; min-height: 92px; }
+.person { display: flex; align-items: center; gap: .8rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.person span { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--purple); font-weight: 900; }
+.person small { display: block; color: var(--muted); margin-top: .2rem; }
+
+.faq-list { max-width: 980px; margin: 0 auto; display: grid; gap: .8rem; }
+.faq-list details { padding: 1.1rem 1.2rem; }
+.faq-list summary { cursor: pointer; font-weight: 800; }
+.faq-list p { color: var(--muted); line-height: 1.7; margin: 1rem 0 0; }
+
+.cta { text-align: center; max-width: 900px; margin: 0 auto; }
+.cta .btn { margin-top: 1.3rem; }
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem clamp(1rem, 5vw, 4rem) 2rem;
+  border-top: 1px solid var(--border);
+  color: #858ca6;
+  font-size: .9rem;
+}
+.site-footer p { margin: 0; }
+.site-footer div { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    right: 1rem;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: rgba(7, 10, 26, .96);
+  }
+  .nav-links.show { display: flex; }
+  .menu-btn { display: block; }
+  .login-link { display: none; }
+  .feature-card.wide { grid-template-columns: 1fr; }
+  .stats-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .testi-grid, .steps-grid { grid-template-columns: 1fr; }
+  .site-footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 620px) {
+  .site-header { padding: .8rem 1rem; }
+  .brand { font-size: .92rem; }
+  .header-actions .btn-sm { display: none; }
+  .section-pad { padding-left: 1rem; padding-right: 1rem; }
+  .hero { padding-top: 3rem; }
+  .terminal-body { font-size: .76rem; padding: 1rem; }
+  .stats-grid, .pricing-grid, .feature-layout { grid-template-columns: 1fr; }
+  .feature-card, .price-card { padding: 1.35rem; }
+  .engine-grid { grid-template-columns: 1fr; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="ZyroDevv Cloud">
+      <span class="brand-logo">Z</span>
+      <span>ZYRO<span>DEVV</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="#fitur">Fitur</a>
+      <a href="#harga">Harga</a>
+      <a href="#faq">FAQ</a>
+      <a href="#docs" data-link="docs">Docs</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="login-link" data-link="panel" href="#">Masuk</a>
+      <a class="btn btn-sm btn-primary" data-link="order" href="#">Mulai Sekarang <span>→</span></a>
+      <button class="menu-btn" type="button" aria-label="Buka menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="pill status-pill">
+        <span class="dot"></span>
+        Semua Sistem Operasional — Uptime 99,9%
+      </div>
+
+      <h1>Server Hosting yang <span>Cepat, Murah & Andal</span></h1>
+      <p class="hero-subtitle">
+        Deploy server Pterodactyl dalam hitungan detik. Cocok untuk bot WhatsApp, Telegram Bot, Discord Bot, website PHP, Node.js, dan server game.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" data-link="order" href="#">Mulai Gratis Sekarang <span>→</span></a>
+        <a class="btn btn-outline" href="#harga">Lihat Harga <span>⌄</span></a>
+      </div>
+
+      <div class="mini-features">
+        <span>🛡️ Anti-DDoS</span>
+        <span>⚡ Deploy &lt; 30 Detik</span>
+        <span>💳 Mulai dari GRATIS</span>
+        <span>🎧 Support 24/7</span>
+      </div>
+
+      <div class="terminal-card" aria-label="Preview deploy server">
+        <div class="terminal-top">
+          <div class="traffic"><span></span><span></span><span></span></div>
+          <p>zyrodevv-cloud — deploy</p>
+        </div>
+        <div class="terminal-body">
+          <p><span>$</span> zyro deploy --plan standard</p>
+          <p class="muted">Creating Pterodactyl server...</p>
+          <p class="muted">Allocating resources: 4096MB RAM, 150% CPU</p>
+          <p class="muted">Installing Node.js server files...</p>
+          <p class="success">✓ Server deployed in 12 seconds!</p>
+          <div class="terminal-box">
+            <p>Panel : <b>privatepanelzyrodevv.duckdns.top</b></p>
+            <p>User&nbsp;&nbsp;: <b>user_zyrodevv</b></p>
+            <p>Pass&nbsp;&nbsp;: <b>••••••••••</b></p>
+          </div>
+          <p class="success">→ Server is online and ready! 🚀</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div><strong>2.700+</strong><span>Pengguna Aktif</span></div>
+        <div><strong>44+</strong><span>Server Ter-deploy</span></div>
+        <div><strong>99.9%</strong><span>Uptime Terjaga</span></div>
+        <div><strong>&lt;30s</strong><span>Waktu Deploy</span></div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="fitur">
+      <div class="section-title">
+        <span class="pill">⚙️ Kenapa Pilih Kami?</span>
+        <h2>Fitur <span>Unggulan</span> Kami</h2>
+        <p>Infrastruktur ringan, cepat, dan siap dipakai untuk developer, seller panel, dan pemilik bot.</p>
+      </div>
+
+      <div class="feature-layout">
+        <article class="feature-card wide">
+          <div class="feature-icon">⚡</div>
+          <div>
+            <h3>Instant Deployment — Server Aktif dalam Detik</h3>
+            <p>Tidak perlu konfigurasi manual yang ribet. Pilih paket, deploy, dan server langsung aktif. Login info otomatis terkirim ke akun Anda.</p>
+          </div>
+          <div class="deploy-status">
+            <div><span>✓</span> Instance created successfully</div>
+            <div><span>✓</span> RAM & CPU allocation done</div>
+            <div><span class="loader"></span> Installing server files...</div>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon green">🛡️</div>
+          <h3>Anti-DDoS Protection</h3>
+          <p>Proteksi aktif untuk membantu menjaga server tetap stabil dari gangguan jaringan.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon purple">⌁</div>
+          <h3>Full Control Panel</h3>
+          <p>Akses lengkap Pterodactyl Panel untuk kelola file, console, power, schedule, dan backup.</p>
+        </article>
+
+        <article class="feature-card wide">
+          <div class="feature-icon blue">▣</div>
+          <div>
+            <h3>Multi-Engine Support — Jalankan Apapun</h3>
+            <p>Mendukung Node.js, Python, Java, PHP, Golang, Minecraft, dan engine lain sesuai kebutuhan server.</p>
+          </div>
+          <div class="engine-grid">
+            <span>NodeJS</span><span>Python</span><span>Java</span><span>PHP</span><span>Minecraft</span><span>Golang</span>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon gold">💸</div>
+          <h3>Harga Super Murah</h3>
+          <p>Mulai dari gratis sampai paket besar. Pembelian bisa diarahkan ke bot AutoOrder atau admin.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon pink">🧩</div>
+          <h3>Toko Addon Fleksibel</h3>
+          <p>Upgrade RAM, CPU, atau Disk kapan saja sesuai kebutuhan tanpa ribet.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-pad steps-section">
+      <div class="section-title">
+        <span class="pill">🔗 Mudah & Cepat</span>
+        <h2>Mulai dalam <span>3 Langkah</span></h2>
+        <p>Dari daftar hingga server online — prosesnya cepat dan gampang.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Buat Akun Gratis</h3>
+          <p>Daftar lewat panel atau bot AutoOrder. Tanpa biaya pendaftaran.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Deposit & Pilih Paket</h3>
+          <p>Pilih paket sesuai kebutuhan, lalu lakukan pembayaran.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number teal">3</div>
+          <h3>Server Online! 🚀</h3>
+          <p>Login info otomatis dikirim, server langsung bisa digunakan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="harga">
+      <div class="section-title">
+        <h2>Paket Sewa Server <span>Populer</span></h2>
+        <p>Semua paket termasuk akses panel, 1 port allocation, dan backup sesuai kebijakan server.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="price-card trial">
+          <div class="price-head">
+            <div>
+              <h3>Trial Free</h3>
+              <span>Coba gratis 3 hari</span>
+            </div>
+            <b>FREE</b>
+          </div>
+          <div class="price">GRATIS</div>
+          <p class="duration">Aktif 3 hari</p>
+          <ul>
+            <li>RAM: 512 MB</li>
+            <li>CPU: 30% Thread</li>
+            <li>Disk: 5 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-green full" data-link="order" href="#">Coba Gratis <span>→</span></a>
+        </article>
+
+        <article class="price-card popular">
+          <div class="ribbon">🔥 Paling Populer</div>
+          <div class="price-head">
+            <div>
+              <h3>Zyro 1</h3>
+              <span>Basic</span>
+            </div>
+          </div>
+          <div class="price">Rp 2.500</div>
+          <p class="duration">per 30 hari</p>
+          <ul>
+            <li>RAM: 1 GB</li>
+            <li>CPU: 60% Thread</li>
+            <li>Disk: 10 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-primary full" data-link="order" href="#">Pilih Paket <span>→</span></a>
+        </article>
+
+        <article class="price-card">
+          <div class="price-head"><div><h3>Zyro 2</h3><span>Starter</span></div></div>
+          <div class="price">Rp 5.000</div>
+          <p class="duration">per 30 hari</p>
+          <ul>
+            <li>RAM: 2 GB</li>
+            <li>CPU: 100% Thread</li>
+            <li>Disk: 20 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-dark full" data-link="order" href="#">Pilih Paket <span>→</span></a>
+        </article>
+
+        <article class="price-card">
+          <div class="price-head"><div><h3>Zyro 3</h3><span>Standard</span></div></div>
+          <div class="price">Rp 10.000</div>
+          <p class="duration">per 30 hari</p>
+          <ul>
+            <li>RAM: 4 GB</li>
+            <li>CPU: 150% Thread</li>
+            <li>Disk: 40 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-dark full" data-link="order" href="#">Pilih Paket <span>→</span></a>
+        </article>
+
+        <article class="price-card">
+          <div class="price-head"><div><h3>Zyro 4</h3><span>Pro</span></div></div>
+          <div class="price">Rp 15.000</div>
+          <p class="duration">per 30 hari</p>
+          <ul>
+            <li>RAM: 8 GB</li>
+            <li>CPU: 200% Thread</li>
+            <li>Disk: 80 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-dark full" data-link="order" href="#">Pilih Paket <span>→</span></a>
+        </article>
+
+        <article class="price-card">
+          <div class="price-head"><div><h3>Zyro 5</h3><span>Extreme</span></div></div>
+          <div class="price">Rp 18.000</div>
+          <p class="duration">per 30 hari</p>
+          <ul>
+            <li>RAM: 10 GB</li>
+            <li>CPU: 250% Thread</li>
+            <li>Disk: 100 GB SSD</li>
+            <li>1 Port Allocation</li>
+            <li>Anti-DDoS & Panel</li>
+          </ul>
+          <a class="btn btn-dark full" data-link="order" href="#">Pilih Paket <span>→</span></a>
+        </article>
+      </div>
+
+      <p class="trusted">🏆 Dipercaya Ribuan User</p>
+    </section>
+
+    <section class="section-pad testimonials">
+      <div class="section-title">
+        <h2>Apa Kata <span>Mereka?</span></h2>
+        <p>Testimoni pengguna ZyroDevv Cloud.</p>
+      </div>
+
+      <div class="testi-grid">
+        <article class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>“Bot WhatsApp saya jalan 24/7 tanpa masalah. Deploy cuma butuh klik tombol, langsung aktif.”</p>
+          <div class="person"><span>R</span><div><b>Rizky A.</b><small>Bot Developer</small></div></div>
+        </article>
+        <article class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>“Panel Pterodactyl mudah digunakan. Support juga fast response banget.”</p>
+          <div class="person"><span>D</span><div><b>Dimas F.</b><small>Server Owner</small></div></div>
+        </article>
+        <article class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p>“Harga murah, performa stabil. Cocok buat jualan panel dan hosting bot.”</p>
+          <div class="person"><span>A</span><div><b>Anisa W.</b><small>Web Developer</small></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-pad" id="faq">
+      <div class="section-title">
+        <span class="pill">❔ FAQ</span>
+        <h2>Pertanyaan <span>Umum</span></h2>
+        <p>Belum menemukan jawaban? Hubungi admin melalui Telegram.</p>
+      </div>
+
+      <div class="faq-list">
+        <details>
+          <summary>Apa itu ZyroDevv Cloud?</summary>
+          <p>ZyroDevv Cloud adalah layanan hosting berbasis panel Pterodactyl untuk menjalankan bot, website, dan server lain dengan mudah.</p>
+        </details>
+        <details>
+          <summary>Metode pembayaran apa yang diterima?</summary>
+          <p>Pembayaran bisa disesuaikan dengan bot AutoOrder atau admin, seperti QRIS, DANA, dan metode lain yang kamu aktifkan.</p>
+        </details>
+        <details>
+          <summary>Apakah server bisa di-upgrade setelah dibuat?</summary>
+          <p>Bisa. Resource seperti RAM, CPU, dan disk dapat ditingkatkan sesuai stok dan kebijakan server.</p>
+        </details>
+        <details>
+          <summary>Engine / software apa saja yang didukung?</summary>
+          <p>Node.js, Python, Java, PHP, Minecraft, Golang, dan engine lain yang tersedia di panel.</p>
+        </details>
+        <details>
+          <summary>Bagaimana jika saya butuh bantuan?</summary>
+          <p>Silakan hubungi admin atau buka channel support yang tersedia.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta section-pad" id="docs">
+      <span class="pill">🚀 Siap Untuk Mulai?</span>
+      <h2>Deploy Server Pertamamu <span>Sekarang</span></h2>
+      <p>Bergabung bersama pengguna ZyroDevv Cloud dan jalankan server kamu dengan cepat.</p>
+      <a class="btn btn-primary" data-link="order" href="#">Daftar & Coba Gratis Sekarang <span>→</span></a>
+      <div class="mini-features center">
+        <span>✅ Tanpa biaya daftar</span>
+        <span>✅ Deploy instan</span>
+        <span>✅ Support 24/7</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 ZyroDevv Cloud. All rights reserved.</p>
+    <div>
+      <span>🛡️ Protected by Anti-DDoS</span>
+      <span>⚡ High Performance Servers</span>
+    </div>
+  </footer>
+
+  <script>
+// EDIT LINK DI SINI BRO
+const PANEL_URL = 'https://privatepanelzyrodevv.duckdns.top';
+const ORDER_URL = 'https://t.me/USERNAME_BOT_AUTOORDER';
+const CHANNEL_URL = 'https://t.me/USERNAME_CHANNEL';
+const DOCS_URL = 'https://t.me/USERNAME_CHANNEL';
+
+const links = {
+  panel: PANEL_URL,
+  order: ORDER_URL,
+  channel: CHANNEL_URL,
+  docs: DOCS_URL
+};
+
+document.querySelectorAll('[data-link]').forEach((element) => {
+  const key = element.getAttribute('data-link');
+  element.href = links[key] || '#';
+  element.target = '_blank';
+  element.rel = 'noopener noreferrer';
+});
+
+const menuBtn = document.querySelector('.menu-btn');
+const navLinks = document.querySelector('.nav-links');
+
+if (menuBtn && navLinks) {
+  menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener('click', (event) => {
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    navLinks?.classList.remove('show');
+  });
+});
+
+</script>
+</body>
+</html>
