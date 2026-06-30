@@ -1,428 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZyroDevv Cloud — Preview</title>
-  <meta name="description" content="Preview tampilan ZyroDevv Cloud dashboard & hosting panel." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZyroDevv Cloud</title>
   <style>
-    :root{
-      --bg:#050716;
-      --bg2:#070a20;
-      --card:#0d132b;
-      --card2:#111936;
-      --stroke:rgba(148,122,255,.18);
-      --text:#f6f7ff;
-      --muted:#9aa3bd;
-      --purple:#8b5cf6;
-      --violet:#6d5dfc;
-      --cyan:#12c9e8;
-      --green:#21d48e;
-      --red:#ff5470;
-      --yellow:#f6c945;
-      --shadow:0 24px 80px rgba(78,51,255,.22);
-      --radius:28px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      min-height:100vh;
-      color:var(--text);
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(circle at 15% 8%, rgba(139,92,246,.22), transparent 28%),
-        radial-gradient(circle at 86% 12%, rgba(18,201,232,.13), transparent 24%),
-        radial-gradient(circle at 50% 88%, rgba(109,93,252,.12), transparent 22%),
-        linear-gradient(180deg,#050716 0%,#06081a 55%,#030510 100%);
-      overflow-x:hidden;
-    }
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
-      background-size:52px 52px;
-      mask-image:radial-gradient(circle at center, black, transparent 75%);
-      pointer-events:none;
-      opacity:.35;
-    }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1180px, calc(100% - 32px)); margin:auto}
-    .nav{
-      position:sticky; top:0; z-index:40;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      background:rgba(5,7,22,.78);
-      backdrop-filter: blur(18px);
-    }
-    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.5px}
-    .brand-logo{
-      width:42px;height:42px;border-radius:14px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--purple),var(--cyan));
-      box-shadow:0 0 32px rgba(139,92,246,.5);
-      font-size:22px;
-    }
-    .brand span span{color:#a78bfa}
-    .links{display:flex;align-items:center;gap:28px;color:#c4cae0;font-weight:700;font-size:14px}
-    .actions{display:flex;align-items:center;gap:12px}
-    .btn{
-      border:0; outline:0; cursor:pointer;
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      min-height:46px; padding:0 20px; border-radius:14px;
-      color:#fff; font-weight:900;
-      background:linear-gradient(135deg,#9b2fff,#4e5dff);
-      box-shadow:0 10px 26px rgba(109,93,252,.32);
-      transition:.25s ease;
-    }
-    .btn:hover{transform:translateY(-2px); filter:brightness(1.1)}
-    .btn.secondary{
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.1);
-      box-shadow:none;
-    }
-    .btn.green{background:linear-gradient(135deg,#0bbf80,#079763);box-shadow:0 14px 34px rgba(33,212,142,.18)}
-    .btn.block{width:100%}
-    .hero{position:relative;padding:78px 0 42px}
-    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:48px;align-items:center}
-    .badge{
-      display:inline-flex; align-items:center; gap:9px;
-      padding:10px 14px; border-radius:999px;
-      background:rgba(139,92,246,.12);
-      border:1px solid rgba(139,92,246,.18);
-      color:#d6ccff;
-      font-weight:800; font-size:13px;
-      box-shadow:inset 0 0 20px rgba(139,92,246,.08);
-    }
-    .dot{width:9px;height:9px;border-radius:999px;background:var(--green);box-shadow:0 0 14px var(--green)}
-    h1{font-size:clamp(44px,7vw,78px);line-height:.98;margin:24px 0 22px;letter-spacing:-3px}
-    .gradient{background:linear-gradient(90deg,#bca7ff,#6d5dfc,#12c9e8);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .lead{font-size:18px;line-height:1.85;color:#b2bad2;max-width:650px}
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0}
-    .mini-row{display:flex;gap:18px;flex-wrap:wrap;color:#8f99b6;font-weight:700;font-size:13px}
-    .terminal{
-      border-radius:24px; overflow:hidden;
-      background:linear-gradient(180deg,rgba(15,22,46,.96),rgba(9,14,31,.94));
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:var(--shadow);
-      transform:rotate(1.6deg);
-      animation:float 5s ease-in-out infinite;
-    }
-    .term-head{height:48px;background:rgba(255,255,255,.03);display:flex;align-items:center;gap:8px;padding:0 18px;color:#74809e;font-size:12px}
-    .ball{width:10px;height:10px;border-radius:50%}
-    .b1{background:#ff5f56}.b2{background:#ffbd2e}.b3{background:#27c93f}
-    .term-body{padding:28px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:#dce4ff;line-height:1.8;font-size:14px}
-    .ok{color:#31d398}.purple{color:#a78bfa}.cyan{color:#4dd8f8}.yellow{color:#ffd166}
-    @keyframes float{0%,100%{transform:translateY(0) rotate(1.6deg)}50%{transform:translateY(-14px) rotate(.8deg)}}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:34px 0 82px}
-    .stat{padding:22px;border-top:1px solid rgba(255,255,255,.06)}
-    .stat b{font-size:38px}.stat p{margin:4px 0 0;color:#8791ad;font-weight:700}
-    .section{padding:72px 0}
-    .section-title{text-align:center;margin-bottom:38px}
-    .section-title h2{font-size:clamp(34px,5vw,56px);letter-spacing:-2px;margin:16px 0 10px}
-    .section-title p{color:#9da7c1;line-height:1.7;margin:0}
-    .feature-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
-    .card{
-      border-radius:var(--radius);
-      background:linear-gradient(180deg,rgba(17,25,54,.78),rgba(9,14,31,.86));
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 24px 80px rgba(0,0,0,.18);
-      padding:30px;
-      position:relative; overflow:hidden;
-    }
-    .card::after{
-      content:""; position:absolute; inset:auto -30% -65% -30%; height:180px;
-      background:radial-gradient(circle,rgba(139,92,246,.14),transparent 65%);
-      pointer-events:none;
-    }
-    .icon{
-      width:58px;height:58px;border-radius:18px;
-      display:grid;place-items:center;font-size:24px;
-      background:rgba(139,92,246,.13); color:#c4b5fd;
-      margin-bottom:24px;
-    }
-    .card h3{margin:0 0 12px;font-size:22px}.card p{margin:0;color:#a1abc5;line-height:1.75}
-    .wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
-    .status-box{border-radius:18px;background:#080d20;border:1px solid rgba(255,255,255,.08);padding:18px;font-family:ui-monospace,monospace;color:#aeb8d3;line-height:2}
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
-    .step{text-align:center;padding:20px}
-    .num{width:70px;height:70px;border-radius:22px;margin:0 auto 22px;display:grid;place-items:center;font-size:26px;font-weight:950;background:linear-gradient(135deg,#a000ff,#12c9e8);box-shadow:0 0 30px rgba(139,92,246,.48)}
-    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-    .price-card{min-height:390px;display:flex;flex-direction:column}
-    .price-card.popular{border-color:rgba(139,92,246,.48);background:linear-gradient(145deg,rgba(139,92,246,.16),rgba(12,17,40,.9));box-shadow:0 0 44px rgba(139,92,246,.22)}
-    .tag{position:absolute;right:22px;top:20px;padding:7px 11px;border-radius:999px;background:rgba(33,212,142,.12);color:#46f0b0;font-size:11px;font-weight:950}
-    .plan-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}.plan-title b{font-size:20px}.plan-title span{display:block;font-size:11px;color:#7f89a5;font-weight:900;letter-spacing:1px}
-    .price{font-size:38px;font-weight:950;margin:6px 0 0}.period{color:#808ba7;margin-bottom:18px}
-    .slot{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.05);padding:12px 14px;border-radius:14px;color:#aab3cd;font-weight:800;margin-bottom:18px}
-    .features{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:12px;color:#aeb7d0}
-    .features li::before{content:"✓";color:#28d39c;margin-right:10px}
-    .price-card .btn{margin-top:auto}
-    .dashboard-preview{display:grid;grid-template-columns:260px 1fr;gap:0;min-height:760px;border-radius:32px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(7,10,26,.92);box-shadow:var(--shadow)}
-    .sidebar{background:rgba(255,255,255,.035);border-right:1px solid rgba(255,255,255,.08);padding:24px}
-    .user-chip{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.05);border-radius:18px;padding:14px;margin:24px 0}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),var(--cyan));font-weight:950}
-    .side-links{display:grid;gap:8px}.side-links a{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;color:#b7c1da;font-weight:800}.side-links a.active,.side-links a:hover{background:rgba(139,92,246,.16);color:#fff}
-    .dash-main{padding:34px}
-    .dash-top{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:28px}
-    .dash-top h2{font-size:36px;margin:0}.dash-top p{margin:8px 0 0;color:#a0aac6}
-    .dash-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
-    .mini-card{padding:22px;border-radius:22px;background:linear-gradient(180deg,rgba(23,35,72,.84),rgba(12,18,42,.84));border:1px solid rgba(255,255,255,.08)}
-    .mini-card b{display:block;font-size:30px;margin-top:12px}.mini-card span{color:#9ba5bf;font-weight:900;font-size:13px}
-    .panel-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}
-    .empty{min-height:330px;display:grid;place-items:center;text-align:center;color:#9aa5c0}
-    .guide ol{margin:0;padding-left:20px;color:#a7b1cc;line-height:2}
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,4,13,.78);backdrop-filter:blur(14px);z-index:100}
-    .modal.open{display:flex}
-    .modal-card{width:min(520px,100%);border-radius:28px;background:#0b1025;border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow);padding:26px;position:relative}
-    .close{position:absolute;right:16px;top:16px;width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#fff;cursor:pointer}
-    label{display:block;color:#aeb8d1;font-weight:850;margin:14px 0 7px}
-    input,select{width:100%;height:48px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;padding:0 14px;outline:0}
-    .pay-box{border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:18px;margin:18px 0}
-    .qr{width:190px;height:190px;margin:12px auto;border-radius:22px;background:
-      linear-gradient(90deg,#fff 10px,transparent 10px) 0 0/38px 38px,
-      linear-gradient(#fff 10px,transparent 10px) 0 0/38px 38px,
-      linear-gradient(135deg,#111 0 25%,#fff 25% 50%,#111 50% 75%,#fff 75%) 0 0/28px 28px;
-      border:12px solid #fff;
-    }
-    .toast{position:fixed;right:18px;bottom:18px;z-index:110;background:#0d162f;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:15px 18px;color:#fff;box-shadow:var(--shadow);display:none}
-    .toast.show{display:block;animation:pop .25s ease}
-    @keyframes pop{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .reveal{opacity:0;transform:translateY(26px);transition:.8s ease}.reveal.show{opacity:1;transform:none}
-    footer{padding:45px 0;color:#8791ad;border-top:1px solid rgba(255,255,255,.08)}
-    @media(max-width:980px){
-      .links{display:none}.hero-grid,.feature-grid,.wide,.dashboard-preview,.panel-grid{grid-template-columns:1fr}.stats,.pricing,.steps,.dash-cards{grid-template-columns:1fr}.hero{padding-top:42px}.terminal{transform:none}.wide{grid-column:auto}.sidebar{display:none}.dash-main{padding:20px}.dash-top{display:block}.actions .secondary{display:none}
-    }
+    :root{--bg:#020817;--panel:#071526cc;--panel2:#0b2038;--line:#38bdf833;--text:#eef8ff;--muted:#93a9bd;--cyan:#38bdf8;--blue:#0ea5e9;--teal:#2dd4bf;--red:#fb7185;--green:#22c55e;--yellow:#fbbf24;--side:270px}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,sans-serif;background:radial-gradient(circle at 15% 5%,#38bdf826,transparent 32%),radial-gradient(circle at 85% 15%,#2dd4bf1c,transparent 30%),linear-gradient(180deg,var(--bg),#010511);color:var(--text);min-height:100vh;overflow-x:hidden}body:before{content:"";position:fixed;inset:-50%;background:radial-gradient(circle,#38bdf80d 0 2px,transparent 3px);background-size:80px 80px;animation:drift 28s linear infinite;z-index:-1}@keyframes drift{to{transform:translate(180px,120px)}}@keyframes glow{0%,100%{text-shadow:0 0 12px #38bdf855}50%{text-shadow:0 0 32px #2dd4bf}}@keyframes bar{from{width:20%}to{width:88%}}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}.container{max-width:1180px;margin:auto;padding:0 22px}.glass{background:linear-gradient(135deg,#071526cc,#03111faa);border:1px solid var(--line);box-shadow:0 0 40px #38bdf81c;border-radius:26px;backdrop-filter:blur(16px)}.btn{border:1px solid var(--line);background:#0b2038;color:var(--text);padding:13px 17px;border-radius:16px;font-weight:900;cursor:pointer}.btn:hover{transform:translateY(-2px);box-shadow:0 0 25px #38bdf826}.primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#02101b}.teal{background:linear-gradient(135deg,var(--teal),var(--cyan));color:#02101b}.danger{border-color:#fb718555;color:#fecdd3;background:#fb71851a}.nav{position:sticky;top:0;z-index:20;background:#020817bb;border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}.navin{height:78px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:950;letter-spacing:.5px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--teal));color:#02101b;box-shadow:0 0 25px #38bdf866}.links{display:flex;gap:28px;color:var(--muted);font-weight:800}.links a:hover{color:var(--cyan)}.hero{padding:85px 0}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}.badge{display:inline-flex;align-items:center;gap:9px;background:#38bdf814;border:1px solid var(--line);color:#c7f5ff;padding:9px 14px;border-radius:999px;font-weight:850}.dot{width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}h1{font-size:clamp(42px,6vw,76px);line-height:1.02;margin:23px 0;letter-spacing:-2.5px}h2{font-size:clamp(30px,4vw,52px);line-height:1.08}.glow{color:#eaffff;animation:glow 2.4s infinite}.grad{background:linear-gradient(90deg,#fff,var(--cyan),var(--teal));-webkit-background-clip:text;color:transparent}.sub{color:var(--muted);line-height:1.75}.actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:25px}.server-card{padding:25px;transform:rotate(1.5deg);position:relative;overflow:hidden}.terminal{background:#02081799;border:1px solid var(--line);border-radius:18px;padding:20px;font-family:Consolas,monospace;line-height:1.8}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.metric{padding:14px;background:#38bdf80c;border:1px solid #38bdf81f;border-radius:16px}.metric small{display:block;color:var(--muted);font-weight:800}.bar{height:9px;background:#ffffff14;border-radius:99px;overflow:hidden;margin-top:7px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--teal));animation:bar 2.3s infinite alternate}section{padding:70px 0}.center{text-align:center}.grid{display:grid;gap:18px}.stats,.features{grid-template-columns:repeat(4,1fr)}.pricing{grid-template-columns:repeat(3,1fr)}.card{padding:23px}.card:hover{border-color:#38bdf899;transform:translateY(-4px)}.icon{width:50px;height:50px;border-radius:16px;background:#38bdf815;border:1px solid var(--line);display:grid;place-items:center;color:var(--cyan);font-size:23px;margin-bottom:14px}.price{font-size:31px;font-weight:950;margin:14px 0}.list{list-style:none;padding:0;display:grid;gap:10px;color:#c8dcec}.list li:before{content:"✓";color:var(--teal);font-weight:950;margin-right:8px}.popular{display:inline-block;padding:7px 10px;border-radius:999px;background:#2dd4bf22;border:1px solid #2dd4bf55;color:#bfffee;font-weight:950;font-size:12px}.login{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(470px,100%);padding:28px}.form{display:grid;gap:13px}.input,select,textarea{width:100%;border-radius:15px;border:1px solid #38bdf828;background:#020817cc;color:var(--text);padding:13px 14px;outline:none}.input:focus,select:focus,textarea:focus{border-color:#38bdf899}.app{display:none}.app.on{display:block}.sidebar{position:fixed;inset:0 auto 0 0;width:var(--side);background:#020817ee;border-right:1px solid var(--line);padding:22px 15px;z-index:30}.user{display:flex;gap:12px;align-items:center;margin:22px 0;padding:13px;border-radius:18px;background:#38bdf80e;border:1px solid #38bdf820}.avatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--teal));display:grid;place-items:center;color:#02101b;font-weight:950}.menu{display:grid;gap:8px}.menu button{width:100%;text-align:left;background:transparent;color:#a9bfd5;border:1px solid transparent;border-radius:15px;padding:13px;font-weight:850;cursor:pointer}.menu button:hover,.menu button.active{background:#38bdf818;border-color:var(--line);color:#fff}.logout{position:absolute;bottom:20px;left:15px;right:15px}.main{margin-left:var(--side);padding:32px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}.page{display:none}.page.on{display:block}.dash{grid-template-columns:repeat(4,1fr)}.dash-card{padding:20px}.dash-card b{display:block;font-size:28px;margin-top:6px}.content{grid-template-columns:1.5fr .9fr;margin-top:20px}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px;border-bottom:1px solid #ffffff12;text-align:left}.table th{color:var(--muted);font-size:12px}.status{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:900;font-size:12px}.online{color:#86efac;background:#22c55e22}.off{color:#cbd5e1;background:#94a3b822}.sus{color:#fecdd3;background:#fb718522}.wait{color:#fde68a;background:#fbbf2422}.options{grid-template-columns:repeat(3,1fr)}.opt input{display:none}.opt span{display:block;padding:17px;border-radius:18px;background:#071526cc;border:1px solid #38bdf820;font-weight:900}.opt input:checked+span{border-color:var(--cyan);box-shadow:0 0 25px #38bdf826}.server-list{display:grid;gap:16px}.server{padding:19px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}.server-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.modal{display:none;position:fixed;inset:0;background:#000a;z-index:80;align-items:center;justify-content:center;padding:18px}.modal.on{display:flex}.box{width:min(640px,100%);max-height:88vh;overflow:auto;padding:24px}.qris{height:205px;border-radius:20px;background:repeating-linear-gradient(45deg,#fff 0 16px,#dff7ff 16px 32px);color:#02101b;display:grid;place-items:center;text-align:center;border:8px solid #fff;margin:16px 0;font-weight:950}.toast-wrap{position:fixed;right:18px;bottom:18px;display:grid;gap:10px;z-index:99}.toast{padding:13px 15px;border-radius:14px;background:#071526ee;border:1px solid #38bdf855;color:#e6fbff;box-shadow:0 0 25px #38bdf822}.hide{display:none!important}.mobile{display:none}@media(max-width:980px){.hero-grid,.content{grid-template-columns:1fr}.stats,.features,.pricing,.dash,.options{grid-template-columns:1fr 1fr}.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile{display:inline-block}.server{grid-template-columns:1fr}.server-actions{justify-content:flex-start}}@media(max-width:640px){.stats,.features,.pricing,.dash,.options,.metrics{grid-template-columns:1fr}.links,.nav .actions{display:none}h1{letter-spacing:-1px}}
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="#home"><div class="brand-logo">Z</div><span>ZYRO<span>DEVV</span></span></a>
-      <div class="links">
-        <a href="#home">Home</a>
-        <a href="#fitur">Fitur</a>
-        <a href="#harga">Harga</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#faq">FAQ</a>
-      </div>
-      <div class="actions">
-        <button class="btn secondary" onclick="openLogin()">Masuk</button>
-        <button class="btn" onclick="document.querySelector('#harga').scrollIntoView()">Mulai Sekarang →</button>
-      </div>
-    </div>
-  </nav>
-
-  <main id="home">
-    <section class="hero container">
-      <div class="hero-grid">
-        <div>
-          <div class="badge"><span class="dot"></span> Semua Sistem Operasional — Uptime 99,9%</div>
-          <h1>Server Hosting yang <span class="gradient">Cepat, Murah & Andal</span></h1>
-          <p class="lead">Deploy server Pterodactyl dalam hitungan detik. Cocok untuk bot WhatsApp, Telegram Bot, Discord Bot, website, dan project panel otomatis ZyroDevv.</p>
-          <div class="hero-actions">
-            <button class="btn" onclick="document.querySelector('#harga').scrollIntoView()">Mulai Gratis Sekarang →</button>
-            <button class="btn secondary" onclick="document.querySelector('#dashboard').scrollIntoView()">Lihat Dashboard ↓</button>
-          </div>
-          <div class="mini-row">
-            <span>🛡️ Anti-DDoS</span><span>⚡ Deploy &lt; 30 Detik</span><span>💳 QRIS Gateway</span><span>🎧 Support 24/7</span>
-          </div>
-        </div>
-        <div class="terminal">
-          <div class="term-head"><span class="ball b1"></span><span class="ball b2"></span><span class="ball b3"></span><span>zyrodevv-cloud — deploy</span></div>
-          <div class="term-body">
-            <div><span class="purple">$</span> zyro deploy --plan standard</div>
-            <div>Creating Pterodactyl server...</div>
-            <div>Allocating resources: <span class="cyan">4096MB RAM</span>, <span class="cyan">150% CPU</span></div>
-            <div>Installing Node.js server files...</div>
-            <br>
-            <div class="ok">✓ Server deployed in 12 seconds!</div>
-            <br>
-            <div>Panel : <b>privatepanelzyrodevv.duckdns.top</b></div>
-            <div>User&nbsp; : <span class="cyan">user_zyrodevv</span></div>
-            <div>Pass&nbsp; : <span class="yellow">••••••••••</span></div>
-            <br>
-            <div class="ok">→ Server is online and ready! 🚀</div>
-          </div>
-        </div>
-      </div>
-      <div class="stats">
-        <div class="stat"><b>2.715+</b><p>Pengguna Aktif</p></div>
-        <div class="stat"><b>44+</b><p>Server Ter-deploy</p></div>
-        <div class="stat"><b>99.9%</b><p>Uptime Terjaga</p></div>
-        <div class="stat"><b>&lt;30s</b><p>Waktu Deploy</p></div>
-      </div>
-    </section>
-
-    <section id="fitur" class="section container">
-      <div class="section-title reveal"><span class="badge">🛠️ Kenapa Pilih Kami?</span><h2>Fitur <span class="gradient">Unggulan</span> Kami</h2><p>Preview tampilan web profesional ZyroDevv Cloud untuk sistem hosting otomatis.</p></div>
-      <div class="feature-grid">
-        <div class="card wide reveal"><div><div class="icon">⚡</div><h3>Instant Deployment — Server Aktif dalam Detik</h3><p>Pilih paket, bayar via QRIS, lalu server otomatis dibuat lewat API Pterodactyl setelah pembayaran sukses.</p></div><div class="status-box"><span class="ok">◎</span> Instance created successfully<br><span class="ok">◎</span> RAM & CPU allocation done<br><span class="purple">◌</span> Installing server files...</div></div>
-        <div class="card reveal"><div class="icon">🛡️</div><h3>Anti-DDoS Protection</h3><p>Layer proteksi aktif 24/7 menjaga server dan panel tetap stabil.</p></div>
-        <div class="card reveal"><div class="icon">🧩</div><h3>Payment Gateway Ready</h3><p>Frontend siap disambungkan ke backend FR3 untuk QRIS otomatis dan webhook paid.</p></div>
-        <div class="card wide reveal"><div><div class="icon">📦</div><h3>Panel API Integration</h3><p>PTLA/PTLC disimpan aman di backend. Tidak dimunculkan di menu web dan tidak masuk GitHub public.</p></div><div class="status-box"><span class="cyan">POST</span> /api/payment/fr3/create<br><span class="cyan">POST</span> /api/payment/fr3/callback<br><span class="cyan">POST</span> /api/panel/create-server</div></div>
-      </div>
-    </section>
-
-    <section class="section container">
-      <div class="section-title reveal"><span class="badge">🔗 Mudah & Cepat</span><h2>Mulai dalam <span class="gradient">3 Langkah</span></h2><p>Dari checkout sampai panel aktif, flow-nya dibuat simple.</p></div>
-      <div class="steps">
-        <div class="step reveal"><div class="num">1</div><h3>Buat Akun</h3><p class="muted">Login/register ke dashboard ZyroDevv Cloud.</p></div>
-        <div class="step reveal"><div class="num">2</div><h3>Bayar QRIS</h3><p class="muted">Pilih paket lalu bayar lewat invoice payment gateway.</p></div>
-        <div class="step reveal"><div class="num">3</div><h3>Panel Online 🚀</h3><p class="muted">Login panel muncul otomatis setelah status PAID.</p></div>
-      </div>
-    </section>
-
-    <section id="harga" class="section container">
-      <div class="section-title reveal"><h2>Paket Sewa <span class="gradient">Server Populer</span></h2><p>Preview katalog paket. Tombol checkout masih simulasi di GitHub.</p></div>
-      <div class="pricing">
-        <article class="card price-card reveal">
-          <span class="tag">FREE</span>
-          <div class="plan-head"><div class="icon">🎁</div><div class="plan-title"><b>Trial Free</b><span>COBA GRATIS 3 HARI</span></div></div>
-          <div class="price ok">GRATIS</div><div class="period">Aktif 3 hari</div>
-          <div class="slot">Slot <b>10 / 10</b></div>
-          <ul class="features"><li>RAM 512 MB</li><li>CPU 30% Thread</li><li>Disk 5 GB SSD</li><li>1 Port Allocation</li><li>Panel Access</li></ul>
-          <button class="btn green block" onclick="checkout('Trial Free','GRATIS')">Coba Gratis →</button>
-        </article>
-        <article class="card price-card popular reveal">
-          <span class="tag" style="background:rgba(139,92,246,.25);color:#fff">PALING POPULER</span>
-          <div class="plan-head"><div class="icon">⚙️</div><div class="plan-title"><b>Zyro 1</b><span>BASIC</span></div></div>
-          <div class="price">Rp 2.500</div><div class="period">per 30 hari</div>
-          <div class="slot">Slot <b>19 / 50</b></div>
-          <ul class="features"><li>RAM 1 GB</li><li>CPU 60% Thread</li><li>Disk 10 GB SSD</li><li>1 Port Allocation</li><li>Anti-DDoS & Panel</li></ul>
-          <button class="btn block" onclick="checkout('Zyro 1','Rp 2.500')">Pilih Paket →</button>
-        </article>
-        <article class="card price-card reveal">
-          <div class="plan-head"><div class="icon">🗄️</div><div class="plan-title"><b>Zyro 2</b><span>STARTER</span></div></div>
-          <div class="price">Rp 5.000</div><div class="period">per 30 hari</div>
-          <div class="slot">Slot <b>5 / 40</b></div>
-          <ul class="features"><li>RAM 2 GB</li><li>CPU 100% Thread</li><li>Disk 20 GB SSD</li><li>1 Port Allocation</li><li>Free Auto Backup</li></ul>
-          <button class="btn secondary block" onclick="checkout('Zyro 2','Rp 5.000')">Pilih Paket →</button>
-        </article>
-        <article class="card price-card reveal">
-          <div class="plan-head"><div class="icon">📈</div><div class="plan-title"><b>Zyro 3</b><span>STANDARD</span></div></div>
-          <div class="price">Rp 10.000</div><div class="period">per 30 hari</div>
-          <div class="slot">Slot <b>4 / 30</b></div>
-          <ul class="features"><li>RAM 4 GB</li><li>CPU 150% Thread</li><li>Disk 40 GB SSD</li><li>1 Port Allocation</li><li>Priority Deploy</li></ul>
-          <button class="btn secondary block" onclick="checkout('Zyro 3','Rp 10.000')">Pilih Paket →</button>
-        </article>
-        <article class="card price-card reveal">
-          <div class="plan-head"><div class="icon">💼</div><div class="plan-title"><b>Zyro 4</b><span>PRO</span></div></div>
-          <div class="price">Rp 15.000</div><div class="period">per 30 hari</div>
-          <div class="slot">Slot <b>3 / 20</b></div>
-          <ul class="features"><li>RAM 8 GB</li><li>CPU 200% Thread</li><li>Disk 80 GB SSD</li><li>1 Port Allocation</li><li>Free Auto Backup</li></ul>
-          <button class="btn secondary block" onclick="checkout('Zyro 4','Rp 15.000')">Pilih Paket →</button>
-        </article>
-        <article class="card price-card reveal">
-          <div class="plan-head"><div class="icon">🛡️</div><div class="plan-title"><b>Zyro 5</b><span>EXTREME</span></div></div>
-          <div class="price">Rp 18.000</div><div class="period">per 30 hari</div>
-          <div class="slot">Slot <b>3 / 10</b></div>
-          <ul class="features"><li>RAM 10 GB</li><li>CPU 250% Thread</li><li>Disk 100 GB SSD</li><li>1 Port Allocation</li><li>Premium Support</li></ul>
-          <button class="btn secondary block" onclick="checkout('Zyro 5','Rp 18.000')">Pilih Paket →</button>
-        </article>
-      </div>
-    </section>
-
-    <section id="dashboard" class="section container">
-      <div class="section-title reveal"><span class="badge">🖥️ Dashboard Preview</span><h2>Tampilan <span class="gradient">Client Area</span></h2><p>Mockup dashboard user, top up saldo, billing, deploy server, dan daftar server.</p></div>
-      <div class="dashboard-preview reveal">
-        <aside class="sidebar">
-          <div class="brand"><div class="brand-logo">Z</div><span>ZYRO<span>DEVV</span></span></div>
-          <div class="user-chip"><div class="avatar">G</div><div><b>Gilang Ramandan</b><br><span class="ok">Rp 0</span></div></div>
-          <nav class="side-links">
-            <a class="active" href="#dashboard">▦ Dashboard</a>
-            <a href="#" onclick="demo()">🚀 Deploy Server</a>
-            <a href="#" onclick="demo()">🧩 Toko Addon</a>
-            <a href="#" onclick="demo()">💳 Billing / Top Up</a>
-            <a href="#" onclick="demo()">🎁 Toko Voucher</a>
-            <a href="#" onclick="demo()">👤 Profile Akun</a>
-            <a href="#" onclick="demo()">🔑 API</a>
-            <a href="#" onclick="demo()">📚 Dokumentasi</a>
-          </nav>
-        </aside>
-        <div class="dash-main">
-          <div class="dash-top">
-            <div><h2>Halo, Gilang Ramandan!</h2><p>Selamat datang di ZyroDevv Cloud — Premium Pterodactyl Bot Hosting Panel.</p></div>
-            <div class="hero-actions"><button class="btn" onclick="checkout('Zyro 1','Rp 2.500')">Deploy Server</button><button class="btn green" onclick="demo()">Top Up Saldo</button></div>
-          </div>
-          <div class="dash-cards">
-            <div class="mini-card"><span>SALDO AKUN</span><b class="ok">Rp 0</b><small>Dapat digunakan untuk membeli server baru</small></div>
-            <div class="mini-card"><span>SERVER AKTIF</span><b>0</b><small>Jumlah server Anda yang aktif</small></div>
-            <div class="mini-card"><span>SERVER RUNNING</span><b>0</b><small>Server yang sedang menyala online</small></div>
-            <div class="mini-card"><span>TOTAL PENGELUARAN</span><b class="cyan">Rp 0</b><small>Akumulasi sewa panel</small></div>
-          </div>
-          <div class="panel-grid">
-            <div class="card empty"><div><div style="font-size:54px">📭</div><h3>Belum ada server aktif yang dibuat.</h3><button class="btn" onclick="checkout('Zyro 1','Rp 2.500')">Mulai Deploy Server →</button></div></div>
-            <div class="card guide"><h3>Panduan Server ZyroDevv</h3><ol><li>Pilih spesifikasi server dan engine.</li><li>Bayar invoice QRIS dari gateway.</li><li>Setelah sukses, sistem membuat user & server panel.</li><li>Login panel tampil di dashboard.</li></ol></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq" class="section container">
-      <div class="section-title reveal"><span class="badge">❓ FAQ</span><h2>Pertanyaan <span class="gradient">Umum</span></h2></div>
-      <div class="card reveal"><h3>Apakah preview GitHub ini sudah payment live?</h3><p>Belum. Ini hanya untuk lihat tampilan. Payment FR3, PTLA, dan PTLC harus dipasang di backend Node.js private, bukan di GitHub.</p></div>
-    </section>
-  </main>
-
-  <footer><div class="container">© 2026 ZyroDevv Cloud. Preview static untuk GitHub Pages.</div></footer>
-
-  <div id="modal" class="modal">
-    <div class="modal-card">
-      <button class="close" onclick="closeModal()">×</button>
-      <h2 id="modalTitle">Checkout</h2>
-      <p style="color:#9aa5c0">Ini simulasi preview GitHub. Versi live nanti disambungkan ke backend FR3.</p>
-      <label>Nama Pembeli</label><input placeholder="Contoh: Gilang Ramandan">
-      <label>Username Telegram / WhatsApp</label><input placeholder="@username / 08xxxx">
-      <label>Paket</label><input id="packageInput" readonly>
-      <div class="pay-box">
-        <b>Simulasi QRIS FR3</b>
-        <div class="qr"></div>
-        <p style="text-align:center;color:#aab4cc">Invoice: <b id="invoiceId">ZYRO-PREVIEW</b></p>
-      </div>
-      <button class="btn block" onclick="paidDemo()">Saya Sudah Bayar — Simulasi</button>
-    </div>
-  </div>
-
-  <div id="loginModal" class="modal">
-    <div class="modal-card">
-      <button class="close" onclick="closeLogin()">×</button>
-      <h2>Masuk Dashboard</h2>
-      <p style="color:#9aa5c0">Preview login tampilan saja.</p>
-      <label>Email</label><input placeholder="admin@zyrodevv.web.id">
-      <label>Password</label><input type="password" placeholder="••••••••">
-      <button class="btn block" onclick="closeLogin();document.querySelector('#dashboard').scrollIntoView();toast('Login preview berhasil')">Masuk</button>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">Preview</div>
-
-  <script>
-    const revealEls = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show') })
-    },{threshold:.12});
-    revealEls.forEach(el=>obs.observe(el));
-
-    function checkout(name, price){
-      document.getElementById('modalTitle').textContent = 'Checkout ' + name;
-      document.getElementById('packageInput').value = name + ' — ' + price;
-      document.getElementById('invoiceId').textContent = 'ZYRO-' + Math.random().toString(36).slice(2,8).toUpperCase();
-      document.getElementById('modal').classList.add('open');
-    }
-    function closeModal(){document.getElementById('modal').classList.remove('open')}
-    function openLogin(){document.getElementById('loginModal').classList.add('open')}
-    function closeLogin(){document.getElementById('loginModal').classList.remove('open')}
-    function toast(msg){
-      const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-      setTimeout(()=>t.classList.remove('show'),2600);
-    }
-    function demo(){toast('Fitur ini preview. Versi live jalan di backend Node.js.')}
-    function paidDemo(){
-      closeModal();
-      toast('Payment sukses simulasi — panel akan tampil di versi live.');
-      document.querySelector('#dashboard').scrollIntoView();
-    }
-  </script>
+<div id="landing">
+  <nav class="nav"><div class="container navin"><a class="brand" href="#home"><span class="logo">Z</span><span>ZYRODEVV CLOUD</span></a><div class="links"><a href="#home">Home</a><a href="#fitur">Fitur</a><a href="#harga">Harga</a><a href="#docs">Docs</a></div><div class="actions"><button class="btn" data-act="loginPage">Masuk</button><button class="btn primary" data-act="loginPage">Mulai Sekarang</button></div></div></nav>
+  <main id="home" class="hero"><div class="container hero-grid"><div><div class="badge"><span class="dot"></span> Semua Sistem Online — Uptime 99.9%</div><h1>Cloud Panel Hosting <span class="glow">Otomatis</span> untuk Bot, Website, dan Server Game</h1><p class="sub">Beli panel langsung dari website, bayar otomatis via FR3Newera, dan kelola server realtime melalui dashboard ZyroDevv Cloud.</p><div class="actions"><button class="btn primary" data-act="loginPage">Mulai Sekarang →</button><a class="btn" href="#harga">Lihat Paket ↓</a></div></div><div class="glass server-card"><div class="terminal"><b style="color:var(--cyan)">zyrodevv-cloud</b> deploy --package 2gb<br>✓ Payment verified via FR3Newera<br>✓ Pterodactyl panel ready<br>✓ Server online in 12 seconds 🚀</div><div class="metrics"><div class="metric"><small>Status</small><b>Online</b><div class="bar"><span></span></div></div><div class="metric"><small>CPU</small><b>18%</b><div class="bar"><span></span></div></div><div class="metric"><small>RAM</small><b>512MB / 1GB</b><div class="bar"><span></span></div></div><div class="metric"><small>Uptime</small><b>99.9%</b><div class="bar"><span></span></div></div></div></div></div></main>
+  <section><div class="container grid stats"><div class="glass card center"><h2>99.9%</h2><p class="sub">Uptime</p></div><div class="glass card center"><h2>&lt;30s</h2><p class="sub">Deploy</p></div><div class="glass card center"><h2>24/7</h2><p class="sub">Support</p></div><div class="glass card center"><h2>Auto</h2><p class="sub">Payment</p></div></div></section>
+  <section id="fitur"><div class="container center"><h2>Fitur <span class="grad">Cloud Premium</span></h2><p class="sub">Dashboard realtime, payment mock, myserver, dan addon.</p><div id="features" class="grid features"></div></div></section>
+  <section><div class="container center"><h2>Beli Panel dalam <span class="grad">3 Langkah</span></h2><div class="grid stats"><div class="glass card"><h2>1</h2><h3>Pilih Paket</h3><p class="sub">1GB sampai Unlimited.</p></div><div class="glass card"><h2>2</h2><h3>Bayar Otomatis</h3><p class="sub">QRIS mock FR3Newera.</p></div><div class="glass card"><h2>3</h2><h3>Server Aktif</h3><p class="sub">Muncul di MyServer.</p></div><div class="glass card"><h2>4</h2><h3>Kelola Realtime</h3><p class="sub">Start, stop, addon.</p></div></div></div></section>
+  <section id="harga"><div class="container center"><h2>Paket <span class="grad">Panel Hosting</span></h2><div id="pricing" class="grid pricing"></div></div></section>
+  <footer id="docs" class="center" style="padding:35px;color:var(--muted);border-top:1px solid var(--line)">ZYRODEVV CLOUD © 2026 — Owner @ZyroDevv</footer>
+</div>
+<div id="login" class="login hide"><div class="login-card glass"><div class="brand"><span class="logo">Z</span><span>ZYRODEVV CLOUD</span></div><h2>Masuk Dashboard</h2><p class="sub">Tidak perlu daftar. Pakai akun demo siap login.</p><div class="form"><input id="email" class="input" value="user@zyrodevv.cloud"><input id="pass" type="password" class="input" value="user12345"><button class="btn primary" data-act="loginManual">Masuk</button><div class="grid" style="grid-template-columns:1fr 1fr"><button class="btn teal" data-act="loginUser">User Demo</button><button class="btn" data-act="loginAdmin">Admin Demo</button></div><button class="btn" data-act="landingPage">← Kembali</button><p class="sub">User: user@zyrodevv.cloud / user12345<br>Admin: admin@zyrodevv.cloud / admin12345</p></div></div></div>
+<div id="app" class="app"><aside id="side" class="sidebar"><div class="brand"><span class="logo">Z</span><span>ZYRODEVV CLOUD</span></div><div class="user"><div id="avatar" class="avatar">U</div><div><b id="uname">User</b><p id="urole" class="sub" style="margin:0">user</p></div></div><div id="menu" class="menu"></div><div class="logout"><button class="btn danger" style="width:100%" data-act="logout">Keluar Akun</button></div></aside><main class="main"><div class="top"><button class="btn mobile" data-act="toggleSide">☰</button><div><h2 id="title">Dashboard</h2><p id="subtitle" class="sub">Kelola panel kamu.</p></div><button class="btn primary" data-nav="deploy">＋ Deploy Server</button></div><section id="p-dashboard" class="page on"></section><section id="p-deploy" class="page"></section><section id="p-servers" class="page"></section><section id="p-addon" class="page"></section><section id="p-billing" class="page"></section><section id="p-profile" class="page"></section><section id="p-docs" class="page"></section><section id="p-support" class="page"></section><section id="p-admin" class="page"></section></main></div>
+<div id="modal" class="modal"><div id="box" class="box glass"></div></div><div id="toasts" class="toast-wrap"></div>
+<script>
+(function(){
+const users=[{id:'USER',email:'user@zyrodevv.cloud',password:'user12345',name:'User Demo',telegramUsername:'@userdemo',telegramId:'123456789',role:'user'},{id:'ADMIN',email:'admin@zyrodevv.cloud',password:'admin12345',name:'Admin ZyroDevv',telegramUsername:'@ZyroDevv',telegramId:'8860202024',role:'admin'}];
+const pkgs=['1','2','3','4','5','6','7','8','9','10'].map(n=>({id:n+'gb',name:n+'GB Panel',price:+n*1000,ram:n+'GB',cpu:+n*30+'%',disk:+n*5+'GB'})).concat([{id:'unli',name:'Unlimited Panel',price:15000,ram:'Unlimited',cpu:'Unlimited',disk:'Unlimited'}]);pkgs[4].popular=true;
+const features=['Auto Deploy Panel','Realtime Server Monitor','Payment Gateway Otomatis','MyServer / MyPanel','Addon Upgrade Instan','Auto Suspend CPU Abuse','Backup & Renew Server','Secure Dashboard'];
+const addons=[{id:'ram',name:'+1GB RAM',price:1500},{id:'cpu',name:'+50% CPU',price:1000},{id:'disk',name:'+1GB Disk',price:500}];
+const S={user:null,page:'dashboard',pkg:'2gb',server:null};
+const $=q=>document.querySelector(q), $$=q=>Array.from(document.querySelectorAll(q));
+const arr=v=>Array.isArray(v)?v:[], money=n=>'Rp'+Number(n||0).toLocaleString('id-ID'), rnd=p=>p+'-'+Math.random().toString(16).slice(2,8).toUpperCase();
+function get(k,f){try{let v=JSON.parse(localStorage.getItem(k)||'null');return v==null?f:v}catch{return f}}function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function servers(){return arr(get('zyro_servers',[]))}function saveServers(v){set('zyro_servers',arr(v))}function trx(){return arr(get('zyro_transactions',[]))}function saveTrx(v){set('zyro_transactions',arr(v))}
+function seed(){if(localStorage.getItem('zyro_seeded'))return;saveServers([{id:'SRV-DEMO-001',ownerId:'USER',name:'ZyroDevv NodeJS Demo',packageName:'2GB Panel',status:'Online',type:'NodeJS',cpu:18,ramUsed:512,ramTotal:2048,diskUsed:3,diskTotal:20,uptime:'2h 15m',panelUrl:'https://panel.zyrodevv.cloud',username:'userdemo',password:'demo12345',expiredAt:'30 hari lagi'}]);saveTrx([{id:'TRX-DEMO-001',userId:'USER',type:'Pembelian Panel',packageName:'2GB Panel',amount:2000,status:'Berhasil',method:'QRIS FR3Newera',date:new Date().toLocaleString('id-ID')}]);localStorage.setItem('zyro_seeded','1')}
+function toast(m){let e=document.createElement('div');e.className='toast';e.textContent=m;$('#toasts').appendChild(e);setTimeout(()=>e.remove(),3000)}function modal(h){$('#box').innerHTML=h;$('#modal').classList.add('on')}function close(){ $('#modal').classList.remove('on');$('#box').innerHTML=''}
+function init(){seed();$('#features').innerHTML=features.map((f,i)=>`<div class="glass card"><div class="icon">${['⚡','📊','💳','🖥️','➕','🛡️','♻️','🔐'][i]}</div><h3>${f}</h3><p class="sub">Fitur premium ZyroDevv Cloud untuk hosting otomatis.</p></div>`).join('');$('#pricing').innerHTML=pkgs.map(p=>`<div class="glass card">${p.popular?'<span class="popular">PALING POPULER</span>':''}<div class="icon">☁️</div><h3>${p.name}</h3><div class="price">${money(p.price)} <small>/ 30 hari</small></div><ul class="list"><li>RAM ${p.ram}</li><li>CPU ${p.cpu}</li><li>Disk ${p.disk}</li><li>Anti-DDoS</li><li>Full Panel Access</li></ul><button class="btn primary" data-buy="${p.id}">Beli Sekarang</button></div>`).join('');document.body.onclick=click;document.body.onchange=change;$('#modal').onclick=e=>{if(e.target.id==='modal')close()};let u=get('zyro_current_user',null);if(u&&u.email){S.user=u;showApp()}else showLanding();setInterval(tick,4500)}
+function showLanding(){ $('#landing').classList.remove('hide');$('#login').classList.add('hide');$('#app').classList.remove('on')}function showLogin(){ $('#landing').classList.add('hide');$('#login').classList.remove('hide');$('#app').classList.remove('on')}function doLogin(role){S.user=users.find(u=>u.role===role)||users[0];set('zyro_current_user',S.user);toast('Login berhasil');showApp()}function manual(){let e=String($('#email').value||'').toLowerCase(),p=String($('#pass').value||'');let u=users.find(x=>x.email.toLowerCase()===e&&x.password===p);if(!u)return toast('Email atau password salah');S.user=u;set('zyro_current_user',u);toast('Login berhasil');showApp()}function logout(){localStorage.removeItem('zyro_current_user');S.user=null;toast('Logout berhasil');showLanding()}
+function showApp(){ $('#landing').classList.add('hide');$('#login').classList.add('hide');$('#app').classList.add('on');side();nav(S.user.role==='admin'?'admin':'dashboard')}
+function side(){let u=S.user||{};$('#avatar').textContent=(u.name||'U')[0];$('#uname').textContent=u.name||'User';$('#urole').textContent=u.role||'user';let m=[['dashboard','▦ Dashboard'],['deploy','🚀 Deploy Server'],['servers','🖥️ MyServer / MyPanel'],['addon','📦 Toko Addon'],['billing','💳 Billing / Transaksi'],['profile','👤 Profile Akun'],['docs','📘 Dokumentasi'],['support','🎫 Ticket Support']];if(u.role==='admin')m.unshift(['admin','👑 Admin Panel']);$('#menu').innerHTML=m.map(x=>`<button data-nav="${x[0]}">${x[1]}</button>`).join('')}
+function title(t,s){$('#title').textContent=t;$('#subtitle').textContent=s||''}function nav(p){S.page=p;$$('.page').forEach(e=>e.classList.remove('on'));let el=$('#p-'+p);if(el)el.classList.add('on');$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===p));$('#side').classList.remove('open');({dashboard,deploy,serversPage,addon,billing,profile,docs,support,admin}[p]||dashboard)()}
+function mineServers(){let a=servers();return S.user.role==='admin'?a:a.filter(s=>s.ownerId===S.user.id)}function mineTrx(){let a=trx();return S.user.role==='admin'?a:a.filter(t=>t.userId===S.user.id)}function st(s){let c=s==='Online'||s==='Berhasil'?'online':s==='Offline'?'off':s==='Suspended'?'sus':'wait';return `<span class="status ${c}">● ${s}</span>`}
+function tableSrv(a){a=arr(a);return a.length?`<table class="table"><tr><th>Server</th><th>Paket</th><th>Status</th><th>CPU</th></tr>${a.map(s=>`<tr><td>${s.name}</td><td>${s.packageName}</td><td>${st(s.status)}</td><td>${s.cpu}%</td></tr>`).join('')}</table>`:'<p class="sub">Belum ada server.</p>'}function tableTrx(a){a=arr(a);return a.length?`<table class="table"><tr><th>ID</th><th>Type</th><th>Nominal</th><th>Status</th></tr>${a.map(t=>`<tr><td>${t.id}</td><td>${t.type}</td><td>${money(t.amount)}</td><td>${st(t.status)}</td></tr>`).join('')}</table>`:'<p class="sub">Belum ada transaksi.</p>'}
+function dashboard(){title('Dashboard','Kelola panel hosting kamu secara realtime.');let s=mineServers(),t=mineTrx();$('#p-dashboard').innerHTML=`<div class="grid dash"><div class="glass dash-card"><span>Total Server</span><b>${s.length}</b></div><div class="glass dash-card"><span>Server Online</span><b>${s.filter(x=>x.status==='Online').length}</b></div><div class="glass dash-card"><span>Total Pembelian</span><b>${t.length}</b></div><div class="glass dash-card"><span>Transaksi Berhasil</span><b>${t.filter(x=>x.status==='Berhasil').length}</b></div></div><div class="grid content"><div class="glass card"><h3>Server Terbaru</h3>${tableSrv(s.slice(0,4))}</div><div class="glass card"><h3>Panduan</h3><ul class="list"><li>Pilih paket</li><li>Bayar via QRIS</li><li>Server muncul di MyServer</li><li>Kelola realtime</li></ul></div></div><div class="glass card" style="margin-top:20px"><h3>Transaksi Terakhir</h3>${tableTrx(t.slice(0,5))}</div>`}
+function deploy(){title('Deploy Server','Pilih paket, isi data panel, lalu checkout mock.');let p=pkgs.find(x=>x.id===S.pkg)||pkgs[1];$('#p-deploy').innerHTML=`<div class="glass card"><div class="badge">1 Pilih Paket</div><div class="grid options" style="margin-top:15px">${pkgs.map(x=>`<label class="opt"><input name="pkg" type="radio" value="${x.id}" ${x.id===p.id?'checked':''}><span>${x.name}<br><b>${money(x.price)}</b><br><small>${x.ram} • ${x.cpu} • ${x.disk}</small></span></label>`).join('')}</div></div><div class="glass card" style="margin-top:20px"><div class="badge">2 Isi Data Panel</div><div class="grid options" style="margin-top:15px"><input id="tgUser" class="input" value="${S.user.telegramUsername}"><input id="tgId" class="input" value="${S.user.telegramId}"><input id="pUser" class="input" value="zyro${Date.now().toString().slice(-4)}"><input id="pEmail" class="input" value="${S.user.email}"><input id="pPass" class="input" value="panel12345"><select id="type"><option>NodeJS</option><option>Python</option><option>Minecraft</option><option>PHP</option><option>Golang</option></select><select id="egg"><option>NodeJS Basic</option><option>NodeJS Latest</option><option>Python 3.10</option><option>Python Latest</option><option>Paper Minecraft</option><option>Vanilla Minecraft</option><option>Forge Minecraft</option><option>PHP 8.2</option><option>Golang Latest</option></select></div><div class="glass card" style="margin-top:15px;display:flex;justify-content:space-between;align-items:center;gap:12px"><b id="sum">${p.name} • ${money(p.price)}</b><button class="btn primary" data-act="invoice">Buat Invoice</button></div></div>`}
+function invoice(){let p=pkgs.find(x=>x.id===S.pkg)||pkgs[0];modal(`<h2>Invoice FR3Newera Mock</h2><p>ID: <b>${rnd('INV')}</b></p><div class="qris">QRIS MOCK<br>${p.name}<br>${money(p.price)}</div><p>Status: ${st('Menunggu Pembayaran')}</p><button id="pay" class="btn primary">Simulasikan Pembayaran Berhasil</button> <button class="btn" data-act="close">Tutup</button>`);setTimeout(()=>{$('#pay').onclick=()=>paid(p)},0)}function paid(p){close();let s={id:rnd('SRV'),ownerId:S.user.id,name:'ZyroDevv '+($('#type')?$('#type').value:'NodeJS')+' '+p.name,packageName:p.name,status:'Online',type:$('#type')?$('#type').value:'NodeJS',cpu:18,ramUsed:512,ramTotal:p.ram==='Unlimited'?999999:(parseInt(p.ram)*1024),diskUsed:2,diskTotal:p.disk==='Unlimited'?999999:parseInt(p.disk),uptime:'0m',panelUrl:'https://panel.zyrodevv.cloud',username:$('#pUser')?$('#pUser').value:'zyrouser',password:$('#pPass')?$('#pPass').value:'panel12345',expiredAt:'30 hari lagi'};let sv=servers();sv.push(s);saveServers(sv);let tr=trx();tr.unshift({id:rnd('TRX'),userId:S.user.id,type:'Pembelian Panel',packageName:p.name,amount:p.price,status:'Berhasil',method:'QRIS FR3Newera',date:new Date().toLocaleString('id-ID')});saveTrx(tr);toast('Server berhasil dibuat');modal(`<h2>Pembayaran Berhasil ✅</h2><p>Server sudah muncul di MyServer.</p><div class="glass card"><p>Panel: <b>${s.panelUrl}</b></p><p>User: <b>${s.username}</b></p><p>Pass: <b>${s.password}</b></p><p>ID: <b>${s.id}</b></p></div><button class="btn primary" data-act="myserver">Buka MyServer</button>`)}
+function serversPage(){title('MyServer / MyPanel','Pantau dan kelola server kamu.');let a=mineServers();$('#p-servers').innerHTML=`<div class="server-list">${a.length?a.map(s=>`<div class="glass server"><div><h3>${s.name}</h3><p class="sub">${s.id} • ${s.packageName} • ${s.type}</p><div class="metrics"><div class="metric"><small>Status</small>${st(s.status)}</div><div class="metric"><small>CPU</small><b>${s.cpu}%</b></div><div class="metric"><small>RAM</small><b>${s.ramUsed}MB / ${s.ramTotal>=999999?'∞':s.ramTotal+'MB'}</b></div><div class="metric"><small>Disk</small><b>${s.diskUsed}GB / ${s.diskTotal>=999999?'∞':s.diskTotal+'GB'}</b></div></div></div><div class="server-actions"><button class="btn" data-act="detail" data-id="${s.id}">Detail Login</button><button class="btn primary" data-act="panel" data-url="${s.panelUrl}">Open Panel</button><button class="btn" data-act="start" data-id="${s.id}">Start</button><button class="btn" data-act="stop" data-id="${s.id}">Stop</button><button class="btn" data-act="restart">Restart</button><button class="btn teal" data-act="addonServer" data-id="${s.id}">Addon</button><button class="btn danger" data-act="delete" data-id="${s.id}">Delete</button></div></div>`).join(''):'<div class="glass card center"><h3>Belum Ada Server</h3><button class="btn primary" data-nav="deploy">Deploy Server</button></div>'}</div>`}
+function change(e){if(e.target.name==='pkg'){S.pkg=e.target.value;let p=pkgs.find(x=>x.id===S.pkg);let sum=$('#sum');if(sum&&p)sum.textContent=p.name+' • '+money(p.price)}}function upd(id,patch){saveServers(servers().map(s=>s.id===id?Object.assign({},s,patch):s));serversPage()}function detail(id){let s=servers().find(x=>x.id===id);if(!s)return;modal(`<h2>Detail Login</h2><p>URL: <b>${s.panelUrl}</b></p><p>User: <b>${s.username}</b></p><p>Pass: <b>${s.password}</b></p><button class="btn" data-act="close">Tutup</button>`)}
+function addon(){title('Toko Addon','Upgrade resource server.');let a=mineServers();$('#p-addon').innerHTML=`<div class="glass card"><select id="srvSel">${a.map(s=>`<option value="${s.id}" ${S.server===s.id?'selected':''}>${s.name}</option>`).join('')}</select></div><div class="grid pricing" style="margin-top:18px">${addons.map(x=>`<div class="glass card"><div class="icon">＋</div><h3>${x.name}</h3><div class="price">${money(x.price)}</div><button class="btn primary" data-add="${x.id}">Beli Addon</button></div>`).join('')}</div>`}function buyAddon(id){let srv=$('#srvSel')?$('#srvSel').value:S.server,ad=addons.find(x=>x.id===id)||addons[0];modal(`<h2>Invoice Addon</h2><div class="qris">QRIS MOCK<br>${ad.name}<br>${money(ad.price)}</div><button id="payAddon" class="btn primary">Simulasikan Berhasil</button>`);setTimeout(()=>{$('#payAddon').onclick=()=>{close();saveServers(servers().map(s=>s.id===srv?Object.assign({},s,{ramTotal:id==='ram'?Number(s.ramTotal)+1024:s.ramTotal,diskTotal:id==='disk'?Number(s.diskTotal)+1:s.diskTotal,cpu:id==='cpu'?Math.min(100,Number(s.cpu)+8):s.cpu}):s));let tr=trx();tr.unshift({id:rnd('TRX'),userId:S.user.id,type:'Addon Server',packageName:ad.name,amount:ad.price,status:'Berhasil',method:'QRIS FR3Newera',date:new Date().toLocaleString('id-ID')});saveTrx(tr);toast('Addon berhasil');nav('servers')}},0)}
+function billing(){title('Billing / Transaksi','Riwayat pembayaran.');$('#p-billing').innerHTML=`<div class="glass card"><h3>Riwayat Transaksi</h3>${tableTrx(mineTrx())}</div>`}function profile(){title('Profile Akun','Info akun demo.');let u=S.user;$('#p-profile').innerHTML=`<div class="glass card"><h3>Profile</h3><p>Nama: <b>${u.name}</b></p><p>Email: <b>${u.email}</b></p><p>Telegram: <b>${u.telegramUsername}</b></p><p>ID: <b>${u.telegramId}</b></p></div>`}function docs(){title('Dokumentasi','Panduan singkat.');$('#p-docs').innerHTML='<div class="glass card"><ul class="list"><li>Login demo</li><li>Pilih paket</li><li>Buat invoice</li><li>Simulasikan pembayaran</li><li>Server muncul di MyServer</li></ul></div>'}function support(){title('Ticket Support','Ticket dummy.');$('#p-support').innerHTML='<div class="glass card"><input class="input" placeholder="Judul"><br><br><textarea class="input" rows="5" placeholder="Pesan"></textarea><br><br><button class="btn primary" data-act="ticket">Kirim Ticket</button></div>'}function admin(){title('Admin Panel','Dashboard owner.');let a=servers(),t=trx(),om=t.filter(x=>x.status==='Berhasil').reduce((n,x)=>n+Number(x.amount||0),0);$('#p-admin').innerHTML=`<div class="grid dash"><div class="glass dash-card"><span>User</span><b>2</b></div><div class="glass dash-card"><span>Server</span><b>${a.length}</b></div><div class="glass dash-card"><span>Transaksi</span><b>${t.length}</b></div><div class="glass dash-card"><span>Omzet</span><b>${money(om)}</b></div></div><div class="glass card" style="margin-top:20px">${tableSrv(a)}</div><div class="glass card" style="margin-top:20px">${tableTrx(t)}</div>`}
+function click(e){let t=e.target.closest('[data-act],[data-nav],[data-buy],[data-add]');if(!t)return;if(t.dataset.nav)return nav(t.dataset.nav);if(t.dataset.buy){S.pkg=t.dataset.buy;return S.user?nav('deploy'):showLogin()}if(t.dataset.add)return buyAddon(t.dataset.add);let a=t.dataset.act;if(a==='loginPage')showLogin();if(a==='landingPage')showLanding();if(a==='loginUser')doLogin('user');if(a==='loginAdmin')doLogin('admin');if(a==='loginManual')manual();if(a==='logout')logout();if(a==='toggleSide')$('#side').classList.toggle('open');if(a==='invoice')invoice();if(a==='close')close();if(a==='myserver'){close();nav('servers')}if(a==='detail')detail(t.dataset.id);if(a==='panel')window.open(t.dataset.url,'_blank');if(a==='start')upd(t.dataset.id,{status:'Online'});if(a==='stop')upd(t.dataset.id,{status:'Offline'});if(a==='restart')toast('Server direstart');if(a==='delete'){if(confirm('Hapus server?')){saveServers(servers().filter(s=>s.id!==t.dataset.id));toast('Server dihapus');serversPage()}}if(a==='addonServer'){S.server=t.dataset.id;nav('addon')}if(a==='ticket')toast('Ticket dikirim')}
+function tick(){let a=servers().map(s=>s.status==='Online'?Object.assign({},s,{cpu:Math.max(1,Math.min(99,Number(s.cpu||0)+(Math.floor(Math.random()*9)-4))) }):s);saveServers(a);if(S.user&&S.page==='servers')serversPage()}window.onerror=function(m){modal('<h2>Terjadi Kesalahan</h2><p class="sub">Klik reset demo jika ada data rusak.</p><button class="btn primary" onclick="localStorage.clear();location.reload()">Reset Demo</button>');return false};document.addEventListener('DOMContentLoaded',init)
+})();
+</script>
 </body>
 </html>
