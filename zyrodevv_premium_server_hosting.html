@@ -1,0 +1,3205 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZYRODEVV — Premium Pterodactyl Game & Bot Hosting Panel</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#f8fafc',
+                        cardBg: '#ffffff',
+                        cardBorder: '#e5e7eb',
+                        accentBlack: '#09090b',
+                        accentDarkGray: '#18181b',
+                        accentLightGray: '#f3f4f6',
+                        accentGrayText: '#6b7280',
+                    },
+                    boxShadow: {
+                        softGlow: '0 10px 30px -10px rgba(0, 0, 0, 0.05)',
+                        premiumShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Noto Sans & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #111827;
+            overflow-x: hidden;
+        }
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        /* Premium Light Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid #e5e7eb;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        /* Animated Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #09090b 30%, #4b5563 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .noir-btn {
+            background-color: #09090b;
+            color: #ffffff;
+            transition: all 0.25s ease;
+        }
+        .noir-btn:hover {
+            background-color: #27272a;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.15);
+        }
+        .secondary-btn {
+            background-color: #ffffff;
+            color: #111827;
+            border: 1px solid #e5e7eb;
+            transition: all 0.25s ease;
+        }
+        .secondary-btn:hover {
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+        }
+        /* Card Hover Animations */
+        .hover-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-card:hover {
+            transform: translateY(-4px);
+            border-color: #9ca3af;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.08);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-55">
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 max-w-sm w-full"></div>
+
+    <!-- ========================================== -->
+    <!-- 1. LANDING PAGE VIEW                       -->
+    <!-- ========================================== -->
+    <div id="landing-view" class="view-section w-full">
+        <!-- Sticky Navigation Bar -->
+        <nav class="sticky top-0 z-40 w-full glass-header border-b border-slate-200 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+                <!-- Brand Logo Left -->
+                <div class="flex items-center gap-3 cursor-pointer" data-action="go-landing">
+                    <div class="h-9 w-9 rounded-lg bg-black flex items-center justify-center font-extrabold text-white text-lg">Z</div>
+                    <span class="text-xl font-black tracking-wider text-black">ZYRO<span class="text-neutral-500">DEVV</span></span>
+                </div>
+                <!-- Menu Navigation Middle (Desktop) -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#landing-view" class="text-neutral-900 hover:text-neutral-600 font-medium transition">Home</a>
+                    <a href="#fitur" class="text-neutral-500 hover:text-neutral-900 font-medium transition">Fitur</a>
+                    <a href="#harga" class="text-neutral-500 hover:text-neutral-900 font-medium transition">Harga</a>
+                    <a href="#cara-kerja" class="text-neutral-500 hover:text-neutral-900 font-medium transition">Cara Kerja</a>
+                    <a href="#faq" class="text-neutral-500 hover:text-neutral-900 font-medium transition">FAQ</a>
+                </div>
+                <!-- Auth Buttons Right (Populated Dynamically) -->
+                <div id="landing-auth-container" class="flex items-center gap-3"></div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 grid md:grid-cols-12 gap-12 items-center">
+            <!-- Left Info Column -->
+            <div class="md:col-span-7 flex flex-col gap-6">
+                <div class="inline-flex items-center gap-2 bg-neutral-100 border border-neutral-200 px-3.5 py-1.5 rounded-full text-xs text-neutral-800 font-semibold w-fit">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                    Semua Sistem Operasional — Uptime 99.9%
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-neutral-900 tracking-tight">
+                    Server Hosting yang <br><span class="gradient-text">Cepat, Murah & Andal</span>
+                </h1>
+                <p class="text-neutral-500 text-base sm:text-lg max-w-xl leading-relaxed">
+                    Deploy server Pterodactyl dalam hitungan detik. Sangat cocok untuk menjalankan bot WhatsApp, bot Discord, website PHP, NodeJS, Python, dan server game Minecraft Anda secara otomatis.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <button data-action="start-now" class="px-6 py-3.5 rounded-xl font-bold text-white noir-btn flex items-center gap-2 shadow-sm">
+                        Mulai Gratis Sekarang
+                        <i data-lucide="zap" class="w-4 h-4"></i>
+                    </button>
+                    <a href="#harga" class="px-6 py-3.5 rounded-xl font-bold text-neutral-800 bg-white hover:bg-neutral-50 border border-neutral-200 transition flex items-center justify-center">
+                        Lihat Daftar Harga
+                    </a>
+                </div>
+                <!-- Benefit Badges -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-neutral-200">
+                    <div class="flex items-center gap-2 text-sm text-neutral-700">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-neutral-800"></i>
+                        Anti-DDoS Protection
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-neutral-700">
+                        <i data-lucide="clock" class="w-5 h-5 text-neutral-800"></i>
+                        Deploy &lt; 30 Detik
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-neutral-700">
+                        <i data-lucide="tag" class="w-5 h-5 text-neutral-800"></i>
+                        Mulai dari Rp 1.000
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-neutral-700">
+                        <i data-lucide="headphones" class="w-5 h-5 text-neutral-800"></i>
+                        Support 24/7
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual Column (Interactive Terminal Card) -->
+            <div class="md:col-span-5 relative">
+                <div class="relative bg-[#09090b] text-[#f4f4f5] rounded-3xl overflow-hidden shadow-premiumShadow flex flex-col scale-100 md:scale-105 transition duration-500">
+                    <!-- Window Controls Header -->
+                    <div class="bg-neutral-900 px-5 py-4 border-b border-neutral-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-neutral-750"></span>
+                            <span class="h-3 w-3 rounded-full bg-neutral-750"></span>
+                            <span class="h-3 w-3 rounded-full bg-neutral-750"></span>
+                        </div>
+                        <span class="text-xs text-neutral-500 mono-font font-semibold">zyrodevv — deploy</span>
+                        <div class="w-12"></div>
+                    </div>
+                    <!-- Terminal Console Content -->
+                    <div class="p-6 flex flex-col gap-3 text-sm font-semibold leading-relaxed text-neutral-300 min-h-[300px] mono-font">
+                        <div class="flex items-center gap-2 text-neutral-500 font-bold">
+                            <span>$</span>
+                            <span class="text-white">zyro deploy --plan 1gb</span>
+                        </div>
+                        <div class="text-neutral-400">Creating Pterodactyl server instance...</div>
+                        <div class="text-neutral-400">Allocating resources: 1024MB RAM, 30% CPU Core...</div>
+                        <div class="text-neutral-400">Installing server package: NodeJS Latest...</div>
+                        <div class="flex items-center gap-2 text-emerald-400 mt-2 font-extrabold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            Server deployed in 8 seconds successfully!
+                        </div>
+                        <div class="text-neutral-400 mt-2 p-3 bg-neutral-900/60 rounded-xl border border-neutral-800/40 flex flex-col gap-1">
+                            <div><span class="text-neutral-500">Panel:</span> panel.zyrodevv.id</div>
+                            <div><span class="text-neutral-500">User:</span> user_zyro</div>
+                            <div><span class="text-neutral-500">Pass:</span> ••••••••</div>
+                        </div>
+                        <div class="text-emerald-400 font-bold animate-pulse mt-1 flex items-center gap-1">
+                            <span>→ Server is online and ready!</span>
+                            <i data-lucide="rocket" class="w-4 h-4 text-emerald-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Statistics Section -->
+        <section class="border-y border-neutral-200 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-3xl sm:text-4xl font-black text-neutral-900">2.715+</span>
+                        <span class="text-sm font-medium text-neutral-500">Pengguna Aktif</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-3xl sm:text-4xl font-black text-neutral-900">44+</span>
+                        <span class="text-sm font-medium text-neutral-500">Server Ter-deploy</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-3xl sm:text-4xl font-black text-neutral-900">99.9%</span>
+                        <span class="text-sm font-medium text-neutral-500">Uptime Terjaga</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-3xl sm:text-4xl font-black text-neutral-900">&lt;30s</span>
+                        <span class="text-sm font-medium text-neutral-500">Waktu Deploy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fitur Section -->
+        <section id="fitur" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex flex-col gap-16">
+            <div class="text-center max-w-3xl mx-auto flex flex-col gap-4">
+                <h2 class="text-3xl sm:text-4xl font-black text-neutral-900">Fitur Unggulan Kami</h2>
+                <p class="text-neutral-500 leading-relaxed">Infrastruktur hosting premium yang dirancang khusus untuk memenuhi kebutuhan para developer, gamer, dan pemilik bisnis digital.</p>
+            </div>
+
+            <!-- Features Cards Grid -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="md:col-span-2 bg-white border border-neutral-200 hover-card rounded-2xl p-8 flex flex-col justify-between gap-6">
+                    <div class="flex flex-col gap-3">
+                        <div class="h-11 w-11 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                            <i data-lucide="zap" class="w-5 h-5 text-neutral-900"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-neutral-900">Instant Deployment — Server Aktif Dalam Hitungan Detik</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed max-w-xl">Kami mengotomatiskan seluruh alur setup server Anda. Tidak perlu lagi menunggu staf admin melakukan verifikasi atau instalasi manual. Lakukan pembayaran, sistem kami langsung memproses semuanya secara realtime.</p>
+                    </div>
+                    <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200 text-xs text-neutral-500 mono-font flex flex-col gap-2">
+                        <div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-neutral-900"></span> [1] Instance created successfully</div>
+                        <div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-neutral-900"></span> [2] RAM & CPU allocation done</div>
+                        <div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-neutral-505 animate-pulse"></span> [3] Installing server files...</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white border border-neutral-200 hover-card rounded-2xl p-8 flex flex-col gap-4">
+                    <div class="h-11 w-11 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                        <i data-lucide="shield-alert" class="w-5 h-5 text-neutral-900"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-neutral-900">Anti-DDoS Protection</h3>
+                    <p class="text-neutral-500 text-sm leading-relaxed">Sistem jaringan kami dilengkapi mitigasi DDoS layer 3, 4, dan 7 tingkat lanjut untuk memblokir lalu lintas serangan cyber berbahaya sebelum merusak kestabilan server.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white border border-neutral-200 hover-card rounded-2xl p-8 flex flex-col gap-4">
+                    <div class="h-11 w-11 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                        <i data-lucide="sliders" class="w-5 h-5 text-neutral-900"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-neutral-900">Full Control Panel</h3>
+                    <p class="text-neutral-500 text-sm leading-relaxed">Akses penuh ke Pterodactyl Panel tercanggih untuk mengelola database, upload file melalui file manager terintegrasi, edit sftp, buat startup command, dll.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white border border-neutral-200 hover-card rounded-2xl p-8 flex flex-col gap-4 justify-between">
+                    <div class="flex flex-col gap-4">
+                        <div class="h-11 w-11 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                            <i data-lucide="package" class="w-5 h-5 text-neutral-900"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-neutral-900">Multi-Engine Support</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Jalankan bahasa pemrograman ataupun engine server apa saja secara bebas dan praktis: NodeJS, Python, Java, PHP, GoLang, hingga Server Minecraft.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 border border-neutral-200 text-neutral-700">NodeJS</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 border border-neutral-200 text-neutral-700">Python</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 border border-neutral-200 text-neutral-700">Java</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 border border-neutral-200 text-neutral-700">PHP</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-neutral-100 border border-neutral-200 text-neutral-700">Minecraft</span>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white border border-neutral-200 hover-card rounded-2xl p-8 flex flex-col gap-4">
+                    <div class="h-11 w-11 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center">
+                        <i data-lucide="coins" class="w-5 h-5 text-neutral-900"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-neutral-900">Harga Super Hemat</h3>
+                    <p class="text-neutral-500 text-sm leading-relaxed">Paket VPS/Pterodactyl premium kami mulai dari Rp 1.000 saja. Sangat cocok bagi pelajar, developer pemula, maupun hobi yang tidak ingin membebani anggaran bulanan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pilih Layanan Section -->
+        <section id="harga" class="border-t border-neutral-200 bg-neutral-50/50 py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12 items-center">
+                <div class="text-center max-w-3xl mx-auto flex flex-col gap-4">
+                    <h2 class="text-3xl sm:text-4xl font-black text-neutral-900">Pilih Layanan ZYRODEVV</h2>
+                    <p class="text-neutral-500 leading-relaxed">Pilih paket panel atau role panel sesuai kebutuhan jualan dan hosting kamu.</p>
+                </div>
+
+                <!-- Tab Segmented Controls -->
+                <div class="inline-flex p-1.5 bg-neutral-200/60 border border-neutral-300/40 rounded-2xl w-fit">
+                    <button id="tab-opt-panel" onclick="switchLandingPricingTab('panel')" class="px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 bg-black text-white shadow-softGlow flex items-center gap-2">
+                        <i data-lucide="server" class="w-4 h-4"></i>
+                        Panel Pterodactyl
+                    </button>
+                    <button id="tab-opt-role" onclick="switchLandingPricingTab('role')" class="px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 text-neutral-700 hover:text-black flex items-center gap-2">
+                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                        Role Panel Premium
+                    </button>
+                </div>
+
+                <!-- Dynamic Pricing Cards Grid Container -->
+                <div id="landing-pricing-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-4 items-stretch"></div>
+            </div>
+        </section>
+
+        <!-- Cara Kerja Section -->
+        <section id="cara-kerja" class="border-t border-neutral-200 bg-white py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-16">
+                <div class="text-center max-w-3xl mx-auto flex flex-col gap-4">
+                    <h2 class="text-3xl sm:text-4xl font-black text-neutral-900">Mulai Hanya Dalam 3 Langkah</h2>
+                    <p class="text-neutral-500 leading-relaxed">Dari pendaftaran gratis hingga server Anda beroperasi online — seluruh alurnya tidak memakan waktu lebih dari 2 menit.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 relative">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col gap-4 relative">
+                        <div class="h-12 w-12 rounded-lg bg-black flex items-center justify-center text-lg font-bold text-white shadow-softGlow">1</div>
+                        <h3 class="text-lg font-bold text-neutral-900">Buat Akun Gratis</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Masuk secara instan menggunakan opsi Login Demo yang telah disediakan tanpa perlu repot melakukan pendaftaran akun rumit.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex flex-col gap-4 relative">
+                        <div class="h-12 w-12 rounded-lg bg-black flex items-center justify-center text-lg font-bold text-white shadow-softGlow">2</div>
+                        <h3 class="text-lg font-bold text-neutral-900">Klaim Voucher & Pilih Paket</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Klaim voucher gratis Rp 10.000 (ZYRO-GRATIS) di halaman voucher, lalu pilih paket server Pterodactyl sesuai keinginan Anda.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex flex-col gap-4 relative">
+                        <div class="h-12 w-12 rounded-lg bg-black flex items-center justify-center text-lg font-bold text-white shadow-softGlow">3</div>
+                        <h3 class="text-lg font-bold text-neutral-900">Server Online! 🚀</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Server Anda langsung aktif. Detail kredensial login akun Pterodactyl Panel dikirimkan langsung ke layar panel Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="border-t border-neutral-200 bg-neutral-50/50 py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12">
+                <div class="text-center flex flex-col gap-4">
+                    <h2 class="text-3xl font-black text-neutral-900">Frequently Asked Questions</h2>
+                    <p class="text-neutral-500">Pertanyaan umum mengenai layanan, server, dan billing ZYRODEVV.</p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base sm:text-lg flex items-center justify-between">Apakah server aktif secara otomatis? <i data-lucide="plus" class="w-4 h-4 text-black"></i></h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Ya, 100% otomatis. Sistem panel kami sudah diintegrasikan penuh dengan API panel Pterodactyl. Begitu pembayaran terverifikasi sukses, server langsung diinstal tanpa penundaan.</p>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base sm:text-lg flex items-center justify-between">Metode pembayaran apa saja yang didukung? <i data-lucide="plus" class="w-4 h-4 text-black"></i></h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">Kami mendukung pembayaran instan lewat QRIS FR3Newera (Bisa discan melalui DANA, OVO, GoPay, ShopeePay, LinkAja, serta seluruh Mobile Banking di Indonesia).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="border-t border-neutral-200 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-lg bg-black flex items-center justify-center font-extrabold text-white text-sm">Z</div>
+                    <span class="text-lg font-black text-neutral-900 tracking-wider">ZYRO<span class="text-neutral-500">DEVV</span></span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-8 text-sm text-neutral-500">
+                    <span class="hover:text-black transition">Owner: @ZyroDevv</span>
+                    <span class="hover:text-black transition">Domain: zyrodevv.id</span>
+                    <span class="hover:text-black transition">&copy; 2026 ZYRODEVV. All Rights Reserved.</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 2. LOGIN PAGE VIEW                         -->
+    <!-- ========================================== -->
+    <div id="login-view" class="view-section hidden flex-1 flex items-center justify-center p-4 relative py-20 bg-slate-50">
+        <div class="w-full max-w-md relative">
+            <div class="bg-white border border-neutral-200 rounded-3xl p-8 sm:p-10 flex flex-col gap-8 shadow-premiumShadow relative overflow-hidden">
+                <div class="flex flex-col gap-2 items-center text-center">
+                    <div class="h-11 w-11 rounded-xl bg-black flex items-center justify-center font-black text-white text-xl shadow-softGlow mb-2">Z</div>
+                    <h2 class="text-2xl font-black text-neutral-900">Masuk Panel ZYRODEVV</h2>
+                    <p class="text-neutral-500 text-sm">Gunakan Akun Demo untuk mencoba instan tanpa registrasi.</p>
+                </div>
+
+                <form id="login-form" class="flex flex-col gap-5" onsubmit="handleManualLogin(event)">
+                    <div class="flex flex-col gap-2">
+                        <label for="login-email" class="text-xs font-semibold text-neutral-700">Email Address</label>
+                        <input type="email" id="login-email" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3.5 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm" placeholder="user@zyrodevv.id" required>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="login-password" class="text-xs font-semibold text-neutral-700">Kata Sandi</label>
+                        <input type="password" id="login-password" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3.5 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition mt-2">Masuk Akun</button>
+                </form>
+
+                <div class="flex items-center justify-between text-neutral-300 text-xs">
+                    <hr class="w-[30%] border-neutral-200">
+                    <span class="font-bold uppercase text-neutral-400 tracking-wider">Demo Akses Instan</span>
+                    <hr class="w-[30%] border-neutral-200">
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button onclick="loginDemo('user')" class="w-full py-3.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 font-bold text-neutral-800 transition text-sm flex items-center justify-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4 text-neutral-700"></i>
+                        Masuk Sebagai User Demo
+                    </button>
+                    <button onclick="loginDemo('admin')" class="w-full py-3.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 font-bold text-neutral-800 transition text-sm flex items-center justify-center gap-2">
+                        <i data-lucide="shield" class="w-4 h-4 text-neutral-700"></i>
+                        Masuk Sebagai Admin Demo
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <button data-action="go-landing" class="text-sm font-bold text-neutral-600 hover:text-black flex items-center gap-1.5 mx-auto">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Landing Page
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. DASHBOARD MAIN VIEW CONTAINER           -->
+    <!-- ========================================== -->
+    <div id="dashboard-view" class="view-section hidden flex-1 flex flex-col md:flex-row relative">
+        <aside id="sidebar-panel" class="w-full md:w-[260px] bg-black text-white flex flex-col justify-between shrink-0 h-auto md:h-screen sticky top-0 md:overflow-y-auto no-scrollbar z-30">
+            <div class="flex flex-col">
+                <div class="h-[72px] px-6 flex items-center justify-between border-b border-neutral-800 cursor-pointer" data-action="go-landing">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center font-extrabold text-black text-sm">Z</div>
+                        <span class="text-lg font-black tracking-wider text-white">ZYRO<span class="text-neutral-400">DEVV</span></span>
+                    </div>
+                    <button onclick="toggleMobileSidebar()" class="md:hidden p-2 text-neutral-400 hover:text-white">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div id="sidebar-user-card" class="p-4 mx-3 my-4 rounded-xl bg-neutral-900 flex items-center gap-3 border border-neutral-800">
+                    <div class="h-9 w-9 rounded-lg bg-white flex items-center justify-center font-black text-black text-base" id="user-avatar">G</div>
+                    <div class="flex flex-col overflow-hidden">
+                        <span class="text-xs font-bold text-white truncate" id="user-name">Gilang Ramadan</span>
+                        <span class="text-[10px] font-bold text-emerald-400 mt-0.5" id="user-balance-display">Rp 0</span>
+                    </div>
+                </div>
+
+                <nav id="sidebar-nav-list" class="flex flex-col gap-1 px-3"></nav>
+            </div>
+
+            <div class="p-3 border-t border-neutral-800 mt-6 flex flex-col gap-1">
+                <button data-action="go-landing" class="w-full py-3 px-4 rounded-xl text-sm font-bold text-neutral-400 hover:text-white hover:bg-neutral-900/60 flex items-center gap-3 transition">
+                    <i data-lucide="globe" class="w-4.5 h-4.5 text-neutral-400"></i>
+                    Halaman Awal
+                </button>
+                <button data-action="logout" class="w-full py-3 px-4 rounded-xl text-sm font-bold text-red-400 hover:bg-red-50/10 flex items-center gap-3 transition">
+                    <i data-lucide="log-out" class="w-4.5 h-4.5 text-red-400"></i>
+                    Keluar Akun
+                </button>
+            </div>
+        </aside>
+
+        <main id="dashboardMain" class="flex-1 bg-slate-50 min-h-screen md:h-screen md:overflow-y-auto p-4 sm:p-8 flex flex-col gap-8">
+            <div id="subview-content" class="w-full max-w-6xl mx-auto flex flex-col gap-8 min-h-[500px]"></div>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. MODALS & INVOICES DIALOG                -->
+    <!-- ========================================== -->
+    <div id="app-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div id="modal-container" class="w-full max-w-lg bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-premiumShadow flex flex-col"></div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VANILLA JAVASCRIPT LOGIC WORKER             -->
+    <!-- ========================================== -->
+    <script>
+        const APP_ID = typeof __app_id !== 'undefined' ? __app_id : 'zyrodevv-app';
+        let currentUser = null;
+        let servers = [];
+        let transactions = [];
+        let tickets = [];
+        let activePage = 'dashboard';
+        let deploySelectedPackage = 'basic_1';
+        let deploySelectedNest = 'minecraft';
+        let deploySelectedEgg = 'paper';
+        let isMobileSidebarOpen = false;
+        let landingActiveTab = 'panel';
+        let pendingPurchase = null;
+
+        // SAFE STATE GLOBALS
+        let selectedPanelPackage = null;
+        let selectedNest = null;
+        let selectedEgg = null;
+        let currentInvoice = null;
+
+        // Vouchers DB List
+        const VOUCHERS_DB = {
+            'ZYRO-GRATIS': { reward: 10000, name: 'Bonus Saldo Awal Gratis Rp 10.000' }
+        };
+
+        // Packages Price Data List
+        const PACKAGES = {
+            'basic_1': { id: 'basic_1', name: '1GB Panel', price: 1000, ram: '1 GB', cpu: '30%', disk: '5 GB SSD', label: 'BASIC' },
+            'basic_2': { id: 'basic_2', name: '2GB Panel', price: 2000, ram: '2 GB', cpu: '60%', disk: '10 GB SSD', label: 'STARTER' },
+            'basic_3': { id: 'basic_3', name: '3GB Panel', price: 3000, ram: '3 GB', cpu: '90%', disk: '15 GB SSD', label: 'STARTER' },
+            'basic_4': { id: 'basic_4', name: '4GB Panel', price: 4000, ram: '4 GB', cpu: '120%', disk: '20 GB SSD', label: 'STANDARD' },
+            'basic_5': { id: 'basic_5', name: '5GB Panel', price: 5000, ram: '5 GB', cpu: '150%', disk: '25 GB SSD', label: 'STANDARD' },
+            'basic_6': { id: 'basic_6', name: '6GB Panel', price: 6000, ram: '6 GB', cpu: '180%', disk: '30 GB SSD', label: 'PRO' },
+            'basic_7': { id: 'basic_7', name: '7GB Panel', price: 7000, ram: '7 GB', cpu: '210%', disk: '35 GB SSD', label: 'PRO' },
+            'basic_8': { id: 'basic_8', name: '8GB Panel', price: 8000, ram: '8 GB', cpu: '240%', disk: '40 GB SSD', label: 'EXTREME' },
+            'basic_9': { id: 'basic_9', name: '9GB Panel', price: 9000, ram: '9 GB', cpu: '270%', disk: '45 GB SSD', label: 'EXTREME' },
+            'basic_10': { id: 'basic_10', name: '10GB Panel', price: 10000, ram: '10 GB', cpu: '300%', disk: '50 GB SSD', label: 'ULTIMATE', popular: true },
+            'unlimited': { id: 'unlimited', name: 'Unlimited Panel', price: 15000, ram: 'Unlimited', cpu: 'Unlimited', disk: 'Unlimited SSD', label: 'UNLIMITED' }
+        };
+
+        // Panel Roles list
+        const ROLES_PANEL = [
+            { id: 'reseller', name: 'Reseller Panel', price: 7000, label: 'ROLE ACCESS', benefits: ['Bisa jual panel', 'Cocok untuk pemula', 'Akses reseller basic', 'Support owner', 'Masa aktif 30 hari'] },
+            { id: 'partner', name: 'Partner Panel', price: 15000, label: 'PREMIUM ROLE', benefits: ['Limit lebih besar', 'Cocok untuk partner jualan', 'Bisa kelola lebih banyak buyer', 'Support prioritas', 'Masa aktif 30 hari'] },
+            { id: 'owner', name: 'Owner Panel', price: 25000, label: 'OWNER SYSTEM', benefits: ['Role tingkat tinggi', 'Cocok untuk pemilik store', 'Akses fitur owner panel', 'Prioritas support', 'Masa aktif 30 hari'], popular: true },
+            { id: 'adp', name: 'ADP Panel', price: 35000, label: 'ADMINISTRATOR', benefits: ['Akses admin panel', 'Fitur paling lengkap', 'Cocok untuk pengelola panel', 'Support prioritas penuh', 'Masa aktif 30 hari'] }
+        ];
+
+        // Nests Categorized list
+        const NESTS = {
+            'minecraft': 'Minecraft',
+            'source': 'Source Engine',
+            'voice': 'Voice Servers',
+            'rust': 'Rust',
+            'nodejs': 'NodeJS',
+            'python': 'Python',
+            'php': 'PHP',
+            'golang': 'Golang'
+        };
+
+        // Eggs runtime script options
+        const EGGS = {
+            'forge': { name: 'Forge Minecraft', nest: 'minecraft' },
+            'paper': { name: 'Paper Minecraft', nest: 'minecraft' },
+            'bungee': { name: 'Bungeecord', nest: 'minecraft' },
+            'vanilla': { name: 'Vanilla Minecraft', nest: 'minecraft' },
+            'sponge': { name: 'Sponge', nest: 'minecraft' },
+            'nodejs-basic': { name: 'NodeJS Basic', nest: 'nodejs' },
+            'nodejs-latest': { name: 'NodeJS Latest', nest: 'nodejs' },
+            'python310': { name: 'Python 3.10', nest: 'python' },
+            'python-latest': { name: 'Python Latest', nest: 'python' },
+            'php82': { name: 'PHP 8.2', nest: 'php' },
+            'php83': { name: 'PHP 8.3', nest: 'php' },
+            'golang-latest': { name: 'Golang Latest', nest: 'golang' }
+        };
+
+        // --- SAFE DATA HELPERS ---
+        function safeArray(data) {
+            return Array.isArray(data) ? data : [];
+        }
+
+        function safeString(value) {
+            return String(value || "");
+        }
+
+        function safeObject(value) {
+            return value && typeof value === "object" ? value : {};
+        }
+
+        function getStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed || fallback;
+            } catch (e) {
+                return fallback;
+            }
+        }
+
+        function setStorage(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function getInputValue(id) {
+            const el = document.getElementById(id);
+            return el ? String(el.value || "").trim() : "";
+        }
+
+        function getDefaultPanelPackage() {
+            return PACKAGES['basic_1'];
+        }
+
+        function isLoggedIn() {
+            const user = getCurrentUser();
+            return !!user && !!user.email;
+        }
+
+        function getCurrentUser() {
+            return getStorage("zyro_current_user", null);
+        }
+
+        function goLanding() {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('landing-view').classList.remove('hidden');
+            activePage = 'landing';
+            
+            renderLandingPricing();
+            updateNavbarAuthState();
+            
+            try {
+                history.pushState({ view: 'landing' }, "", "/");
+            } catch(e) {}
+            
+            lucide.createIcons();
+        }
+
+        function goDashboard() {
+            const user = getCurrentUser();
+            if (!user) {
+                showLoginPage();
+                return;
+            }
+
+            currentUser = user;
+
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('dashboard-view').classList.remove('hidden');
+
+            if (activePage === 'landing' || activePage === 'login') {
+                activePage = 'dashboard';
+            }
+
+            updateSidebar();
+            renderDashboardPage(activePage);
+
+            try {
+                history.pushState({ view: 'dashboard', subpage: activePage }, "", "/dashboard");
+            } catch(e) {}
+
+            lucide.createIcons();
+        }
+
+        function handleMasukClick() {
+            if (isLoggedIn()) {
+                goDashboard();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        function handleMulaiSekarangClick() {
+            if (isLoggedIn()) {
+                goDashboard();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        function showLoginPage() {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('login-view').classList.remove('hidden');
+            activePage = 'login';
+            lucide.createIcons();
+        }
+
+        function updateNavbarAuthState() {
+            const container = document.getElementById('landing-auth-container');
+            if (!container) return;
+
+            if (isLoggedIn()) {
+                const user = getCurrentUser();
+                container.innerHTML = `
+                    <span class="hidden lg:inline-block text-[11px] font-bold text-neutral-500 bg-neutral-100 px-3 py-1.5 rounded-full border border-neutral-200">
+                        Login sebagai: ${user.name}
+                    </span>
+                    <button data-action="go-dashboard" class="px-4 py-2 text-sm font-semibold text-neutral-600 hover:text-black transition">Dashboard</button>
+                    <button data-action="start-now" class="px-5 py-2.5 rounded-xl text-sm font-bold text-white noir-btn flex items-center gap-2">
+                        Mulai Sekarang
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button data-action="go-login" class="px-4 py-2 text-sm font-semibold text-neutral-600 hover:text-black transition">Masuk</button>
+                    <button data-action="start-now" class="px-5 py-2.5 rounded-xl text-sm font-bold text-white noir-btn flex items-center gap-2">
+                        Mulai Sekarang
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function logout() {
+            localStorage.removeItem("zyro_current_user");
+            currentUser = null;
+            showToast("Berhasil keluar dari akun!", "info");
+            goLanding();
+        }
+
+        // Global Event Delegation Listener
+        document.addEventListener("click", function(e) {
+            const btn = e.target.closest("[data-action]");
+            if (!btn) return;
+
+            e.preventDefault();
+
+            const action = btn.dataset.action;
+
+            if (action === "go-landing") {
+                goLanding();
+                return;
+            }
+
+            if (action === "go-dashboard") {
+                goDashboard();
+                return;
+            }
+
+            if (action === "go-login") {
+                handleMasukClick();
+                return;
+            }
+
+            if (action === "start-now") {
+                handleMulaiSekarangClick();
+                return;
+            }
+
+            if (action === "logout") {
+                logout();
+                return;
+            }
+
+            if (action === "create-panel-invoice") {
+                handleCreatePanelInvoice();
+                return;
+            }
+
+            if (action === "simulate-panel-payment-success") {
+                simulatePanelPaymentSuccess();
+                return;
+            }
+
+            if (action === "open-myserver") {
+                closeModal();
+                navigateDashboardPage("myserver");
+                return;
+            }
+
+            if (action === "close-modal") {
+                closeModal();
+                return;
+            }
+        });
+
+        // Database Management & Seeder
+        function loadDatabase() {
+            try {
+                const seeded = localStorage.getItem('zyro_seeded');
+                if (!seeded) {
+                    // SEED INITIAL DATABASE DATA
+                    const initialServers = [{
+                        id: 'SRV-DEMO-001',
+                        name: 'ZyroDevv NodeJS Demo',
+                        packageName: '2GB Panel',
+                        status: 'Online',
+                        type: 'NodeJS Latest',
+                        cpu: 60,
+                        ramUsed: '512 MB',
+                        ramTotal: '2 GB',
+                        diskUsed: '3 GB',
+                        diskTotal: '10 GB',
+                        uptime: '2h 15m',
+                        panelUrl: 'https://panel.zyrodevv.id',
+                        username: 'userdemo',
+                        password: 'demo12345',
+                        expiredAt: '30 hari lagi',
+                        ownerEmail: 'user@zyrodevv.id'
+                    }];
+
+                    const initialTransactions = [{
+                        id: 'TRX-DEMO-001',
+                        type: 'Pembelian Panel',
+                        packageName: '2GB Panel',
+                        amount: 2000,
+                        status: 'Berhasil',
+                        method: 'QRIS FR3Newera',
+                        date: getFormattedDate(),
+                        ownerEmail: 'user@zyrodevv.id'
+                    }];
+
+                    const initialTickets = [{
+                        id: 'TCK-001',
+                        title: 'Server Error Database Connection',
+                        category: 'Server Issue',
+                        message: 'Halo admin, server NodeJS demo saya gagal connect ke database MySQL.',
+                        status: 'Open',
+                        createdAt: getFormattedDate(),
+                        ownerEmail: 'user@zyrodevv.id'
+                    }];
+
+                    localStorage.setItem('zyro_servers', JSON.stringify(initialServers));
+                    localStorage.setItem('zyro_transactions', JSON.stringify(initialTransactions));
+                    localStorage.setItem('zyro_tickets', JSON.stringify(initialTickets));
+                    localStorage.setItem('zyro_seeded', 'true');
+                }
+
+                servers = JSON.parse(localStorage.getItem('zyro_servers')) || [];
+                transactions = JSON.parse(localStorage.getItem('zyro_transactions')) || [];
+                tickets = JSON.parse(localStorage.getItem('zyro_tickets')) || [];
+                
+                const loggedInUser = localStorage.getItem('zyro_current_user');
+                if (loggedInUser) {
+                    currentUser = JSON.parse(loggedInUser);
+                }
+            } catch (err) {
+                console.error("Localstorage crash, resetting seeded flow.", err);
+                showToast("Ada error kecil, data demo otomatis direset.", "error");
+                resetDatabase();
+            }
+        }
+
+        function saveDatabase() {
+            try {
+                localStorage.setItem('zyro_servers', JSON.stringify(servers));
+                localStorage.setItem('zyro_transactions', JSON.stringify(transactions));
+                localStorage.setItem('zyro_tickets', JSON.stringify(tickets));
+                if (currentUser) {
+                    localStorage.setItem('zyro_current_user', JSON.stringify(currentUser));
+                }
+            } catch (err) {
+                showToast("Gagal menyimpan perubahan ke storage", "error");
+            }
+        }
+
+        function resetDatabase() {
+            localStorage.removeItem('zyro_seeded');
+            localStorage.removeItem('zyro_servers');
+            localStorage.removeItem('zyro_transactions');
+            localStorage.removeItem('zyro_tickets');
+            localStorage.removeItem('zyro_current_user');
+            currentUser = null;
+            loadDatabase();
+            goLanding();
+            showToast("Semua database dan data demo telah di-reset!", "success");
+        }
+
+        function getFormattedDate() {
+            const date = new Date();
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        }
+
+        function updateSidebar() {
+            if (!currentUser) return;
+            
+            const avatarEl = document.getElementById('user-avatar');
+            const nameEl = document.getElementById('user-name');
+            const balanceEl = document.getElementById('user-balance-display');
+            
+            if (avatarEl) avatarEl.textContent = currentUser.name.charAt(0).toUpperCase();
+            if (nameEl) nameEl.textContent = currentUser.name;
+            if (balanceEl) balanceEl.textContent = formatRupiah(currentUser.saldo);
+
+            const navContainer = document.getElementById('sidebar-nav-list');
+            if (!navContainer) return;
+
+            let links = [];
+
+            if (currentUser.role === 'admin') {
+                links = [
+                    { id: 'admin_dashboard', label: 'Admin Panel', icon: 'shield-alert' },
+                    { id: 'dashboard', label: 'User Dashboard', icon: 'layout-dashboard' },
+                    { id: 'panel_shop', label: 'Panel', icon: 'server' },
+                    { id: 'role_panel', label: 'Role Panel', icon: 'badge-check' },
+                    { id: 'deploy', label: 'Deploy Server', icon: 'plus-circle' },
+                    { id: 'profile', label: 'Profile Akun', icon: 'user' }
+                ];
+            } else {
+                links = [
+                    { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
+                    { id: 'panel_shop', label: 'Panel', icon: 'server' },
+                    { id: 'role_panel', label: 'Role Panel', icon: 'badge-check' },
+                    { id: 'myserver', label: 'MyServer / MyPanel', icon: 'layers' },
+                    { id: 'addons', label: 'Toko Addon', icon: 'grid' },
+                    { id: 'billing', label: 'Billing / Top Up', icon: 'wallet-2' },
+                    { id: 'voucher', label: 'Toko Voucher', icon: 'ticket' },
+                    { id: 'profile', label: 'Profile Akun', icon: 'user' },
+                    { id: 'referral', label: 'Program Referral', icon: 'gift' },
+                    { id: 'support', label: 'Ticket Support', icon: 'help-circle' },
+                    { id: 'docs', label: 'Dokumentasi', icon: 'book-open' },
+                    { id: 'info', label: 'Informasi', icon: 'info' }
+                ];
+            }
+
+            let html = '';
+            links.forEach(l => {
+                const isActive = activePage === l.id;
+                const activeClass = isActive 
+                    ? 'bg-white text-black font-extrabold shadow-softGlow' 
+                    : 'text-neutral-400 hover:text-white hover:bg-neutral-900';
+                
+                html += `
+                    <button onclick="navigateDashboardPage('${l.id}')" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition ${activeClass} justify-start text-left">
+                        <i data-lucide="${l.icon}" class="w-4.5 h-4.5"></i>
+                        ${l.label}
+                    </button>
+                `;
+            });
+            navContainer.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-panel');
+            if (!sidebar) return;
+            if (!isMobileSidebarOpen) {
+                sidebar.classList.add('h-screen');
+                isMobileSidebarOpen = true;
+            } else {
+                sidebar.classList.remove('h-screen');
+                isMobileSidebarOpen = false;
+            }
+        }
+
+        function navigateDashboardPage(pageId) {
+            activePage = pageId;
+            isMobileSidebarOpen = false;
+            const sidebar = document.getElementById('sidebar-panel');
+            if (sidebar) sidebar.classList.remove('h-screen');
+
+            const mainContainer = document.getElementById('dashboardMain');
+            const oldScroll = mainContainer ? mainContainer.scrollTop : 0;
+
+            updateSidebar();
+            renderDashboardPage(pageId);
+
+            if (mainContainer) {
+                requestAnimationFrame(() => {
+                    mainContainer.scrollTop = oldScroll;
+                });
+            }
+        }
+
+        // --- 5. RENDER SYSTEM PAGES ---
+        function renderDashboardPage(pageId) {
+            const container = document.getElementById('subview-content');
+            if (!container) return;
+
+            let html = '';
+
+            switch(pageId) {
+                case 'dashboard':
+                    html = getDashboardOverviewHtml();
+                    break;
+                case 'panel_shop':
+                    html = getPanelShopHtml();
+                    break;
+                case 'role_panel':
+                    html = getRolePanelHtml();
+                    break;
+                case 'myserver':
+                    html = getMyServerHtml();
+                    break;
+                case 'deploy':
+                    html = getDeployServerHtml();
+                    break;
+                case 'addons':
+                    html = getTokoAddonHtml();
+                    break;
+                case 'billing':
+                    html = getBillingHtml();
+                    break;
+                case 'voucher':
+                    html = getVoucherHtml();
+                    break;
+                case 'profile':
+                    html = getProfileHtml();
+                    break;
+                case 'support':
+                    html = getSupportHtml();
+                    break;
+                case 'referral':
+                    html = getReferralHtml();
+                    break;
+                case 'docs':
+                    html = getDocsHtml();
+                    break;
+                case 'info':
+                    html = getInfoHtml();
+                    break;
+                case 'admin_dashboard':
+                    html = getAdminDashboardHtml();
+                    break;
+                default:
+                    html = getDashboardOverviewHtml();
+            }
+
+            container.innerHTML = html;
+            lucide.createIcons();
+            
+            if (pageId === 'deploy') {
+                syncDeploySummary();
+            }
+        }
+
+        // View 6A: User Dashboard Overview
+        function getDashboardOverviewHtml() {
+            const myServers = servers.filter(s => s.ownerEmail === currentUser.email);
+            const runningServers = myServers.filter(s => s.status === 'Online');
+            const myTransactions = transactions.filter(t => t.ownerEmail === currentUser.email);
+            const totalSpending = myTransactions.filter(t => t.status === 'Berhasil').reduce((sum, current) => sum + current.amount, 0);
+
+            let transactionLogHtml = '';
+            const lastTransactions = myTransactions.slice(-4).reverse();
+            if (lastTransactions.length === 0) {
+                transactionLogHtml = `<div class="text-center py-8 text-neutral-450 text-sm">Belum ada riwayat transaksi.</div>`;
+            } else {
+                transactionLogHtml = `
+                    <div class="flex flex-col gap-3">
+                        ${lastTransactions.map(t => `
+                            <div class="flex items-center justify-between p-3.5 rounded-xl bg-neutral-50 border border-neutral-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-9 w-9 rounded-lg bg-black flex items-center justify-center text-white">
+                                        <i data-lucide="${t.type.includes('Top') ? 'wallet-2' : 'server'}" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-xs sm:text-sm font-bold text-neutral-900">${t.type} — ${t.packageName || 'Top Up'}</span>
+                                        <span class="text-[10px] text-neutral-550">${t.date}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="text-xs font-bold text-neutral-900">${formatRupiah(t.amount)}</span>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.status === 'Berhasil' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-amber-100 text-amber-800 border border-amber-200'}">${t.status}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Halo, ${currentUser.name}!</h2>
+                        <p class="text-sm text-neutral-555">Selamat datang kembali di ZYRODEVV Dashboard Portal.</p>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <button onclick="navigateDashboardPage('panel_shop')" class="px-4 py-2.5 rounded-xl text-xs font-bold text-neutral-800 bg-white border border-neutral-200 hover:bg-neutral-50 transition">Beli Panel</button>
+                        <button onclick="navigateDashboardPage('billing')" class="px-4 py-2.5 rounded-xl text-xs font-bold text-white noir-btn">Top Up Saldo</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-4">
+                        <span class="text-xs font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="wallet" class="w-4 h-4 text-black"></i> Saldo Akun</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl sm:text-2xl font-black text-neutral-900">${formatRupiah(currentUser.saldo)}</span>
+                            <span class="text-[10px] text-neutral-500 mt-1 font-semibold cursor-pointer" onclick="navigateDashboardPage('billing')">Tambah Saldo &rarr;</span>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-4">
+                        <span class="text-xs font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="server" class="w-4 h-4 text-black"></i> Server Aktif</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl sm:text-2xl font-black text-neutral-900">${myServers.length} Instance</span>
+                            <span class="text-[10px] text-neutral-500 mt-1 font-semibold">Ready to scale</span>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-4">
+                        <span class="text-xs font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="activity" class="w-4 h-4 text-emerald-500"></i> Server Running</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl sm:text-2xl font-black text-emerald-600">${runningServers.length} Online</span>
+                            <span class="text-[10px] text-neutral-550 mt-1 font-semibold">Active monitor SLA</span>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-4">
+                        <span class="text-xs font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="bar-chart-3" class="w-4 h-4 text-black"></i> Total Pengeluaran</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl sm:text-2xl font-black text-neutral-900">${formatRupiah(totalSpending)}</span>
+                            <span class="text-[10px] text-neutral-550 mt-1 font-semibold">Semua transaksi sukses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 flex flex-col gap-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-black text-neutral-900 flex items-center gap-2">
+                                <i data-lucide="server" class="w-5 h-5 text-neutral-800"></i>
+                                Informasi & Panduan Utama
+                            </h3>
+                            <button onclick="navigateDashboardPage('myserver')" class="text-xs font-semibold text-neutral-600 hover:text-black">Kelola Server Saya &rarr;</button>
+                        </div>
+                        
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-4 shadow-softGlow">
+                            <h4 class="font-bold text-neutral-900 text-base">Selamat Datang di ZYRODEVV</h4>
+                            <p class="text-neutral-500 text-sm leading-relaxed">
+                                Kelola server game, bot pemrograman, dan infrastruktur cloud dengan keandalan maksimal. Anda dapat mengklik menu di sidebar untuk mulai melakukan pembelian panel, meningkatkan role reseller, mendeploy server, atau mengelola tagihan pembayaran.
+                            </p>
+                            <div class="grid sm:grid-cols-3 gap-4 mt-2">
+                                <button onclick="navigateDashboardPage('panel_shop')" class="p-4 bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 rounded-xl transition text-left flex flex-col gap-1">
+                                    <span class="text-xs font-bold text-neutral-900">Beli Panel</span>
+                                    <span class="text-[10px] text-neutral-550">Mulai Rp 1.000 / bln</span>
+                                </button>
+                                <button onclick="navigateDashboardPage('role_panel')" class="p-4 bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 rounded-xl transition text-left flex flex-col gap-1">
+                                    <span class="text-xs font-bold text-neutral-900">Role Panel</span>
+                                    <span class="text-[10px] text-neutral-550">Upgrade reseller store</span>
+                                </button>
+                                <button onclick="navigateDashboardPage('billing')" class="p-4 bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 rounded-xl transition text-left flex flex-col gap-1">
+                                    <span class="text-xs font-bold text-neutral-900">Top Up Deposit</span>
+                                    <span class="text-[10px] text-neutral-550">Scanner QRIS otomatis</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 flex flex-col gap-8">
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 shadow-softGlow">
+                            <h4 class="font-bold text-neutral-900 flex items-center gap-2">
+                                <i data-lucide="history" class="w-4.5 h-4.5 text-neutral-800"></i>
+                                Transaksi Terakhir
+                            </h4>
+                            <hr class="border-neutral-200">
+                            ${transactionLogHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6B: Panel Shop (Halaman Panel Khusus)
+        function getPanelShopHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Beli Panel Pterodactyl</h2>
+                    <p class="text-sm text-neutral-500">Pilih paket panel sesuai kebutuhan bot, website, atau server game kamu.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${Object.keys(PACKAGES).map(key => {
+                        const pkg = PACKAGES[key];
+                        return `
+                            <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-6 hover-card">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">${pkg.label}</span>
+                                            <h4 class="text-lg font-black text-neutral-900">${pkg.name}</h4>
+                                        </div>
+                                        <span class="px-2 py-1 text-[10px] font-bold bg-neutral-100 text-neutral-800 rounded">30 Hari</span>
+                                    </div>
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="text-2xl font-black text-neutral-900">${formatRupiah(pkg.price)}</span>
+                                        <span class="text-xs text-neutral-500">/ 30 hari</span>
+                                    </div>
+                                    <hr class="border-neutral-100">
+                                    <ul class="flex flex-col gap-2 text-xs text-neutral-600">
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> RAM: ${pkg.ram}</li>
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> CPU Core: ${pkg.cpu}</li>
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Disk: ${pkg.disk}</li>
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Anti-DDoS Protection</li>
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Full Panel Access</li>
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Free Auto Backup</li>
+                                    </ul>
+                                </div>
+                                <button onclick="buyPanelRedirect('${pkg.id}')" class="w-full py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition text-xs">Beli Panel</button>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function buyPanelRedirect(pkgId) {
+            deploySelectedPackage = pkgId;
+            navigateDashboardPage('deploy');
+        }
+
+        // View 6C: Role Panel (Halaman Pembelian Role Panel)
+        function getRolePanelHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Role Panel Premium</h2>
+                    <p class="text-sm text-neutral-500">Tingkatkan hak akses akun untuk memulai bisnis penjualan atau mengelola client panel sendiri.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${ROLES_PANEL.map(role => `
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-6 hover-card">
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-0.5">
+                                    <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">Akses Kemitraan</span>
+                                    <h4 class="text-lg font-black text-neutral-900">${role.name}</h4>
+                                </div>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-2xl font-black text-neutral-900">${formatRupiah(role.price)}</span>
+                                    <span class="text-xs text-neutral-500">/ lifetime</span>
+                                </div>
+                                <hr class="border-neutral-100">
+                                <ul class="flex flex-col gap-2 text-xs text-neutral-600">
+                                    ${role.benefits.map(b => `
+                                        <li class="flex items-center gap-2"><i data-lucide="check-square" class="w-4 h-4 text-neutral-800"></i> ${b}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <button onclick="handleBuyRole('${role.id}')" class="w-full py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition text-xs">Beli Role</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function handleBuyRole(roleId) {
+            const role = ROLES_PANEL.find(r => r.id === roleId);
+            if (!role) return;
+
+            const invoiceId = 'INV-ROLE-' + Math.floor(Math.random() * 900000 + 100000);
+            openQrisInvoiceModal(invoiceId, `Sewa ${role.name}`, role.price, {
+                type: 'Role Purchase',
+                roleId: role.id,
+                roleName: role.name,
+                price: role.price,
+                trxId: invoiceId
+            });
+        }
+
+        // View 6D: MyServer (Daftar Server Ter-deploy)
+        function getMyServerHtml() {
+            const myServers = servers.filter(s => s.ownerEmail === currentUser.email);
+
+            let serverListHtml = '';
+            if (myServers.length === 0) {
+                serverListHtml = `
+                    <div class="bg-white border border-neutral-200 p-12 rounded-2xl flex flex-col items-center justify-center text-center gap-4">
+                        <div class="h-14 w-14 bg-neutral-100 rounded-xl flex items-center justify-center text-neutral-500">
+                            <i data-lucide="server" class="w-7 h-7"></i>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <h4 class="text-lg font-bold text-neutral-900">Belum ada server aktif yang dibuat</h4>
+                            <p class="text-sm text-neutral-500">Pilih spesifikasi server impian Anda untuk bot, web, atau game server.</p>
+                        </div>
+                        <button onclick="navigateDashboardPage('panel_shop')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-black hover:bg-neutral-900 transition mt-2">
+                            Beli Panel & Buat Server &rarr;
+                        </button>
+                    </div>
+                `;
+            } else {
+                serverListHtml = `
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${myServers.map(s => `
+                            <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col justify-between gap-6 hover-card shadow-softGlow">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-center">
+                                                <i data-lucide="terminal" class="w-5 h-5 text-black"></i>
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <h4 class="font-extrabold text-neutral-900 text-sm sm:text-base">${s.name}</h4>
+                                                <span class="text-[10px] text-neutral-550">${s.id} • ${s.type}</span>
+                                            </div>
+                                        </div>
+                                        <span class="px-2.5 py-0.5 text-[10px] font-bold rounded-full ${s.status === 'Online' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'}">${s.status}</span>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-3 bg-neutral-50 p-4 rounded-xl border border-neutral-200 text-xs">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-neutral-500">CPU</span>
+                                            <span class="font-bold text-neutral-900">${s.cpu}% Limit</span>
+                                        </div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-neutral-500">RAM</span>
+                                            <span class="font-bold text-neutral-900">${s.ramUsed || s.ramTotal}</span>
+                                        </div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-neutral-500">Disk</span>
+                                            <span class="font-bold text-neutral-900">${s.diskUsed || s.diskTotal}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col gap-1.5 text-xs text-neutral-600">
+                                        <div class="flex justify-between"><span>Panel Link:</span> <a href="${s.panelUrl}" target="_blank" class="text-neutral-900 font-bold hover:underline">${s.panelUrl}</a></div>
+                                        <div class="flex justify-between"><span>Username:</span> <span class="text-neutral-900 font-bold">${s.username}</span></div>
+                                        <div class="flex justify-between"><span>Expired:</span> <span class="text-neutral-900 font-bold">${s.expiredAt}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-4 border-t border-neutral-200">
+                                    <button onclick="handleServerAction('${s.id}', 'start')" class="py-2 px-3 rounded-lg text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-800 flex items-center justify-center gap-1.5 transition">
+                                        <i data-lucide="play" class="w-3.5 h-3.5"></i> Start
+                                    </button>
+                                    <button onclick="handleServerAction('${s.id}', 'stop')" class="py-2 px-3 rounded-lg text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-800 flex items-center justify-center gap-1.5 transition">
+                                        <i data-lucide="square" class="w-3.5 h-3.5"></i> Stop
+                                    </button>
+                                    <button onclick="showServerLoginCredentials('${s.id}')" class="py-2 px-3 rounded-lg text-xs font-semibold bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-800 flex items-center justify-center gap-1.5 transition">
+                                        <i data-lucide="key" class="w-3.5 h-3.5"></i> Login Info
+                                    </button>
+                                    <button onclick="confirmDeleteServer('${s.id}')" class="py-2 px-3 rounded-lg text-xs font-semibold bg-red-50 hover:bg-red-100 border border-red-200 text-red-750 flex items-center justify-center gap-1.5 transition">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Kelola Server & Panel Saya</h2>
+                    <p class="text-sm text-neutral-500">Memonitor performa status sistem, mengkonfigurasi runtime, dan mengatur sftp panel.</p>
+                </div>
+                ${serverListHtml}
+            `;
+        }
+
+        // View 6E: Deploy Server Page Form
+        function getDeployServerHtml() {
+            return `
+                <div class="flex flex-col gap-2">
+                    <button onclick="navigateDashboardPage('dashboard')" class="text-xs font-bold text-neutral-600 hover:text-black flex items-center gap-1.5 mb-2 w-fit">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Dashboard
+                    </button>
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Buat Server Baru</h2>
+                    <p class="text-sm text-neutral-500">Selesaikan form di bawah ini untuk menginstal Pterodactyl Instance secara otomatis.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <!-- Left Form Panel -->
+                    <div class="lg:col-span-8 flex flex-col gap-8">
+                        
+                        <!-- Step 1: Paket Panel -->
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-black text-neutral-900 flex items-center gap-2">
+                                <span class="h-6 w-6 rounded bg-neutral-100 text-neutral-900 text-xs flex items-center justify-center font-bold">1</span>
+                                Pilih Paket Panel Pterodactyl
+                            </h3>
+                            
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                ${Object.keys(PACKAGES).map(key => {
+                                    const pkg = PACKAGES[key];
+                                    const isSelected = deploySelectedPackage === pkg.id;
+                                    return `
+                                        <div onclick="selectDeployPackage('${pkg.id}')" class="relative bg-white border border-neutral-200 p-5 rounded-xl cursor-pointer transition flex flex-col gap-3 justify-between hover:border-black ${isSelected ? 'border-black bg-neutral-50/50 shadow-softGlow' : ''}">
+                                            <div class="absolute top-4 right-4 h-5 w-5 rounded-full border border-neutral-300 flex items-center justify-center bg-white">
+                                                ${isSelected ? '<span class="h-2.5 w-2.5 rounded-full bg-black"></span>' : ''}
+                                            </div>
+                                            <div class="flex flex-col gap-1 pr-6">
+                                                <span class="text-[9px] font-black text-neutral-400 uppercase tracking-wider">${pkg.label}</span>
+                                                <h4 class="font-bold text-neutral-900 text-sm sm:text-base">${pkg.name}</h4>
+                                            </div>
+                                            <div class="flex justify-between items-baseline mt-2">
+                                                <span class="text-xs text-neutral-500">${pkg.ram} / ${pkg.cpu} CPU</span>
+                                                <span class="text-sm font-black text-neutral-900">${formatRupiah(pkg.price)}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Kategori Nest -->
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-black text-neutral-900 flex items-center gap-2">
+                                <span class="h-6 w-6 rounded bg-neutral-100 text-neutral-900 text-xs flex items-center justify-center font-bold">2</span>
+                                Pilih Kategori Server (Nest)
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                ${Object.keys(NESTS).map(key => {
+                                    const name = NESTS[key];
+                                    const isSelected = deploySelectedNest === key;
+                                    return `
+                                        <div onclick="selectDeployNest('${key}')" class="relative bg-white border border-neutral-200 p-4 rounded-xl cursor-pointer transition flex flex-col gap-1 items-center justify-center text-center hover:border-black ${isSelected ? 'border-black bg-neutral-50' : ''}">
+                                            <h4 class="font-bold text-neutral-900 text-xs">${name}</h4>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Engine/Egg -->
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-black text-neutral-900 flex items-center gap-2">
+                                <span class="h-6 w-6 rounded bg-neutral-100 text-neutral-900 text-xs flex items-center justify-center font-bold">3</span>
+                                Pilih Engine / Runtime (Egg)
+                            </h3>
+                            
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                ${Object.keys(EGGS).filter(key => EGGS[key].nest === deploySelectedNest).map(key => {
+                                    const egg = EGGS[key];
+                                    const isSelected = deploySelectedEgg === key;
+                                    return `
+                                        <div onclick="selectDeployEgg('${key}')" class="relative bg-white border border-neutral-200 p-4 rounded-xl cursor-pointer transition flex items-center gap-3 hover:border-black ${isSelected ? 'border-black bg-neutral-50' : ''}">
+                                            <div class="h-5 w-5 rounded-full border border-neutral-300 flex items-center justify-center bg-white shrink-0">
+                                                ${isSelected ? '<span class="h-2.5 w-2.5 rounded-full bg-black"></span>' : ''}
+                                            </div>
+                                            <span class="text-xs sm:text-sm font-bold text-neutral-855">${egg.name}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Kredensial Form Panel -->
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-black text-neutral-900 flex items-center gap-2">
+                                <span class="h-6 w-6 rounded bg-neutral-100 text-neutral-900 text-xs flex items-center justify-center font-bold">4</span>
+                                Kredensial Akun Panel Pterodactyl
+                            </h3>
+                            
+                            <div class="grid sm:grid-cols-2 gap-5">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Username Pterodactyl</label>
+                                    <input type="text" id="deploy-user" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-xs" placeholder="userzyro" required>
+                                    <p class="text-[10px] text-neutral-500 leading-relaxed">Gunakan huruf kecil & angka, min 3 karakter, tanpa spasi.</p>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Email Panel</label>
+                                    <input type="email" id="deploy-email" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-xs" placeholder="user@domain.com" required>
+                                </div>
+                                <div class="flex flex-col gap-2 sm:col-span-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Kata Sandi Panel</label>
+                                    <input type="password" id="deploy-pass" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-xs" placeholder="Min 6 Karakter" required>
+                                    <p class="text-[10px] text-neutral-500">Kata sandi ini digunakan login ke situs panel.zyrodevv.id.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Sticky Checkout Summary -->
+                    <div class="lg:col-span-4 sticky top-8 flex flex-col gap-6">
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl shadow-premiumShadow flex flex-col gap-6">
+                            <h4 class="font-bold text-neutral-900 text-sm sm:text-base flex items-center gap-2.5 pb-4 border-b border-neutral-200">
+                                <i data-lucide="shopping-cart" class="w-5 h-5 text-black"></i>
+                                Ringkasan Pembelian
+                            </h4>
+                            
+                            <div class="flex flex-col gap-4 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-neutral-500 font-medium">Paket Terpilih:</span>
+                                    <span class="text-neutral-900 font-bold" id="checkout-package">1GB Panel</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500 font-medium">Spesifikasi:</span>
+                                    <span class="text-neutral-800 font-semibold" id="checkout-spec">1GB RAM • 30% CPU</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500 font-medium">Egg Nest:</span>
+                                    <span class="text-neutral-800 font-semibold" id="checkout-egg">Paper Minecraft</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500 font-medium">Masa Aktif:</span>
+                                    <span class="text-neutral-800 font-semibold">30 Hari</span>
+                                </div>
+                                <hr class="border-neutral-200">
+                                <div class="flex justify-between items-baseline">
+                                    <span class="text-neutral-600 font-bold">Total Pembayaran:</span>
+                                    <span class="text-lg font-black text-black" id="checkout-price">Rp 1.000</span>
+                                </div>
+                            </div>
+
+                            <!-- BUAT SEKARANG ACTION TRIGGER -->
+                            <button type="button" data-action="create-panel-invoice" class="w-full py-3.5 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition flex items-center justify-center gap-2 mt-2 shadow-softGlow">
+                                Buat Sekarang
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectDeployPackage(pkgId) {
+            deploySelectedPackage = pkgId;
+            selectedPanelPackage = PACKAGES[pkgId];
+            navigateDashboardPage('deploy');
+        }
+
+        function selectDeployNest(nestId) {
+            deploySelectedNest = nestId;
+            selectedNest = NESTS[nestId];
+            const eggs = Object.keys(EGGS).filter(key => EGGS[key].nest === nestId);
+            deploySelectedEgg = eggs[0] || 'forge';
+            selectedEgg = EGGS[deploySelectedEgg] ? EGGS[deploySelectedEgg].name : "";
+            navigateDashboardPage('deploy');
+        }
+
+        function selectDeployEgg(eggId) {
+            deploySelectedEgg = eggId;
+            selectedEgg = EGGS[eggId] ? EGGS[eggId].name : "";
+            navigateDashboardPage('deploy');
+        }
+
+        function syncDeploySummary() {
+            const pkg = PACKAGES[deploySelectedPackage] || PACKAGES['basic_1'];
+            const egg = EGGS[deploySelectedEgg] || EGGS['paper'];
+            
+            selectedPanelPackage = pkg;
+            selectedNest = NESTS[deploySelectedNest] || "Minecraft";
+            selectedEgg = egg.name;
+            
+            const checkoutPkg = document.getElementById('checkout-package');
+            const checkoutSpec = document.getElementById('checkout-spec');
+            const checkoutEgg = document.getElementById('checkout-egg');
+            const checkoutPrice = document.getElementById('checkout-price');
+
+            if (checkoutPkg) checkoutPkg.textContent = pkg.name;
+            if (checkoutSpec) checkoutSpec.textContent = `${pkg.ram} RAM • ${pkg.cpu} CPU`;
+            if (checkoutEgg) checkoutEgg.textContent = egg.name;
+            if (checkoutPrice) checkoutPrice.textContent = formatRupiah(pkg.price);
+
+            const formUser = document.getElementById('deploy-user');
+            const formEmail = document.getElementById('deploy-email');
+            const formPass = document.getElementById('deploy-pass');
+
+            if (formUser && !formUser.value && currentUser) formUser.value = currentUser.telegramUsername ? currentUser.telegramUsername.replace('@', '').toLowerCase() : 'userzyro';
+            if (formEmail && !formEmail.value && currentUser) formEmail.value = currentUser.email;
+            if (formPass && !formPass.value) formPass.value = 'zyro' + Math.floor(Math.random() * 90000 + 10000);
+        }
+
+        // View 6F: Toko Addon Page
+        function getTokoAddonHtml() {
+            const myServers = servers.filter(s => s.ownerEmail === currentUser.email);
+            
+            let serverSelectionHtml = '';
+            if (myServers.length === 0) {
+                serverSelectionHtml = `
+                    <div class="bg-neutral-50 border border-neutral-200 p-8 rounded-xl flex flex-col items-center justify-center text-center gap-3">
+                        <i data-lucide="server" class="w-8 h-8 text-neutral-400"></i>
+                        <h4 class="font-bold text-neutral-900 text-sm">Belum Memiliki Server</h4>
+                        <p class="text-xs text-neutral-555 max-w-sm">Anda harus mempunyai minimal satu server aktif sebelum membeli addon spesifikasi.</p>
+                        <button onclick="navigateDashboardPage('panel_shop')" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-black hover:bg-neutral-900 transition mt-1">Sewa Server Sekarang</button>
+                    </div>
+                `;
+            } else {
+                serverSelectionHtml = `
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold text-neutral-700">Pilih Server Target:</label>
+                        <select id="addon-target-server" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-950 focus:outline-none focus:border-black text-xs">
+                            ${myServers.map(s => `<option value="${s.id}">${s.name} (${s.id})</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Toko Addon Upgrade</h2>
+                        <p class="text-sm text-neutral-500">Tingkatkan spesifikasi server Pterodactyl Anda secara realtime tanpa instal ulang.</p>
+                    </div>
+                    <div class="bg-white border border-neutral-200 px-5 py-3 rounded-2xl flex items-center gap-3 shrink-0 shadow-softGlow">
+                        <i data-lucide="wallet" class="w-5 h-5 text-neutral-800"></i>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-neutral-400 font-bold uppercase">Saldo Anda:</span>
+                            <span class="text-sm font-bold text-neutral-900">${formatRupiah(currentUser.saldo)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 flex flex-col gap-6">
+                        <div class="grid sm:grid-cols-3 gap-6">
+                            <!-- RAM Upgrade -->
+                            <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 hover-card">
+                                <div class="h-10 w-10 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-center">
+                                    <i data-lucide="database" class="w-5 h-5 text-black"></i>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <h4 class="font-bold text-neutral-900 text-sm">+1 GB RAM DDR4</h4>
+                                    <p class="text-xs text-neutral-500">Meningkatkan runtime memori</p>
+                                </div>
+                                <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
+                                    <span class="text-xs font-black text-neutral-900">Rp 1.500 <span class="text-[9px] text-neutral-400 font-medium">/ bln</span></span>
+                                    <button onclick="handleBuyAddon('RAM', 1500)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-black hover:bg-neutral-900 transition">Beli</button>
+                                </div>
+                            </div>
+
+                            <!-- CPU Upgrade -->
+                            <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 hover-card">
+                                <div class="h-10 w-10 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-center">
+                                    <i data-lucide="cpu" class="w-5 h-5 text-black"></i>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <h4 class="font-bold text-neutral-900 text-sm">+50% CPU Core</h4>
+                                    <p class="text-xs text-neutral-555">Mempercepat proses komputasi</p>
+                                </div>
+                                <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
+                                    <span class="text-xs font-black text-neutral-900">Rp 1.000 <span class="text-[9px] text-neutral-400 font-medium">/ bln</span></span>
+                                    <button onclick="handleBuyAddon('CPU', 1000)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-black hover:bg-neutral-900 transition">Beli</button>
+                                </div>
+                            </div>
+
+                            <!-- Disk Upgrade -->
+                            <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 hover-card">
+                                <div class="h-10 w-10 rounded-lg bg-neutral-50 border border-neutral-200 flex items-center justify-center">
+                                    <i data-lucide="hard-drive" class="w-5 h-5 text-black"></i>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <h4 class="font-bold text-neutral-900 text-sm">+1 GB SSD NVMe</h4>
+                                    <p class="text-xs text-neutral-555">Menambah sftp disk database</p>
+                                </div>
+                                <div class="flex items-center justify-between pt-2 border-t border-neutral-100">
+                                    <span class="text-xs font-black text-neutral-900">Rp 500 <span class="text-[9px] text-neutral-400 font-medium">/ bln</span></span>
+                                    <button onclick="handleBuyAddon('Disk', 500)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-black hover:bg-neutral-900 transition">Beli</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4">
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-5 shadow-softGlow">
+                            <h4 class="font-bold text-neutral-900 text-sm flex items-center gap-2">
+                                <i data-lucide="server" class="w-4.5 h-4.5 text-neutral-800"></i> Target Server
+                            </h4>
+                            <hr class="border-neutral-100">
+                            ${serverSelectionHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6G: Billing / Top Up Page
+        function getBillingHtml() {
+            const myTransactions = transactions.filter(t => t.ownerEmail === currentUser.email);
+            
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Billing & Keuangan</h2>
+                    <p class="text-sm text-neutral-555">Kelola saldo akun deposit, ajukan pengisian, dan cek riwayat mutasi.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 flex flex-col gap-6">
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-lg font-bold text-neutral-900 flex items-center gap-2.5">
+                                <i data-lucide="wallet" class="w-5.5 h-5.5 text-neutral-800"></i>
+                                Ajukan Top Up Saldo
+                            </h3>
+                            
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Masukkan Jumlah Top Up (Rp)</label>
+                                    <input type="number" id="topup-amount" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-4 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black font-extrabold text-lg" placeholder="10000" min="5000" required>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                                    <button onclick="fillTopupAmount(10000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 10.000</button>
+                                    <button onclick="fillTopupAmount(20000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 20.000</button>
+                                    <button onclick="fillTopupAmount(50000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 50.000</button>
+                                    <button onclick="fillTopupAmount(100000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 100.000</button>
+                                    <button onclick="fillTopupAmount(250000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 250.000</button>
+                                    <button onclick="fillTopupAmount(500000)" class="py-2.5 rounded-xl bg-white border border-neutral-200 hover:bg-neutral-50 text-xs font-bold text-neutral-800 transition">Rp 500.000</button>
+                                </div>
+
+                                <div class="p-4 rounded-xl border border-neutral-200 bg-neutral-50 flex items-start gap-3 mt-2">
+                                    <i data-lucide="qr-code" class="w-5 h-5 text-neutral-800 shrink-0 mt-0.5"></i>
+                                    <div class="flex flex-col gap-1">
+                                        <h4 class="text-xs font-bold text-neutral-900 uppercase tracking-wider">Metode: QRIS FR3Newera</h4>
+                                        <p class="text-[11px] text-neutral-500 leading-relaxed">Dukungan otomatis scanner QR untuk dompet digital DANA, OVO, GoPay, ShopeePay, LinkAja, serta seluruh rekening Bank.</p>
+                                    </div>
+                                </div>
+
+                                <button onclick="handleTopupSubmit()" class="w-full py-4 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition mt-4 flex items-center justify-center gap-2 shadow-softGlow">
+                                    Buat Invoice Pembayaran
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 flex flex-col gap-6">
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex items-center justify-between shadow-softGlow">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] text-neutral-400 font-bold uppercase">Saldo Saat Ini</span>
+                                <span class="text-xl font-black text-neutral-900">${formatRupiah(currentUser.saldo)}</span>
+                            </div>
+                            <div class="h-10 w-10 rounded-lg bg-black flex items-center justify-center text-white"><i data-lucide="wallet-2" class="w-5 h-5"></i></div>
+                        </div>
+
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 shadow-softGlow">
+                            <h4 class="font-bold text-neutral-900 text-sm flex items-center gap-2.5">
+                                <i data-lucide="history" class="w-4.5 h-4.5 text-neutral-855"></i>
+                                Semua Riwayat Transaksi
+                            </h4>
+                            <hr class="border-neutral-100">
+                            <div class="flex flex-col gap-3 max-h-[300px] overflow-y-auto pr-1 no-scrollbar">
+                                ${myTransactions.length === 0 ? '<div class="text-center py-6 text-neutral-450 text-xs">Belum ada transaksi.</div>' : 
+                                  myTransactions.map(t => `
+                                    <div class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 border border-neutral-200 text-xs">
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-neutral-900 truncate max-w-[120px]">${t.type}</span>
+                                            <span class="text-[9px] text-neutral-500">${t.date}</span>
+                                        </div>
+                                        <div class="flex flex-col items-end gap-1">
+                                            <span class="font-bold text-neutral-900">${formatRupiah(t.amount)}</span>
+                                            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold ${t.status === 'Berhasil' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${t.status}</span>
+                                        </div>
+                                    </div>
+                                  `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function fillTopupAmount(amount) {
+            const input = document.getElementById('topup-amount');
+            if (input) input.value = amount;
+        }
+
+        // View 6H: Toko Voucher Page
+        function getVoucherHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Toko Voucher</h2>
+                    <p class="text-sm text-neutral-500">Tukarkan kode promo atau kupon berhadiah untuk klaim saldo instan gratis.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7">
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-bold text-neutral-900 flex items-center gap-2">
+                                <i data-lucide="ticket" class="w-5 h-5 text-neutral-800"></i>
+                                Klaim Voucher Saldo
+                            </h3>
+                            
+                            <div class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Masukkan Kode Voucher</label>
+                                    <input type="text" id="voucher-input" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3.5 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-black text-sm font-bold tracking-wider" placeholder="CONTOH: ZYRO-VCR-XXXXXX">
+                                    <p class="text-[10px] text-neutral-555 leading-relaxed">Tip: Gunakan kode kupon demo <strong class="text-neutral-900">ZYRO-GRATIS</strong> untuk memperoleh saldo gratis Rp 10.000.</p>
+                                </div>
+                                <button onclick="handleClaimVoucher()" class="w-full py-4 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition flex items-center justify-center gap-2 mt-2">
+                                    Klaim Saldo Sekarang
+                                    <i data-lucide="sparkles" class="w-4 h-4 text-yellow-500"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="bg-white border border-dashed border-neutral-300 p-6 sm:p-8 rounded-2xl flex flex-col gap-4">
+                            <h3 class="font-bold text-neutral-900 text-sm flex items-center gap-2">
+                                <i data-lucide="gift" class="w-4.5 h-4.5 text-neutral-800"></i>
+                                Bagi-Bagi Voucher Gratis!
+                            </h3>
+                            <p class="text-xs text-neutral-500 leading-relaxed">
+                                Kami sangat sering membagikan kode voucher saldo gratis dan promo menarik secara berkala di channel Telegram resmi kami. Pastikan Anda sudah bergabung agar tidak ketinggalan informasi rilis terbaru!
+                            </p>
+                            <a href="https://t.me/ZyroDevv" target="_blank" class="w-fit py-2.5 px-4 rounded-lg text-xs font-bold text-white bg-black hover:bg-neutral-900 flex items-center gap-2 transition mt-2">
+                                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                Gabung Channel Telegram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6I: Profile Akun Page
+        function getProfileHtml() {
+            const myServers = servers.filter(s => s.ownerEmail === currentUser.email);
+            const myTransactions = transactions.filter(t => t.ownerEmail === currentUser.email);
+
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Profil & Pengaturan Akun</h2>
+                    <p class="text-sm text-slate-500">Kelola detail identitas personal, security password, dan reset data demo.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-4 flex flex-col gap-6">
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col items-center justify-center text-center gap-4 shadow-softGlow">
+                            <div class="h-16 w-16 rounded-xl bg-black text-white flex items-center justify-center font-extrabold text-2xl shadow-softGlow">${currentUser.name.charAt(0).toUpperCase()}</div>
+                            <div class="flex flex-col gap-1">
+                                <h4 class="font-bold text-neutral-900 text-base">${currentUser.name}</h4>
+                                <span class="px-2.5 py-0.5 bg-neutral-100 text-neutral-800 text-[10px] font-bold rounded border border-neutral-250 uppercase w-fit mx-auto">${currentUser.role === 'admin' ? 'Administrator' : 'Verified Member'}</span>
+                            </div>
+                            <hr class="w-full border-neutral-100 my-1">
+                            <div class="w-full flex flex-col gap-2 text-xs text-neutral-600 text-left">
+                                <div class="flex justify-between"><span>User ID:</span> <span class="text-neutral-900 font-bold">${currentUser.telegramId || '12345678'}</span></div>
+                                <div class="flex justify-between"><span>Panel Role:</span> <span class="text-neutral-900 font-bold uppercase text-[10px] bg-neutral-100 px-1.5 py-0.5 rounded">${currentUser.panelRole || 'None'}</span></div>
+                                <div class="flex justify-between"><span>Total Server:</span> <span class="text-neutral-900 font-bold">${myServers.length}</span></div>
+                                <div class="flex justify-between"><span>Total Transaksi:</span> <span class="text-neutral-900 font-bold">${myTransactions.length}</span></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-50/50 border border-red-250 p-6 rounded-2xl flex flex-col gap-3.5">
+                            <h4 class="font-bold text-red-900 text-xs flex items-center gap-2"><i data-lucide="alert-triangle" class="text-red-700 w-4 h-4"></i> Danger Zone (Reset)</h4>
+                            <p class="text-[10px] text-red-700 leading-relaxed">Apabila Anda mengalami masalah, Anda dapat mengembalikan data aplikasi (transaksi, server, voucher) ke kondisi awal pabrik.</p>
+                            <button onclick="resetDatabase()" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 font-bold text-white text-xs transition shadow-sm">Reset Demo Data</button>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-8 flex flex-col gap-6">
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-bold text-neutral-900 flex items-center gap-2.5">
+                                <i data-lucide="settings" class="w-4.5 h-4.5 text-neutral-800"></i>
+                                Pengaturan Profil
+                            </h3>
+                            <form onsubmit="handleProfileUpdate(event)" class="grid sm:grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Nama Lengkap</label>
+                                    <input type="text" id="profile-name" value="${currentUser.name}" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-950 text-xs focus:outline-none focus:border-black" required>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-755">Email Address</label>
+                                    <input type="email" value="${currentUser.email}" class="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-400 text-xs focus:outline-none" disabled>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-755">Telegram Username</label>
+                                    <input type="text" value="${currentUser.telegramUsername}" class="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-400 text-xs focus:outline-none" disabled>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-755">Telegram ID</label>
+                                    <input type="text" value="${currentUser.telegramId}" class="w-full bg-neutral-100 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-400 text-xs focus:outline-none" disabled>
+                                </div>
+                                <button type="submit" class="sm:col-span-2 w-fit py-2.5 px-6 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 text-xs flex items-center gap-2 mt-2 ml-auto">
+                                    Simpan Perubahan
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-bold text-neutral-900 flex items-center gap-2.5">
+                                <i data-lucide="lock" class="w-4.5 h-4.5 text-neutral-800"></i>
+                                Ubah Kata Sandi Akun
+                            </h3>
+                            <form onsubmit="handlePasswordUpdate(event)" class="grid sm:grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Password Baru</label>
+                                    <input type="password" id="profile-pass-new" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-950 text-xs focus:outline-none focus:border-black" placeholder="••••••••" required>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Konfirmasi Password Baru</label>
+                                    <input type="password" id="profile-pass-confirm" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-950 text-xs focus:outline-none focus:border-black" placeholder="••••••••" required>
+                                </div>
+                                <button type="submit" class="sm:col-span-2 w-fit py-2.5 px-6 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 text-xs flex items-center gap-2 mt-2 ml-auto">
+                                    Setel Kata Sandi
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6J: Ticket Support Page
+        function getSupportHtml() {
+            const myTickets = tickets.filter(t => t.ownerEmail === currentUser.email);
+            
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Ticket Support</h2>
+                    <p class="text-sm text-neutral-500">Butuh bantuan teknis? Kirimkan tiket pengaduan langsung ke staf kami.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-6">
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-bold text-neutral-900 flex items-center gap-2.5">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-neutral-800"></i>
+                                Ajukan Tiket Masalah Baru
+                            </h3>
+                            <form onsubmit="handleSubmitTicket(event)" class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Judul Permasalahan</label>
+                                    <input type="text" id="ticket-title" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 text-xs focus:outline-none focus:border-black" placeholder="Contoh: VPS Down / Gagal Deploy" required>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Kategori Kendala</label>
+                                    <select id="ticket-category" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 text-xs focus:outline-none focus:border-black">
+                                        <option value="Server Issue">Server Issue (Error / Down)</option>
+                                        <option value="Billing Issue">Billing Issue (Pembayaran / Deposit)</option>
+                                        <option value="Upgrade Request">Upgrade Request (Kustom Addon)</option>
+                                        <option value="Other">Other / Pertanyaan Umum</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-xs font-semibold text-neutral-700">Deskripsi Detail Masalah</label>
+                                    <textarea id="ticket-message" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 text-neutral-900 text-xs focus:outline-none focus:border-black h-[100px]" placeholder="Mohon jelaskan kronologi error Anda sejelas mungkin..." required></textarea>
+                                </div>
+                                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 text-xs flex items-center justify-center gap-2 mt-2">
+                                    Kirim Tiket Sekarang
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6">
+                        <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                            <h3 class="text-base font-bold text-neutral-900 flex items-center gap-2.5">
+                                <i data-lucide="list" class="w-5 h-5 text-neutral-800"></i>
+                                Semua Daftar Tiket Anda
+                            </h3>
+                            <hr class="border-neutral-100">
+                            
+                            <div class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
+                                ${myTickets.length === 0 ? '<div class="text-center py-12 text-neutral-450 text-xs">Belum ada tiket terkirim.</div>' : 
+                                  myTickets.map(t => `
+                                    <div class="p-4 rounded-xl bg-neutral-50 border border-neutral-200 text-xs flex flex-col gap-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-bold text-neutral-900">${t.title}</span>
+                                            <span class="px-2 py-0.5 rounded text-[8px] font-bold ${t.status === 'Open' ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">${t.status}</span>
+                                        </div>
+                                        <p class="text-[11px] text-neutral-550 leading-relaxed">${t.message}</p>
+                                        <div class="flex items-center justify-between text-[9px] text-neutral-400 mt-2">
+                                            <span>Kategori: ${t.category}</span>
+                                            <span>Dikirim: ${t.createdAt}</span>
+                                        </div>
+                                    </div>
+                                  `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6K: Program Referral (Clean/Simple Dummy UI)
+        function getReferralHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Program Referral</h2>
+                    <p class="text-sm text-neutral-500">Bagikan kode referal Anda dan raih saldo bonus komisi 10% dari setiap pengisian deposit rekan Anda.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-3 gap-6">
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-2">
+                        <span class="text-[10px] text-neutral-400 font-bold uppercase">Total Referal Terdaftar</span>
+                        <span class="text-2xl font-black text-neutral-900">12 Pengguna</span>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-2">
+                        <span class="text-[10px] text-neutral-400 font-bold uppercase">Bonus Terkumpul</span>
+                        <span class="text-2xl font-black text-emerald-600">Rp 45.000</span>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-2">
+                        <span class="text-[10px] text-neutral-400 font-bold uppercase">Komisi Share</span>
+                        <span class="text-2xl font-black text-neutral-900">10% Instan</span>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-5 shadow-softGlow">
+                    <h3 class="font-bold text-neutral-900 text-sm">Tautan Referal Anda</h3>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="referral-link" value="https://zyrodevv.id/ref/gilang_ramadan" class="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3.5 text-xs text-slate-600 font-semibold focus:outline-none" readonly>
+                        <button onclick="copyToClipboard('referral-link', 'Tautan referal')" class="px-6 py-3 rounded-xl text-xs font-bold text-white bg-black hover:bg-neutral-900 shrink-0">Salin Link</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6L: Dokumentasi Panduan Panel
+        function getDocsHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Pusat Bantuan & Dokumentasi</h2>
+                    <p class="text-sm text-neutral-500">Kumpulan tutorial ringkas cara menggunakan fungsionalitas server.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-8">
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base flex items-center gap-2"><i data-lucide="server" class="text-black w-5 h-5"></i> Deploy Server Baru</h3>
+                        <p class="text-xs text-neutral-555 leading-relaxed">Buka menu "Panel" di sidebar kiri. Pilih spesifikasi panel Pterodactyl yang diinginkan, kemudian isi data kredensial akun panel dan klik "Buat Sekarang". Lakukan simulasi pembayaran instan.</p>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base flex items-center gap-2"><i data-lucide="wallet-2" class="text-black w-5 h-5"></i> Top Up Saldo Deposit</h3>
+                        <p class="text-xs text-neutral-555 leading-relaxed">Pilih menu "Billing / Top Up", masukkan nominal angka Rp yang diinginkan, pilih metode QRIS FR3Newera, klik "Buat Invoice Pembayaran". Selesaikan pembayaran QRIS mock-up guna mengisi saldo digital akun Anda.</p>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base flex items-center gap-2"><i data-lucide="grid" class="text-black w-5 h-5"></i> Pembelian Addon</h3>
+                        <p class="text-xs text-neutral-555 leading-relaxed">Pilih target server Pterodactyl yang ingin ditingkatkan kapasitas memory atau processor limits-nya, pilih paket addon spesifikasi (DDR4 RAM / CPU Core / NVMe Disk Space), klik "Beli". Spesifikasi server terupdate real-time.</p>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-3">
+                        <h3 class="font-bold text-neutral-900 text-base flex items-center gap-2"><i data-lucide="ticket" class="text-black w-5 h-5"></i> Klaim Kode Voucher</h3>
+                        <p class="text-xs text-neutral-555 leading-relaxed">Tukarkan kode promo saldo berhadiah di menu "Toko Voucher". Masukkan kode voucher aktif dan klik tombol "Klaim Saldo Sekarang" untuk menambah saldo digital Anda seketika.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // View 6M: SLA SLA Info Layanan
+        function getInfoHtml() {
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900">Informasi Layanan ZYRODEVV</h2>
+                    <p class="text-sm text-neutral-500">Aturan pemakaian server, performa SLA Uptime, dan detail kontak pengembang.</p>
+                </div>
+
+                <div class="bg-white border border-neutral-200 p-6 sm:p-8 rounded-2xl flex flex-col gap-6 shadow-softGlow">
+                    <h3 class="font-bold text-neutral-900 text-base">Aturan Kebijakan Server</h3>
+                    <ul class="flex flex-col gap-4 text-xs sm:text-sm text-neutral-500 list-disc pl-5 leading-relaxed">
+                        <li>Dilarang keras mengeksploitasi sftp untuk kegiatan ilegal seperti ddos booster, minings crypto koin, dsb.</li>
+                        <li>Penyalahgunaan resource processor (CPU Abuse) di atas 90% secara terus-menerus selama lebih dari 2 jam akan disuspensi otomatis oleh server pusat demi kestabilan jaringan user lain.</li>
+                        <li>SLA Garansi Uptime sistem kami terjaga stabil di kisaran 99.9%.</li>
+                        <li>Kontak owner Telegram resmi untuk kerja sama/custom egg: <strong class="text-black hover:underline cursor-pointer">@ZyroDevv</strong>.</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // View 6N: Administrator Admin Panel Subview
+        function getAdminDashboardHtml() {
+            const totalUsersCount = 2;
+            const totalActiveServers = servers.length;
+            const successTrx = transactions.filter(t => t.status === 'Berhasil');
+            const totalOmzet = successTrx.reduce((sum, curr) => sum + curr.amount, 0);
+
+            return `
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl sm:text-3xl font-black text-neutral-900 flex items-center gap-2.5">
+                        <i data-lucide="shield-alert" class="w-8 h-8 text-black"></i>
+                        Admin Panel ZYRODEVV
+                    </h2>
+                    <p class="text-sm text-neutral-500">Kelola operasional data, setujui invoice transaksi masuk, pantau uptime server pelanggan.</p>
+                </div>
+
+                <!-- Admin Stats Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl">
+                        <span class="text-xs text-neutral-400 font-bold uppercase">Total User Terdaftar</span>
+                        <h4 class="text-2xl font-black text-neutral-900 mt-1">${totalUsersCount} Pengguna</h4>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl">
+                        <span class="text-xs text-neutral-400 font-bold uppercase">Total Server Deploy</span>
+                        <h4 class="text-2xl font-black text-neutral-900 mt-1">${totalActiveServers} Server</h4>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl">
+                        <span class="text-xs text-neutral-400 font-bold uppercase">Invoice Sukses</span>
+                        <h4 class="text-2xl font-black text-neutral-900 mt-1">${successTrx.length} Transaksi</h4>
+                    </div>
+                    <div class="bg-white border border-neutral-200 p-6 rounded-2xl">
+                        <span class="text-xs text-neutral-400 font-bold uppercase">Total Omzet Digital</span>
+                        <h4 class="text-2xl font-black text-neutral-900 mt-1">${formatRupiah(totalOmzet)}</h4>
+                    </div>
+                </div>
+
+                <!-- Two Column Admin Panel Workspace -->
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left: Server database table -->
+                    <div class="lg:col-span-8 flex flex-col gap-4">
+                        <h3 class="font-bold text-neutral-900 text-base">Kelola Semua Server User</h3>
+                        
+                        <div class="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-softGlow">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs text-slate-700">
+                                    <thead class="bg-neutral-50 text-neutral-500 uppercase text-[10px] tracking-wider font-bold">
+                                        <tr>
+                                            <th class="p-4">Server ID</th>
+                                            <th class="p-4">Nama / Owner</th>
+                                            <th class="p-4">Runtime</th>
+                                            <th class="p-4">Status</th>
+                                            <th class="p-4 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-neutral-100">
+                                        ${servers.map(s => `
+                                            <tr>
+                                                <td class="p-4 font-bold text-neutral-900">${s.id}</td>
+                                                <td class="p-4">
+                                                    <div class="flex flex-col">
+                                                        <span class="font-bold text-neutral-800">${s.name}</span>
+                                                        <span class="text-[10px] text-neutral-450">${s.ownerEmail}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="p-4 font-semibold text-neutral-600">${s.type}</td>
+                                                <td class="p-4">
+                                                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${s.status === 'Online' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}">${s.status}</span>
+                                                </td>
+                                                <td class="p-4 flex justify-center gap-2">
+                                                    <button onclick="adminToggleServerStatus('${s.id}')" class="py-1 px-2.5 bg-neutral-100 border border-neutral-200 rounded-lg text-[10px] font-bold text-neutral-700 hover:text-black hover:bg-neutral-200 transition">Suspend</button>
+                                                    <button onclick="confirmDeleteServer('${s.id}')" class="py-1 px-2.5 bg-red-50 text-red-650 hover:bg-red-500 hover:text-white rounded-lg text-[10px] font-bold transition">Hapus</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Pending or successes transactions logs list -->
+                    <div class="lg:col-span-4 flex flex-col gap-4">
+                        <h3 class="font-bold text-neutral-900 text-base">Log Keuangan Masuk</h3>
+                        
+                        <div class="bg-white border border-neutral-200 p-6 rounded-2xl flex flex-col gap-4 shadow-softGlow">
+                            <div class="flex flex-col gap-3 max-h-[300px] overflow-y-auto pr-1 no-scrollbar">
+                                ${transactions.map(t => `
+                                    <div class="flex flex-col gap-2 p-3 bg-neutral-50 border border-neutral-200 rounded-xl text-xs">
+                                        <div class="flex justify-between items-center">
+                                            <span class="font-bold text-neutral-900">${t.id}</span>
+                                            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold ${t.status === 'Berhasil' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${t.status}</span>
+                                        </div>
+                                        <div class="text-[10px] text-neutral-550">
+                                            <div>Owner: ${t.ownerEmail}</div>
+                                            <div>Jenis: ${t.type}</div>
+                                            <div>Jumlah: ${formatRupiah(t.amount)}</div>
+                                        </div>
+                                        ${t.status === 'Menunggu' ? `
+                                            <button onclick="adminApproveInvoice('${t.id}')" class="w-full mt-1.5 py-1.5 rounded-lg bg-black hover:bg-neutral-900 font-bold text-white text-[10px] transition">Setujui Transaksi</button>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+        }
+
+        // --- 7. LANDING PAGES CONTROLS (TABS POPULATIONS) ---
+        function switchLandingPricingTab(tabName) {
+            landingActiveTab = tabName;
+            
+            const btnPanel = document.getElementById('tab-opt-panel');
+            const btnRole = document.getElementById('tab-opt-role');
+            
+            if (tabName === 'panel') {
+                btnPanel.className = "px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 bg-black text-white shadow-softGlow flex items-center gap-2";
+                btnRole.className = "px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 text-neutral-700 hover:text-black flex items-center gap-2";
+            } else {
+                btnPanel.className = "px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 text-neutral-700 hover:text-black flex items-center gap-2";
+                btnRole.className = "px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 bg-black text-white shadow-softGlow flex items-center gap-2";
+            }
+            
+            renderLandingPricing();
+        }
+
+        function renderLandingPricing() {
+            const grid = document.getElementById('landing-pricing-grid');
+            if (!grid) return;
+
+            let html = '';
+
+            if (landingActiveTab === 'panel') {
+                Object.keys(PACKAGES).forEach(key => {
+                    const pkg = PACKAGES[key];
+                    const isPopular = pkg.popular;
+                    html += `
+                        <div class="bg-white border ${isPopular ? 'border-neutral-900 shadow-premiumShadow' : 'border-neutral-200'} p-8 rounded-[24px] flex flex-col justify-between gap-6 hover-card relative overflow-hidden">
+                            ${isPopular ? '<span class="absolute top-4 right-4 bg-black text-white text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">PALING POPULER</span>' : ''}
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-9 w-9 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-900 border border-neutral-200">
+                                        <i data-lucide="server" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[9px] font-black text-neutral-400 uppercase tracking-wider">${pkg.label}</span>
+                                        <h4 class="text-base font-black text-neutral-900">${pkg.name}</h4>
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline gap-1 mt-2">
+                                    <span class="text-3xl font-black text-neutral-900">${formatRupiah(pkg.price)}</span>
+                                    <span class="text-xs text-neutral-500">/ 30 hari</span>
+                                </div>
+                                <div class="px-3 py-2 bg-neutral-50 border border-neutral-150 rounded-xl text-[10px] text-neutral-600 font-semibold flex justify-between">
+                                    <span>RAM: ${pkg.ram}</span>
+                                    <span>CPU: ${pkg.cpu}</span>
+                                    <span>Disk: ${pkg.disk}</span>
+                                </div>
+                                <hr class="border-neutral-100">
+                                <ul class="flex flex-col gap-2.5 text-xs text-neutral-600">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> 1 Port Allocation</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Anti-DDoS & Panel</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Free Auto Backup Data</li>
+                                </ul>
+                            </div>
+                            <button onclick="handleLandingPurchase('panel', '${pkg.id}')" class="w-full py-3.5 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition text-xs shadow-softGlow">
+                                Beli Panel
+                            </button>
+                        </div>
+                    `;
+                });
+            } else {
+                ROLES_PANEL.forEach(role => {
+                    const isPopular = role.popular;
+                    html += `
+                        <div class="bg-white border ${isPopular ? 'border-neutral-900 shadow-premiumShadow' : 'border-neutral-200'} p-8 rounded-[24px] flex flex-col justify-between gap-6 hover-card relative overflow-hidden">
+                            ${isPopular ? '<span class="absolute top-4 right-4 bg-black text-white text-[9px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">REKOMENDASI</span>' : ''}
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="h-9 w-9 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-900 border border-neutral-200">
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[9px] font-black text-neutral-400 uppercase tracking-wider">${role.label}</span>
+                                        <h4 class="text-base font-black text-neutral-900">${role.name}</h4>
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline gap-1 mt-2">
+                                    <span class="text-3xl font-black text-neutral-900">${formatRupiah(role.price)}</span>
+                                    <span class="text-xs text-neutral-500">/ lifetime</span>
+                                </div>
+                                <hr class="border-neutral-100">
+                                <ul class="flex flex-col gap-2.5 text-xs text-neutral-600">
+                                    ${role.benefits.map(b => `
+                                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-neutral-950"></i> ${b}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <button onclick="handleLandingPurchase('role', '${role.id}')" class="w-full py-3.5 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition text-xs shadow-softGlow">
+                                Beli Role
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+
+            grid.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function handleLandingPurchase(type, targetId) {
+            if (!isLoggedIn()) {
+                pendingPurchase = { type: type, id: targetId };
+                showLoginPage();
+                showToast("Silakan masuk terlebih dahulu untuk melanjutkan pembelian.", "info");
+            } else {
+                currentUser = getCurrentUser();
+                if (type === 'panel') {
+                    deploySelectedPackage = targetId;
+                    goDashboard();
+                    navigateDashboardPage('deploy');
+                } else if (type === 'role') {
+                    goDashboard();
+                    navigateDashboardPage('role_panel');
+                    setTimeout(() => {
+                        handleBuyRole(targetId);
+                    }, 300);
+                }
+            }
+        }
+
+        // Custom non-native confirmation popups modal
+        function triggerCustomConfirmModal(titleText, bodyText, resolveCallback) {
+            const container = document.getElementById('modal-container');
+            if (!container) return;
+
+            const modalHtml = `
+                <div class="p-6 border-b border-neutral-200 text-center bg-neutral-50">
+                    <div class="h-11 w-11 rounded-full bg-red-100 text-red-800 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-black text-neutral-900">${titleText}</h4>
+                </div>
+
+                <div class="p-6 text-xs text-neutral-600 leading-relaxed bg-white text-center">
+                    <p class="max-w-sm mx-auto">${bodyText}</p>
+                </div>
+
+                <div class="p-5 border-t border-neutral-200 grid grid-cols-2 gap-3 bg-neutral-50">
+                    <button data-action="close-modal" class="py-3 rounded-xl font-bold bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-50 transition text-xs">
+                        Batalkan
+                    </button>
+                    <button id="modal-confirm-action" class="py-3 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 text-xs">
+                        Ya, Hapus
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = modalHtml;
+            document.getElementById('app-modal').classList.remove('hidden');
+            lucide.createIcons();
+
+            document.getElementById('modal-confirm-action').onclick = function() {
+                closeModal();
+                resolveCallback();
+            };
+        }
+
+        function confirmDeleteServer(srvId) {
+            triggerCustomConfirmModal(
+                "Hapus Server Permanen",
+                "Apakah Anda yakin ingin menghapus server Pterodactyl ini secara permanen? Seluruh data SFTP akan musnah selamanya.",
+                function() {
+                    servers = servers.filter(s => s.id !== srvId);
+                    saveDatabase();
+                    
+                    if (currentUser.role === 'admin') {
+                        navigateDashboardPage('admin_dashboard');
+                    } else {
+                        navigateDashboardPage('myserver');
+                    }
+                    showToast("Server berhasil dihapus permanen dari cluster.", "error");
+                }
+            );
+        }
+
+        // --- WORKFLOW LOGIC: CREATE PANEL INVOICE ---
+        function handleCreatePanelInvoice() {
+            try {
+                const user = getCurrentUser();
+                if (!user) {
+                    showLoginPage();
+                    return;
+                }
+
+                // Safely Sync and Fetch chosen elements
+                const pkg = selectedPanelPackage || PACKAGES[deploySelectedPackage] || getDefaultPanelPackage();
+                if (!pkg) {
+                    showToast("Pilih paket panel terlebih dahulu.", "error");
+                    return;
+                }
+
+                const nest = selectedNest || NESTS[deploySelectedNest] || "Minecraft";
+                const egg = selectedEgg || (EGGS[deploySelectedEgg] ? EGGS[deploySelectedEgg].name : "Paper Minecraft");
+
+                // Safely read panel credentials with fallbacks
+                const panelUsername = getInputValue("deploy-user") || getInputValue("panelUsername") || getInputValue("deployPanelUsername");
+                const panelEmail = getInputValue("deploy-email") || getInputValue("panelEmail") || user.email;
+                const panelPassword = getInputValue("deploy-pass") || getInputValue("panelPassword");
+
+                // Form Validations
+                if (!panelUsername || panelUsername.length < 3) {
+                    showToast("Username panel minimal 3 karakter.", "error");
+                    return;
+                }
+
+                if (!panelEmail || !panelEmail.includes("@")) {
+                    showToast("Email panel tidak valid.", "error");
+                    return;
+                }
+
+                if (!panelPassword || panelPassword.length < 6) {
+                    showToast("Password panel minimal 6 karakter.", "error");
+                    return;
+                }
+
+                // Build Invoice Object
+                const invoice = {
+                    id: "INV-" + Date.now(),
+                    type: "Pembelian Panel",
+                    packageId: pkg.id,
+                    packageName: pkg.name,
+                    amount: Number(pkg.price || 0),
+                    ram: pkg.ram,
+                    disk: pkg.disk,
+                    cpu: pkg.cpu,
+                    nest: nest,
+                    egg: egg,
+                    panelUsername: panelUsername,
+                    panelEmail: panelEmail,
+                    panelPassword: panelPassword,
+                    method: "QRIS FR3Newera",
+                    status: "Menunggu Pembayaran",
+                    date: getFormattedDate(),
+                    ownerEmail: user.email
+                };
+
+                currentInvoice = invoice;
+
+                // Save to array
+                const invoices = safeArray(getStorage("zyro_invoices", []));
+                invoices.unshift(invoice);
+                setStorage("zyro_invoices", invoices);
+
+                // Open Modal Invoice QRIS Mockup
+                openPanelInvoiceModal(invoice);
+                showToast("Invoice berhasil dibuat.", "success");
+            } catch (err) {
+                console.error("handleCreatePanelInvoice error:", err);
+                showToast("Terjadi error kecil, silakan cek data dan coba lagi.", "error");
+            }
+        }
+
+        // --- OPEN PANEL INVOICE DIALOG ---
+        function openPanelInvoiceModal(invoice) {
+            const container = document.getElementById('modal-container');
+            if (!container) return;
+
+            const modalHtml = `
+                <!-- QRIS Modal Header -->
+                <div class="p-6 border-b border-neutral-200 flex justify-between items-center bg-neutral-50">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] text-neutral-550 font-bold uppercase tracking-wider">Metode: ${invoice.method}</span>
+                        <h4 class="text-base font-black text-neutral-900">Invoice ID: ${invoice.id}</h4>
+                    </div>
+                    <button data-action="close-modal" class="p-2 text-neutral-500 hover:text-black"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- QRIS Modal content details -->
+                <div class="p-6 flex flex-col items-center text-center gap-5 bg-white">
+                    <div class="flex flex-col">
+                        <span class="text-xs text-neutral-400 font-semibold">Total Tagihan Pembayaran:</span>
+                        <span class="text-2xl font-black text-neutral-900 mt-1">${formatRupiah(invoice.amount)}</span>
+                        <span class="text-[10px] text-neutral-550 mt-0.5">${invoice.packageName} • ${invoice.nest} (${invoice.egg})</span>
+                    </div>
+
+                    <!-- Visual Mock QR CODE -->
+                    <div class="bg-white p-4 rounded-xl w-[180px] h-[180px] flex flex-col justify-between items-center shadow-premiumShadow relative border border-neutral-200">
+                        <div class="text-[10px] font-black tracking-wider text-black">Q R I S</div>
+                        <div class="w-[120px] h-[120px] bg-neutral-900 flex flex-wrap p-1 gap-1">
+                            ${Array(16).fill('<div class="w-[26px] h-[26px] bg-white border border-neutral-900 flex items-center justify-center font-bold text-[8px] text-black">Z</div>').join('')}
+                        </div>
+                        <div class="text-[8px] font-bold text-neutral-500">NMID: ID10202024886</div>
+                    </div>
+
+                    <p class="text-[10px] leading-relaxed text-neutral-500 max-w-sm">
+                        Gunakan aplikasi perbankan m-banking atau e-wallet (DANA, OVO, GOPAY) Anda untuk scan QR Code di atas. Pembayaran diproses instant otomatis dalam kurun waktu 1-2 menit.
+                    </p>
+                </div>
+
+                <!-- Simulation Quick Action bar -->
+                <div class="p-5 border-t border-neutral-200 flex flex-col gap-3 bg-neutral-50">
+                    <button type="button" data-action="simulate-panel-payment-success" class="w-full py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition flex items-center justify-center gap-2 text-xs shadow-softGlow">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        Simulasikan Pembayaran Berhasil
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = modalHtml;
+            document.getElementById('app-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        // --- SIMULATE SUCCESSFUL PAYMENT ---
+        function simulatePanelPaymentSuccess() {
+            try {
+                if (!currentInvoice) {
+                    showToast("Tidak ada invoice aktif untuk disimulasikan.", "error");
+                    return;
+                }
+
+                const user = getCurrentUser();
+                if (!user) {
+                    showLoginPage();
+                    return;
+                }
+
+                // Create the server object from invoice
+                const newServer = createServerFromInvoice(currentInvoice);
+
+                // Save server dynamically to zyro_servers
+                servers = safeArray(getStorage("zyro_servers", []));
+                servers.unshift(newServer);
+                setStorage("zyro_servers", servers);
+
+                // Add to transactions log list
+                const newTrx = {
+                    id: 'TRX-' + Math.floor(Math.random() * 900000 + 100000),
+                    type: currentInvoice.type || 'Pembelian Panel',
+                    packageName: currentInvoice.packageName,
+                    amount: currentInvoice.amount,
+                    status: 'Berhasil',
+                    method: currentInvoice.method || 'QRIS FR3Newera',
+                    date: getFormattedDate(),
+                    ownerEmail: user.email
+                };
+
+                transactions = safeArray(getStorage("zyro_transactions", []));
+                transactions.unshift(newTrx);
+                setStorage("zyro_transactions", transactions);
+
+                // Update invoice statuses in array storage
+                let invoices = safeArray(getStorage("zyro_invoices", []));
+                invoices = invoices.map(inv => {
+                    if (inv.id === currentInvoice.id) {
+                        inv.status = "Berhasil";
+                    }
+                    return inv;
+                });
+                setStorage("zyro_invoices", invoices);
+
+                // Clean current invoice state
+                currentInvoice = null;
+
+                // Render success dialog credentials info
+                openSuccessModal(newServer);
+                showToast("Pembayaran berhasil! Server aktif otomatis.", "success");
+            } catch (err) {
+                console.error("simulatePanelPaymentSuccess error:", err);
+                showToast("Terjadi error kecil, silakan cek data dan coba lagi.", "error");
+            }
+        }
+
+        // --- CREATE SERVER FROM INVOICE ---
+        function createServerFromInvoice(invoice) {
+            const randomCpu = Math.floor(Math.random() * 26) + 5; // CPU usage random 5-30
+            const user = getCurrentUser();
+            return {
+                id: "SRV-" + Math.floor(Math.random() * 90000 + 10000),
+                name: "ZyroDevv " + (invoice.egg || "NodeJS Basic") + " Server",
+                packageName: invoice.packageName,
+                status: "Online",
+                type: invoice.egg || "NodeJS Basic",
+                nest: invoice.nest || "NodeJS",
+                cpu: randomCpu,
+                ramUsed: "0 MB",
+                ramTotal: invoice.ram || "1 GB",
+                diskUsed: "0 GB",
+                diskTotal: invoice.disk || "5 GB",
+                uptime: "0m",
+                panelUrl: "https://panel.zyrodevv.id",
+                username: invoice.panelUsername,
+                email: invoice.panelEmail,
+                password: invoice.panelPassword,
+                expiredAt: "30 hari lagi",
+                ownerEmail: user ? user.email : "user@zyrodevv.id"
+            };
+        }
+
+        // --- OPEN SUCCESS MODAL WITH CREDENTIALS ---
+        function openSuccessModal(server) {
+            const container = document.getElementById('modal-container');
+            if (!container) return;
+
+            const modalHtml = `
+                <div class="p-6 border-b border-neutral-200 text-center bg-neutral-50">
+                    <div class="h-11 w-11 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="check" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-black text-neutral-900">Server Berhasil Ter-deploy!</h4>
+                    <span class="text-xs text-neutral-500">Kredensial Login Akun Pterodactyl</span>
+                </div>
+
+                <div class="p-6 flex flex-col gap-4 text-xs bg-white">
+                    <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200 flex flex-col gap-3">
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Situs Panel Link:</span>
+                            <a href="${server.panelUrl}" target="_blank" class="text-black font-extrabold hover:underline">${server.panelUrl}</a>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Username Panel:</span>
+                            <span class="text-neutral-900 font-extrabold">${server.username}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Password Panel:</span>
+                            <span class="text-neutral-900 font-extrabold tracking-wider">${server.password}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Server ID:</span>
+                            <span class="text-neutral-950 font-bold">${server.id}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-neutral-450 leading-relaxed text-center">
+                        Simpan kredensial ini baik-baik. Detail login ini juga dapat Anda lihat kembali kapan saja melalui menu Dashboard utama.
+                    </p>
+                </div>
+
+                <div class="p-5 border-t border-neutral-200 grid grid-cols-2 gap-3 bg-neutral-50">
+                    <button onclick="copyDeploymentInfo('${server.username}', '${server.password}')" class="py-3 rounded-xl font-bold bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-50 transition text-xs flex items-center justify-center gap-1.5">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Salin Kredensial
+                    </button>
+                    <button type="button" data-action="open-myserver" class="py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 text-xs flex items-center justify-center gap-1.5 shadow-softGlow">
+                        <i data-lucide="server" class="w-4 h-4"></i> Buka Server Saya
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = modalHtml;
+            document.getElementById('app-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        // QRIS simulators checkout dialogs
+        function openQrisInvoiceModal(invoiceId, productName, price, meta) {
+            const container = document.getElementById('modal-container');
+            if (!container) return;
+
+            const modalHtml = `
+                <!-- QRIS Modal Header -->
+                <div class="p-6 border-b border-neutral-200 flex justify-between items-center bg-neutral-50">
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] text-neutral-550 font-bold uppercase tracking-wider">Metode: QRIS FR3Newera</span>
+                        <h4 class="text-base font-black text-neutral-900">Invoice ID: ${invoiceId}</h4>
+                    </div>
+                    <button data-action="close-modal" class="p-2 text-neutral-500 hover:text-black"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- QRIS Modal content details -->
+                <div class="p-6 flex flex-col items-center text-center gap-5 bg-white">
+                    <div class="flex flex-col">
+                        <span class="text-xs text-neutral-400 font-semibold">Total Tagihan Pembayaran:</span>
+                        <span class="text-2xl font-black text-neutral-900 mt-1">${formatRupiah(price)}</span>
+                        <span class="text-[10px] text-neutral-555 mt-0.5">${productName}</span>
+                    </div>
+
+                    <!-- Visual Mock QR CODE -->
+                    <div class="bg-white p-4 rounded-xl w-[180px] h-[180px] flex flex-col justify-between items-center shadow-premiumShadow relative border border-neutral-200">
+                        <div class="text-[10px] font-black tracking-wider text-black">Q R I S</div>
+                        <div class="w-[120px] h-[120px] bg-neutral-900 flex flex-wrap p-1 gap-1">
+                            ${Array(16).fill('<div class="w-[26px] h-[26px] bg-white border border-neutral-900 flex items-center justify-center font-bold text-[8px] text-black">Z</div>').join('')}
+                        </div>
+                        <div class="text-[8px] font-bold text-neutral-500">NMID: ID10202024886</div>
+                    </div>
+
+                    <p class="text-[10px] leading-relaxed text-neutral-500 max-w-sm">
+                        Gunakan aplikasi perbankan m-banking atau e-wallet (DANA, OVO, GOPAY) Anda untuk scan QR Code di atas. Pembayaran diproses instant otomatis dalam kurun waktu 1-2 menit.
+                    </p>
+                </div>
+
+                <!-- Simulation Quick Action bar -->
+                <div class="p-5 border-t border-neutral-200 flex flex-col gap-3 bg-neutral-50">
+                    <button onclick="simulateSuccessfulPayment('${invoiceId}', ${price}, '${JSON.stringify(meta).replace(/"/g, '&quot;')}')" class="w-full py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 transition flex items-center justify-center gap-2 text-xs shadow-softGlow">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        Simulasikan Pembayaran Berhasil
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = modalHtml;
+            document.getElementById('app-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function simulateSuccessfulPayment(invoiceId, price, metaString) {
+            closeModal();
+            const meta = JSON.parse(metaString);
+
+            if (meta.type === 'Direct Deploy Buy') {
+                const newServerId = 'SRV-' + Math.floor(Math.random() * 90000 + 10000);
+                const newServer = {
+                    id: newServerId,
+                    name: `ZyroDevv ${meta.egg.name} Server`,
+                    packageName: meta.package.name,
+                    status: 'Online',
+                    type: meta.egg.name,
+                    cpu: meta.package.cpu,
+                    ramUsed: '0 MB',
+                    ramTotal: meta.package.ram,
+                    diskUsed: '0 GB',
+                    diskTotal: meta.package.disk,
+                    uptime: 'Online',
+                    panelUrl: 'https://panel.zyrodevv.id',
+                    username: meta.user,
+                    password: meta.pass,
+                    expiredAt: '30 hari lagi',
+                    ownerEmail: currentUser.email
+                };
+
+                const newTrx = {
+                    id: 'TRX-' + Math.floor(Math.random() * 900000 + 100000),
+                    type: 'Pembelian Panel',
+                    packageName: meta.package.name,
+                    amount: price,
+                    status: 'Berhasil',
+                    method: 'QRIS FR3Newera Checkout',
+                    date: getFormattedDate(),
+                    ownerEmail: currentUser.email
+                };
+
+                servers = safeArray(getStorage("zyro_servers", []));
+                servers.unshift(newServer);
+                setStorage("zyro_servers", servers);
+
+                transactions = safeArray(getStorage("zyro_transactions", []));
+                transactions.unshift(newTrx);
+                setStorage("zyro_transactions", transactions);
+
+                showDeploymentSuccessCredentialsModal(newServer);
+                showToast("Pembayaran QRIS Sukses! Server aktif otomatis.", "success");
+            } else if (meta.type === 'Deposit Topup') {
+                currentUser.saldo += price;
+                
+                transactions = safeArray(getStorage("zyro_transactions", []));
+                transactions = transactions.map(t => {
+                    if (t.id === meta.trxId) {
+                        t.status = 'Berhasil';
+                    }
+                    return t;
+                });
+
+                saveDatabase();
+                navigateDashboardPage('billing');
+                showToast(`Top Up berhasil! Saldo Rp ${price.toLocaleString('id-ID')} masuk ke akun.`, "success");
+            } else if (meta.type === 'Role Purchase') {
+                currentUser.panelRole = meta.roleName;
+
+                const newTrx = {
+                    id: 'TRX-' + Math.floor(Math.random() * 900000 + 100000),
+                    type: 'Pembelian Role Panel',
+                    packageName: meta.roleName,
+                    amount: price,
+                    status: 'Berhasil',
+                    method: 'QRIS FR3Newera',
+                    date: getFormattedDate(),
+                    ownerEmail: currentUser.email
+                };
+
+                transactions = safeArray(getStorage("zyro_transactions", []));
+                transactions.unshift(newTrx);
+                setStorage("zyro_transactions", transactions);
+
+                saveDatabase();
+                navigateDashboardPage('billing');
+                showToast(`Role panel ${meta.roleName} berhasil aktif!`, "success");
+            }
+        }
+
+        // --- SUBMIT TOP UP HANDLER ---
+        function handleTopupSubmit() {
+            try {
+                const inputAmount = document.getElementById('topup-amount');
+                if (!inputAmount) return;
+
+                const amount = parseInt(inputAmount.value);
+                if (isNaN(amount) || amount < 5000) {
+                    showToast("Jumlah pengisian saldo minimal adalah Rp 5.000!", "error");
+                    return;
+                }
+
+                const invoiceId = 'INV-' + Math.floor(Math.random() * 900000 + 100000);
+
+                const newTrx = {
+                    id: invoiceId,
+                    type: 'Top Up Saldo',
+                    packageName: null,
+                    amount: amount,
+                    status: 'Menunggu',
+                    method: 'QRIS FR3Newera',
+                    date: getFormattedDate(),
+                    ownerEmail: currentUser.email
+                };
+
+                transactions = safeArray(getStorage("zyro_transactions", []));
+                transactions.unshift(newTrx);
+                setStorage("zyro_transactions", transactions);
+
+                openQrisInvoiceModal(invoiceId, 'Top Up Deposit Saldo', amount, {
+                    type: 'Deposit Topup',
+                    amount: amount,
+                    trxId: invoiceId
+                });
+            } catch (err) {
+                console.error("handleTopupSubmit error:", err);
+                showToast("Terjadi kesalahan saat memproses top up.", "error");
+            }
+        }
+
+        function showDeploymentSuccessCredentialsModal(srv) {
+            const container = document.getElementById('modal-container');
+            if (!container) return;
+
+            const modalHtml = `
+                <div class="p-6 border-b border-neutral-200 text-center bg-neutral-50">
+                    <div class="h-11 w-11 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="check" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-black text-neutral-900">Server Berhasil Ter-deploy!</h4>
+                    <span class="text-xs text-neutral-500">Kredensial Login Akun Pterodactyl</span>
+                </div>
+
+                <div class="p-6 flex flex-col gap-4 text-xs bg-white">
+                    <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-200 flex flex-col gap-3">
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Situs Panel Link:</span>
+                            <a href="${srv.panelUrl}" target="_blank" class="text-black font-extrabold hover:underline">${srv.panelUrl}</a>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Username Panel:</span>
+                            <span class="text-neutral-900 font-extrabold">${srv.username}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Password Panel:</span>
+                            <span class="text-neutral-900 font-extrabold tracking-wider">${srv.password}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-[10px] text-neutral-450 leading-relaxed text-center">
+                        Simpan kredensial ini baik-baik. Detail login ini juga dapat Anda lihat kembali kapan saja melalui menu Dashboard utama.
+                    </p>
+                </div>
+
+                <div class="p-5 border-t border-neutral-200 grid grid-cols-2 gap-3 bg-neutral-50">
+                    <button onclick="copyDeploymentInfo('${srv.username}', '${srv.password}')" class="py-3 rounded-xl font-bold bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-50 transition text-xs flex items-center justify-center gap-1.5">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Salin Kredensial
+                    </button>
+                    <button data-action="open-myserver" class="py-3 rounded-xl font-bold text-white bg-black hover:bg-neutral-900 text-xs flex items-center justify-center gap-1.5">
+                        <i data-lucide="server" class="w-4 h-4"></i> Buka Server Saya
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = modalHtml;
+            document.getElementById('app-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function showServerLoginCredentials(srvId) {
+            const s = servers.find(srv => srv.id === srvId);
+            if (!s) return;
+            showDeploymentSuccessCredentialsModal(s);
+        }
+
+        // --- INTERACTIVE ACTION HANDLERS ---
+        function loginDemo(role) {
+            let user;
+            if (role === 'user') {
+                user = {
+                    email: 'user@zyrodevv.id',
+                    name: 'Gilang Ramadan',
+                    telegramUsername: '@userdemo',
+                    telegramId: '123456789',
+                    role: 'user',
+                    panelRole: 'None',
+                    saldo: 0
+                };
+            } else if (role === 'admin') {
+                user = {
+                    email: 'admin@zyrodevv.id',
+                    name: 'Admin ZyroDevv',
+                    telegramUsername: '@ZyroDevv',
+                    telegramId: '8860202024',
+                    role: 'admin',
+                    panelRole: 'ADP Panel',
+                    saldo: 1000000
+                };
+            }
+            localStorage.setItem("zyro_current_user", JSON.stringify(user));
+            currentUser = user;
+            
+            if (pendingPurchase) {
+                if (pendingPurchase.type === 'panel') {
+                    deploySelectedPackage = pendingPurchase.id;
+                    goDashboard();
+                    navigateDashboardPage('deploy');
+                } else if (pendingPurchase.type === 'role') {
+                    goDashboard();
+                    navigateDashboardPage('role_panel');
+                    setTimeout(() => {
+                        handleBuyRole(pendingPurchase.id);
+                    }, 300);
+                }
+                pendingPurchase = null;
+            } else {
+                goDashboard();
+            }
+            showToast(`Selamat datang, ${currentUser.name}! (Mode ${role.toUpperCase()})`, 'success');
+        }
+
+        function handleManualLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+
+            let user = null;
+            if (email === 'user@zyrodevv.id' && pass === 'user12345') {
+                user = {
+                    email: 'user@zyrodevv.id',
+                    name: 'Gilang Ramadan',
+                    telegramUsername: '@userdemo',
+                    telegramId: '123456789',
+                    role: 'user',
+                    panelRole: 'None',
+                    saldo: 0
+                };
+            } else if (email === 'admin@zyrodevv.id' && pass === 'admin12345') {
+                user = {
+                    email: 'admin@zyrodevv.id',
+                    name: 'Admin ZyroDevv',
+                    telegramUsername: '@ZyroDevv',
+                    telegramId: '8860202024',
+                    role: 'admin',
+                    panelRole: 'ADP Panel',
+                    saldo: 1000000
+                };
+            }
+
+            if (user) {
+                localStorage.setItem("zyro_current_user", JSON.stringify(user));
+                currentUser = user;
+                
+                if (pendingPurchase) {
+                    if (pendingPurchase.type === 'panel') {
+                        deploySelectedPackage = pendingPurchase.id;
+                        goDashboard();
+                        navigateDashboardPage('deploy');
+                    } else if (pendingPurchase.type === 'role') {
+                        goDashboard();
+                        navigateDashboardPage('role_panel');
+                        setTimeout(() => {
+                            handleBuyRole(pendingPurchase.id);
+                        }, 300);
+                    }
+                    pendingPurchase = null;
+                } else {
+                    goDashboard();
+                }
+                showToast(`Selamat datang, ${currentUser.name}!`, 'success');
+            } else {
+                showToast("Email atau kata sandi Demo salah!", "error");
+            }
+        }
+
+        function handleBuyRole(roleId) {
+            const role = ROLES_PANEL.find(r => r.id === roleId);
+            if (!role) return;
+
+            const invoiceId = 'INV-ROLE-' + Math.floor(Math.random() * 900000 + 100000);
+            openQrisInvoiceModal(invoiceId, `Sewa ${role.name}`, role.price, {
+                type: 'Role Purchase',
+                roleId: role.id,
+                roleName: role.name,
+                price: role.price,
+                trxId: invoiceId
+            });
+        }
+
+        function handleBuyAddon(addonType, price) {
+            const selectServer = document.getElementById('addon-target-server');
+            if (!selectServer) {
+                showToast("Anda wajib mempunyai server aktif untuk memasang addon!", "error");
+                return;
+            }
+
+            const targetServerId = selectServer.value;
+            const srv = servers.find(s => s.id === targetServerId);
+            if (!srv) {
+                showToast("Server target tidak valid!", "error");
+                return;
+            }
+
+            if (currentUser.saldo < price) {
+                showToast("Saldo deposit Anda tidak cukup untuk membeli addon ini!", "error");
+                return;
+            }
+
+            currentUser.saldo -= price;
+
+            if (addonType === 'RAM') {
+                srv.ramTotal = (parseInt(srv.ramTotal) + 1) + ' GB';
+            } else if (addonType === 'CPU') {
+                srv.cpu += 50;
+            } else if (addonType === 'Disk') {
+                srv.diskTotal = (parseInt(srv.diskTotal) + 1) + ' GB';
+            }
+
+            const newTrx = {
+                id: 'TRX-' + Math.floor(Math.random() * 900000 + 100000),
+                type: `Upgrade Addon ${addonType}`,
+                packageName: srv.name,
+                amount: price,
+                status: 'Berhasil',
+                method: 'Dipotong dari Saldo',
+                date: getFormattedDate(),
+                ownerEmail: currentUser.email
+            };
+
+            transactions = safeArray(getStorage("zyro_transactions", []));
+            transactions.unshift(newTrx);
+            setStorage("zyro_transactions", transactions);
+
+            saveDatabase();
+            navigateDashboardPage('addons');
+            showToast(`Addon +1 ${addonType} sukses dipasang di server ${srv.name}!`, "success");
+        }
+
+        function handleClaimVoucher() {
+            const input = document.getElementById('voucher-input');
+            if (!input) return;
+
+            const code = input.value.trim().toUpperCase();
+            if (!code) {
+                showToast("Masukkan kode voucher terlebih dahulu!", "error");
+                return;
+            }
+
+            const voucher = VOUCHERS_DB[code];
+            if (!voucher) {
+                showToast("Kode voucher tidak valid atau sudah kadaluarsa!", "error");
+                return;
+            }
+
+            if (!currentUser.claimedVouchers) {
+                currentUser.claimedVouchers = [];
+            }
+
+            if (currentUser.claimedVouchers.includes(code)) {
+                showToast("Anda sudah pernah mengklaim bonus dari voucher ini!", "error");
+                return;
+            }
+
+            currentUser.saldo += voucher.reward;
+            currentUser.claimedVouchers.push(code);
+            saveDatabase();
+
+            navigateDashboardPage('voucher');
+            showToast("Voucher berhasil diklaim!", "success");
+        }
+
+        function handleSubmitTicket(e) {
+            e.preventDefault();
+            const titleInput = document.getElementById('ticket-title');
+            const categorySelect = document.getElementById('ticket-category');
+            const descArea = document.getElementById('ticket-message');
+
+            if (!titleInput || !categorySelect || !descArea) return;
+
+            const newTicket = {
+                id: 'TCK-' + Math.floor(Math.random() * 900 + 100),
+                title: titleInput.value,
+                category: categorySelect.value,
+                message: descArea.value,
+                status: 'Open',
+                createdAt: getFormattedDate(),
+                ownerEmail: currentUser.email
+            };
+
+            tickets = safeArray(getStorage("zyro_tickets", []));
+            tickets.push(newTicket);
+            setStorage("zyro_tickets", tickets);
+
+            titleInput.value = '';
+            descArea.value = '';
+            navigateDashboardPage('support');
+            showToast("Ticket berhasil dikirim!", "success");
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            const inputName = document.getElementById('profile-name');
+            if (!inputName) return;
+
+            currentUser.name = inputName.value;
+            saveDatabase();
+            updateSidebar();
+            navigateDashboardPage('profile');
+            showToast("Profile berhasil disimpan!", "success");
+        }
+
+        function handlePasswordUpdate(e) {
+            e.preventDefault();
+            const pNew = document.getElementById('profile-pass-new');
+            const pConfirm = document.getElementById('profile-pass-confirm');
+
+            if (!pNew || !pConfirm) return;
+
+            if (pNew.value.length < 6) {
+                showToast("Kata sandi minimal 6 karakter!", "error");
+                return;
+            }
+
+            if (pNew.value !== pConfirm.value) {
+                showToast("Konfirmasi sandi tidak sesuai!", "error");
+                return;
+            }
+
+            showToast("Kata sandi sukses diperbarui!", "success");
+            pNew.value = '';
+            pConfirm.value = '';
+        }
+
+        function handleServerAction(srvId, action) {
+            const srvIndex = servers.findIndex(s => s.id === srvId);
+            if (srvIndex === -1) return;
+
+            if (action === 'start') {
+                servers[srvIndex].status = 'Online';
+                showToast("Server start!", "success");
+            } else if (action === 'stop') {
+                servers[srvIndex].status = 'Offline';
+                showToast("Server stop!", "info");
+            }
+            saveDatabase();
+            navigateDashboardPage('myserver');
+        }
+
+        function adminToggleServerStatus(srvId) {
+            const sIndex = servers.findIndex(s => s.id === srvId);
+            if (sIndex === -1) return;
+
+            if (servers[sIndex].status === 'Online') {
+                servers[sIndex].status = 'Suspended';
+                showToast(`Server ${srvId} sukses disuspend admin!`, "error");
+            } else {
+                servers[sIndex].status = 'Online';
+                showToast(`Server ${srvId} aktif kembali.`, "success");
+            }
+            saveDatabase();
+            navigateDashboardPage('admin_dashboard');
+        }
+
+        function adminApproveInvoice(trxId) {
+            transactions = transactions.map(t => {
+                if (t.id === trxId) {
+                    t.status = 'Berhasil';
+                    showToast(`Invoice ${trxId} disetujui manual!`, "success");
+                }
+                return t;
+            });
+            saveDatabase();
+            navigateDashboardPage('admin_dashboard');
+        }
+
+        function closeModal() {
+            document.getElementById('app-modal').classList.add('hidden');
+        }
+
+        function copyDeploymentInfo(user, pass) {
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = `Login panel.zyrodevv.id - Username: ${user} | Password: ${pass}`;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            showToast("Kredensial login disalin ke clipboard!", "info");
+        }
+
+        function copyToClipboard(elementId, labelName = 'Text') {
+            const copyText = document.getElementById(elementId);
+            if (!copyText) return;
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            document.execCommand('copy');
+            showToast(`${labelName} disalin ke clipboard!`, "info");
+        }
+
+        // --- TOAST NOTIFICATION UTILITY ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toastId = 'toast_' + Date.now();
+            let bgClass = 'bg-emerald-50 border-emerald-200 text-emerald-800';
+            let icon = 'check-circle-2';
+
+            if (type === 'error') {
+                bgClass = 'bg-red-50 border-red-200 text-red-800';
+                icon = 'alert-triangle';
+            } else if (type === 'info') {
+                bgClass = 'bg-neutral-50 border-neutral-200 text-neutral-800';
+                icon = 'info';
+            }
+
+            const toastHtml = `
+                <div id="${toastId}" class="flex items-center gap-3 p-4 rounded-xl border ${bgClass} shadow-premiumShadow transition-all duration-300">
+                    <i data-lucide="${icon}" class="w-5 h-5 shrink-0"></i>
+                    <p class="text-xs sm:text-sm font-semibold">${message}</p>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', toastHtml);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                const el = document.getElementById(toastId);
+                if (el) {
+                    el.classList.add('opacity-0', 'translate-y-[-10px]');
+                    setTimeout(() => el.remove(), 300);
+                }
+            }, 3500);
+        }
+
+        window.onload = function () {
+            loadDatabase();
+            goLanding();
+        }
+    </script>
+</body>
+</html>
